@@ -1,0 +1,9 @@
+---
+- name: loglevel openshift-master
+  lineinfile:
+    dest: /etc/sysconfig/openshift-master
+    regexp: '^OPTIONS=(.*)--loglevel=[0-9](.*)$'
+    line: 'OPTIONS=\1--loglevel={{ loglevel_openshift_master }}\2'
+    backrefs: yes
+  notify:
+        - restart openshift-master

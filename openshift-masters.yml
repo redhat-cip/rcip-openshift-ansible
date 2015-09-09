@@ -1,0 +1,6 @@
+---
+# file: openshift-masters.yml
+- hosts: openshift-masters
+  roles:
+      - common
+      - openshift-master

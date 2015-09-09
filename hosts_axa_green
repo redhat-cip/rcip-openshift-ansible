@@ -1,0 +1,14 @@
+[openshift-masters]
+master.axa.enoshift.com
+
+[openshift-nodes]
+master.axa.enoshift.com
+#node1.axa.enoshift.com
+#node2.axa.enoshift.com
+
+[monitoring]
+10.0.0.42
+
+[common-openshift:children]
+openshift-masters
+openshift-nodes

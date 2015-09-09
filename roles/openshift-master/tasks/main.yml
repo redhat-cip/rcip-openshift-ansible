@@ -1,0 +1,2 @@
+---
+- include: loglevel_openshift-master.yml

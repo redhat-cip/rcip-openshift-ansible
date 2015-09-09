@@ -1,0 +1,3 @@
+docker_options: '--insecure-registry=172.30.0.0/16 --selinux-enabled --log-level="fatal"'
+loglevel_openshift_node: 0
+loglevel_sensuclient: error

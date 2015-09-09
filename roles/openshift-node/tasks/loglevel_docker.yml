@@ -1,0 +1,8 @@
+---
+- name: loglevel openshift-node
+  lineinfile:
+    dest: /etc/sysconfig/docker
+    regexp: '^OPTIONS=.*'
+    line: "OPTIONS='{{ docker_options }}'"
+  notify:
+      - restart docker

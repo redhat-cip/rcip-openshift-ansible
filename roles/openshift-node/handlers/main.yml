@@ -1,0 +1,4 @@
+---
+- include: docker.yml
+- include: openshift-node.yml
+- include: sensu.yml

@@ -1,0 +1,10 @@
+---
+
+- name: loglevel openshift-node present
+  lineinfile:
+    dest: /etc/default/sensu
+    regexp: '^LOG_LEVEL=.*$'
+    line: 'LOG_LEVEL={{ loglevel_sensuclient }}'
+    state: present
+  notify:
+          - restart sensu-client

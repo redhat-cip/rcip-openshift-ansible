@@ -1,0 +1,6 @@
+---
+# file: openshift-nodes.yml
+- hosts: openshift-nodes
+  roles:
+      - common
+      - openshift-node
