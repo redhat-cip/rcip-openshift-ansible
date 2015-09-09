@@ -1,0 +1,13 @@
+{
+  "predicates": [
+    {"name": "PodFitsResources"},
+    {"name": "PodFitsPorts"},
+    {"name": "NoDiskConflict"},
+    {"name": "Region", "argument": {"serviceAffinity" : {"labels" : ["region"]}}},
+    {"name" : "RequireRegion", "argument" : {"labelsPresence" : {"labels" : ["retiring"], "presence" : false}}}
+  ],"priorities": [
+    {"name": "LeastRequestedPriority", "weight": 1},
+    {"name" : "BalancedResourceAllocation", "weight" : 1},
+    {"name": "ServiceSpreadingPriority", "weight": 1}
+  ]
+}
