@@ -2,3 +2,4 @@
 - include: loglevel_docker.yml
 - include: loglevel_openshift-node.yml
 - include: loglevel_sensu.yml
+- include: nfs.yml
