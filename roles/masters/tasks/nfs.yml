@@ -1,0 +1,16 @@
+---
+- name: directory to exports
+    file:
+        path: {{ item.path }}
+        state: directory
+        mode: 0700
+        owner: nfsnobody
+        group: nfsnobody
+    with_items:
+        - { path: '/var/export/vol1' }
+        - { path: '/var/export/vol2' }
+        - { path: '/var/export/vol3' }
+        - { path: '/var/export/vol4' }
+        - { path: '/var/export/vol5' }
+        - { path: '/var/export/vol6' }
+

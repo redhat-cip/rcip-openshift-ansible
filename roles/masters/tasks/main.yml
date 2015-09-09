@@ -1,3 +1,4 @@
 ---
 - include: loglevel_openshift-master.yml
 - include: scheduler_openshift.yml
+- include: nfs.yml
