@@ -1,0 +1,6 @@
+---
+# file: nodes.yml
+- hosts: nodes
+  roles:
+      - common
+      - nodes

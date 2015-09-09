@@ -1,0 +1,16 @@
+#can use your /etc/ansible/hosts
+
+[masters]
+master.openshift.com
+
+[openshift-nodes]
+master.openshift.com
+node1.openshift.com
+node1.openshift.com
+
+[monitoring]
+monitoring.openshift.com
+
+[common-openshift:children]
+masters
+nodes

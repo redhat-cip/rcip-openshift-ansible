@@ -1,5 +1,5 @@
 ---
 # file: site.yml
-- include: openshift-nodes.yml
-- include: openshift-masters.yml
+- include: nodes.yml
+- include: masters.yml
 #- include: monitoring.yml

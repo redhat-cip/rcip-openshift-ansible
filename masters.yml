@@ -1,0 +1,6 @@
+---
+# file: masters.yml
+- hosts: masters
+  roles:
+      - common
+      - masters
