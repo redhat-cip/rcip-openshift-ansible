@@ -1,5 +1,9 @@
 ---
 # file: site.yml
+- hosts: all
+  roles:
+      - common
+
 - include: nodes.yml
 - include: masters.yml
 #- include: monitoring.yml
