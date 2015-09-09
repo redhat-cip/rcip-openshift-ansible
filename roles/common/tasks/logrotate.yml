@@ -2,5 +2,4 @@
 - name: logrotate compress enable
   lineinfile:
     dest: /etc/logrotate.conf
-    regexp: '^#compress$'
     line: 'compress'
