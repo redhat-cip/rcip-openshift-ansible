@@ -22,6 +22,8 @@
     mode: 0644
     owner: root
     group: root
+  notify:
+    - restart the NFS server
   with_items:
     - { line: '/var/export/vol1 *(rw,sync,all_squash)' }
     - { line: '/var/export/vol2 *(rw,sync,all_squash)' }

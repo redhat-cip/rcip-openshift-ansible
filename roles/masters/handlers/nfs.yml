@@ -1,0 +1,3 @@
+---
+- name: restart the NFS server
+  command: /usr/sbin/exportfs -ra
