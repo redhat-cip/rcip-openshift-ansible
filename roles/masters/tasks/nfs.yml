@@ -1,16 +1,31 @@
 ---
 - name: directory to exports
-    file:
-        path: {{ item.path }}
-        state: directory
-        mode: 0700
-        owner: nfsnobody
-        group: nfsnobody
-    with_items:
-        - { path: '/var/export/vol1' }
-        - { path: '/var/export/vol2' }
-        - { path: '/var/export/vol3' }
-        - { path: '/var/export/vol4' }
-        - { path: '/var/export/vol5' }
-        - { path: '/var/export/vol6' }
+  file:
+      path: "{{ item.path }}"
+      state: directory
+      mode: 0755
+      owner: nfsnobody
+      group: nfsnobody
+  with_items:
+      - { path: '/var/export/' }
+      - { path: '/var/export/vol1' }
+      - { path: '/var/export/vol2' }
+      - { path: '/var/export/vol3' }
+      - { path: '/var/export/vol4' }
+      - { path: '/var/export/vol5' }
+      - { path: '/var/export/vol6' }
 
+- name: add exports line
+  lineinfile:
+    dest: /etc/exports
+    line: "{{ item.line }}"
+    mode: 0644
+    owner: root
+    group: root
+  with_items:
+    - { line: '/var/export/vol1 *(rw,sync,all_squash)' }
+    - { line: '/var/export/vol2 *(rw,sync,all_squash)' }
+    - { line: '/var/export/vol3 *(rw,sync,all_squash)' }
+    - { line: '/var/export/vol4 *(rw,sync,all_squash)' }
+    - { line: '/var/export/vol5 *(rw,sync,all_squash)' }
+    - { line: '/var/export/vol6 *(rw,sync,all_squash)' }
