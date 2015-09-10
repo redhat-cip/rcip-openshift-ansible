@@ -31,3 +31,23 @@
     - { line: '/var/export/vol4 *(rw,sync,all_squash)' }
     - { line: '/var/export/vol5 *(rw,sync,all_squash)' }
     - { line: '/var/export/vol6 *(rw,sync,all_squash)' }
+
+- name: Add iptables NFS
+  lineinfile:
+    dest: /etc/sysconfig/iptables
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    insertbefore: "^COMMIT$"
+  with_items:
+    - { regexp: '^-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 53248 -j ACCEPT$', line: '-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 53248 -j ACCEPT' }
+    - { regexp: '^-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 50825 -j ACCEPT$', line: '-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 50825 -j ACCEPT' }
+    - { regexp: '^-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 20048 -j ACCEPT$', line: '-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 20048 -j ACCEPT' }
+    - { regexp: '^-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 2049 -j ACCEPT$', line: '-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 2049 -j ACCEPT' }
+    - { regexp: '^-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 111 -j ACCEPT$', line: '-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 111 -j ACCEPT' }
+  notify:
+        - Add nfs iptables rules
+
+
+#systemctl enable rpcbind nfs-server
+#systemctl start rpcbind nfs-server nfs-lock 
+#systemctl start nfs-idmap
