@@ -1,5 +1,10 @@
 ---
 - name: restart the NFS server
+  service:
+     name: nfs-server
+     state: restarted
+
+- name: refresh exportfs NFS
   command: /usr/sbin/exportfs -ra
 
 - name: Add nfs iptables rules

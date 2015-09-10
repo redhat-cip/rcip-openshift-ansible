@@ -1,3 +1,4 @@
 ---
 - include: openshift-master.yml
 - include: nfs.yml
+- include: sysctl.yml

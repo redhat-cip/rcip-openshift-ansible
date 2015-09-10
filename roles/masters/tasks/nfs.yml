@@ -15,6 +15,28 @@
       - { path: '/var/export/vol5' }
       - { path: '/var/export/vol6' }
 
+- name: change sysctl nfs
+  lineinfile:
+    dest: /etc/sysctl.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  notify:
+    - persist the sysctl changes
+  with_items:
+    - { regexp: '^fs.nfs.nlm_tcpport=.*$', line: 'fs.nfs.nlm_tcpport=53248' }
+    - { regexp: '^fs.nfs.nlm_udpport.*$', line: 'fs.nfs.nlm_udpport=53248' }
+
+- name: change RPCMOUNTDOPTS STATDARG nfs
+  lineinfile:
+    dest: /etc/sysconfig/nfs
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  notify:
+    - restart the NFS server
+  with_items:
+    - { regexp: '^RPCMOUNTDOPTS=.*$', line: 'RPCMOUNTDOPTS="-p 20048"' }
+    - { regexp: '^STATDARG=.*$', line: 'STATDARG="-p 50825"' }
+
 - name: add exports line
   lineinfile:
     dest: /etc/exports
@@ -23,7 +45,7 @@
     owner: root
     group: root
   notify:
-    - restart the NFS server
+    - refresh exportfs NFS
   with_items:
     - { line: '/var/export/vol1 *(rw,sync,all_squash)' }
     - { line: '/var/export/vol2 *(rw,sync,all_squash)' }
@@ -47,7 +69,26 @@
   notify:
         - Add nfs iptables rules
 
+- name: ensure service rpcbind started
+  service:
+       name: rpcbind
+       state: started
+       enabled: yes
 
-#systemctl enable rpcbind nfs-server
-#systemctl start rpcbind nfs-server nfs-lock 
-#systemctl start nfs-idmap
+- name: ensure service nfs-server started
+  service:
+       name: nfs-server
+       state: started
+       enabled: yes
+
+- name: ensure service nfs-lock started
+  service:
+       name: nfs-lock
+       state: started
+       enabled: yes
+
+- name: ensure service nfs-idmap started
+  service:
+       name: nfs-idmap
+       state: started
+       enabled: yes

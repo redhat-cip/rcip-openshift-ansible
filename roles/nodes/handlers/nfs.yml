@@ -1,0 +1,3 @@
+---
+- name: Allow NFS Access in SELinux Policy
+  command: /usr/sbin/setsebool -P virt_use_nfs=true
