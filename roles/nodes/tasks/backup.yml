@@ -1,0 +1,5 @@
+---
+- name: clone rcip-openshift-scripts
+  git:
+     repo: https://github.com/redhat-cip/rcip-openshift-scripts.git
+     dest: /opt/rcip-openshift-scripts

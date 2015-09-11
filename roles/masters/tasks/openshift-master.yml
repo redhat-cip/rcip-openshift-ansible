@@ -1,0 +1,24 @@
+---
+- name: loglevel openshift-master
+  lineinfile:
+    dest: /etc/sysconfig/openshift-master
+    regexp: '^OPTIONS=(.*)--loglevel=[0-9](.*)$'
+    line: 'OPTIONS=\1--loglevel={{ loglevel_openshift_master }}\2'
+    backrefs: yes
+  notify:
+        - restart openshift-master
+
+- name: scheduler.json openshift
+  copy:
+    src: ../files/etc/openshift/master/scheduler.json
+    dest: /etc/openshift/master/scheduler.json
+    mode: 0644
+  notify:
+        - restart openshift-master
+
+- name: ensure service openshift-master started
+  service:
+       name: openshift-master
+       state: started
+       enabled: yes
+

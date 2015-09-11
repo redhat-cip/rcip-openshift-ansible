@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+service docker stop
+lvremove /dev/mapper/docker--vg-docker--pool -y
+vgremove docker-vg -y
+pvremove {{docker_storage_dev}}1
+
+echo "n
+p
+1
+
+
+w" | fdisk {{docker_storage_dev}}
+
+rm /var/lib/docker/* -rf
+docker-storage-setup
+service docker start

@@ -1,0 +1,16 @@
+- name: directory to push script
+  file:
+      path: '/root/bin'
+      state: directory
+      mode: 0755
+      owner: root
+      group: root
+
+
+- name: push cleanup-lvm.sh
+  template:
+       src: root/bin/cleanup-lvm.sh.j2
+       dest: /root/bin/cleanup-lvm.sh
+       owner: root
+       group: root
+       mode: 0755

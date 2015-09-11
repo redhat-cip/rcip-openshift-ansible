@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+#mkfs.ext4 -m 0 /dev/xvdg
+#pvcreate /dev/xvdg
+#vgcreate vg_ose /dev/xvdg
+#lvcreate --size 20g --name ose-registry vg_ose
+#mkdir /mnt/ose-registry
+#echo '/dev/mapper/vg_ose-ose-registry /mnt/ose-registry ext4 rw,noatime,data=ordered 0 0' >> /etc/fstab
+
+
+#delete registry
+oc delete dc docker-registry
+oc delete svc docker-registry
+oc delete pod docker-registry-1-deploy
+
+#First setup, need to create ServiceAccount
+#echo \
+#    '{"kind":"ServiceAccount","apiVersion":"v1","metadata":{"name":"registry"}}' \
+#    | oc create -f -
+
+#oc edit scc privileged
+#Add a line under users with the user name system:serviceaccount:default:registry.
+
+
+oadm registry --create --service-account=registry \
+  --config=/etc/openshift/master/admin.kubeconfig \
+  --credentials=/etc/openshift/master/openshift-registry.kubeconfig \
+  --images='registry.access.redhat.com/openshift3/ose-${component}:${version}' \
+  --mount-host={{openshift_registry_mount_host}} --selector="region=infra"

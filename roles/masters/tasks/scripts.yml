@@ -1,0 +1,24 @@
+- name: directory to push script
+  file:
+      path: '/root/bin'
+      state: directory
+      mode: 0755
+      owner: root
+      group: root
+
+
+- name: push /root/bin/install-router.sh
+  template:
+       src: root/bin/install-router.sh.j2
+       dest: /root/bin/install-router.sh
+       owner: root
+       group: root
+       mode: 0755
+
+- name: push /root/bin/install-registry.sh
+  template:
+       src: root/bin/install-registry.sh.j2
+       dest: /root/bin/install-registry.sh
+       owner: root
+       group: root
+       mode: 0755
