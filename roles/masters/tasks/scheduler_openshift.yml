@@ -1,8 +1,0 @@
----
-- name: scheduler.json openshift
-  copy:
-    src: ../files/etc/openshift/master/scheduler.json
-    dest: /etc/openshift/master/scheduler.json
-    mode: 0644
-  notify:
-        - restart openshift-master

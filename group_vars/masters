@@ -1,1 +1,6 @@
 loglevel_openshift_master: 0
+openshift_registry_mount_host: '/mnt/ose-registry'
+
+
+#private var
+openshift_wildcard_dns: '*.axa.enoshift.com'

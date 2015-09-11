@@ -1,6 +1,6 @@
 ---
 
-- name: loglevel openshift-node present
+- name: loglevel sensu present
   lineinfile:
     dest: /etc/default/sensu
     regexp: '^LOG_LEVEL=.*$'

@@ -1,9 +1,0 @@
----
-- name: loglevel openshift-node
-  lineinfile:
-    dest: /etc/sysconfig/openshift-node
-    regexp: '^OPTIONS=(.*)--loglevel=[0-9](.*)$'
-    line: 'OPTIONS=\1--loglevel={{ loglevel_openshift_node }}\2'
-    backrefs: yes
-  notify:
-        - restart openshift-node
