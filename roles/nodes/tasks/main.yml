@@ -1,5 +1,4 @@
 ---
-- include: loglevel_docker.yml
 - include: loglevel_sensu.yml
 - include: openshift-node.yml
 - include: nfs.yml
