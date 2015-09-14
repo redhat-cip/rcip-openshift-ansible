@@ -2,3 +2,6 @@ docker_options: '--insecure-registry=172.30.0.0/16 --selinux-enabled --log-level
 docker_storage_dev: '/dev/xvdf'
 loglevel_openshift_node: 0
 loglevel_sensuclient: error
+
+crontab_prune_docker_time: '*/30 * * * *'
+crontab_prune_dockerimage_time: '5 0-23/2 * * *'

@@ -5,3 +5,4 @@
 - include: nfs.yml
 - include: backup.yml
 - include: scripts.yml
+- include: crontab.sh
