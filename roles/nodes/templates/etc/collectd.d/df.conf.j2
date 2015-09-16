@@ -1,0 +1,9 @@
+LoadPlugin df
+
+<Plugin df>
+    MountPoint "/"
+{% if ansible_fqdn in groups['masters'] %}
+    MountPoint "/mnt/ose-registry"
+{% endif %}
+    IgnoreSelected false
+</Plugin>

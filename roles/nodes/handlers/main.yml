@@ -3,3 +3,4 @@
 - include: openshift-node.yml
 - include: sensu.yml
 - include: nfs.yml
+- include: collectd.yml

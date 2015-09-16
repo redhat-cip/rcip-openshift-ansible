@@ -1,7 +1,16 @@
 docker_options: '--insecure-registry=172.30.0.0/16 --selinux-enabled --log-level="fatal"'
-docker_storage_dev: '/dev/xvdf'
+#device name without /dev/
+docker_storage_dev: 'xvdf'
+
 loglevel_openshift_node: 0
 loglevel_sensuclient: error
 
 crontab_prune_docker_time: '*/30 * * * *'
-crontab_prune_dockerimage_time: '5 0-23/2 * * *'
+crontab_prune_dockerimage_time: '5 0-23/3 * * *'
+
+collecd_disk_rootfs: xvda2
+collecd_disk_ose_registry: xvdg
+
+#private var
+carbon_host: 10.0.0.42
+carbon_port: 2003

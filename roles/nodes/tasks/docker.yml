@@ -16,7 +16,7 @@
 #  notify:
 #      - configure docker on lvm
   with_items:
-    - { regexp: '^DEVS=.*$', line: "DEVS={{ docker_storage_dev }}" }
+    - { regexp: '^DEVS=.*$', line: "DEVS=/dev/{{ docker_storage_dev }}" }
     - { regexp: '^VG=.*$', line: 'VG=docker-vg' }
     - { regexp: '^SETUP_LVM_THIN_POOL=.*$', line: 'SETUP_LVM_THIN_POOL=yes' }
 

@@ -1,4 +1,4 @@
 ---
 - name: install nfs-utils
-  yum: name=nfs-utils state=latest
+  yum: name=nfs-utils state=installed
   notify: Allow NFS Access in SELinux Policy

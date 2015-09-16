@@ -1,0 +1,27 @@
+
+#TODO
+#/etc/collectd.conf Hostname "master.axa.enoshift.com"
+#Include "/etc/collectd.d"
+
+#TODO
+#setup collectd lvm plugin
+
+- name: collectd plugins configurations
+  template:
+       src: "{{ item.src }}"
+       dest: "{{ item.dest }}"
+       owner: root
+       group: root
+       mode: 0644
+  notify:
+       - restart collectd
+  with_items:
+       - { src: 'etc/collectd.d/write_graphite.conf.j2', dest: '/etc/collectd.d/write_graphite.conf' }
+       - { src: 'etc/collectd.d/cpu.conf.j2', dest: '/etc/collectd.d/cpu.conf' }
+       - { src: 'etc/collectd.d/df.conf.j2', dest: '/etc/collectd.d/df.conf' }
+       - { src: 'etc/collectd.d/disk.conf.j2', dest: '/etc/collectd.d/disk.conf' }
+       - { src: 'etc/collectd.d/exec.conf.j2', dest: '/etc/collectd.d/exec.conf' }
+       - { src: 'etc/collectd.d/interface.conf.j2', dest: '/etc/collectd.d/interface.conf' }
+       - { src: 'etc/collectd.d/load.conf.j2', dest: '/etc/collectd.d/load.conf' }
+       - { src: 'etc/collectd.d/lvm.conf.j2', dest: '/etc/collectd.d/lvm.conf' }
+       - { src: 'etc/collectd.d/memory.conf.j2', dest: '/etc/collectd.d/memory.conf' }

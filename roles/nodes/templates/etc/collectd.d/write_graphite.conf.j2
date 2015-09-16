@@ -1,0 +1,14 @@
+LoadPlugin write_graphite
+<Plugin write_graphite>
+  <Node "{{ ansible_hostname }}">
+    Host "{{ carbon_host }}"
+    Port "{{ carbon_port }}"
+    Protocol "tcp"
+    LogSendErrors true
+    Prefix "collectd"
+    Postfix "collectd"
+    StoreRates true
+    AlwaysAppendDS false
+    EscapeCharacter "_"
+  </Node>
+</Plugin>

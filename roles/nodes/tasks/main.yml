@@ -5,3 +5,4 @@
 - include: backup.yml
 - include: scripts.yml
 - include: crontab.sh
+- include: collecd.yml
