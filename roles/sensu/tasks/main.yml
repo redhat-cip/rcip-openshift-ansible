@@ -1,0 +1,13 @@
+---
+- name: write Sensu default_check.json
+  copy: src=check_default.json dest=/etc/sensu/conf.d/check_default.json
+  notify:
+    - restart sensu-server
+    - restart sensu-api
+  tags: sensu monitoring
+- name: write Sensu default_openshift-master.json
+  template: src=check_openshift-master.json dest=/etc/sensu/conf.d/check_openshift-master.json
+  notify:
+    - restart sensu-server
+    - restart sensu-api
+  tags: sensu monitoring

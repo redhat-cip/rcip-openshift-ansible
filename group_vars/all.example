@@ -1,0 +1,2 @@
+---
+openshift_health_url: https://master.manage.{{ fqdn }}:8443/healthz/ping
