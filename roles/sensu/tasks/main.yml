@@ -5,8 +5,9 @@
     - restart sensu-server
     - restart sensu-api
   tags: sensu monitoring
+
 - name: write Sensu default_openshift-master.json
-  template: src=check_openshift-master.json dest=/etc/sensu/conf.d/check_openshift-master.json
+  template: src=check_openshift-master.json dest=/etc/sensu/conf.d/check_openshift-master.json2
   notify:
     - restart sensu-server
     - restart sensu-api
