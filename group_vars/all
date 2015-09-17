@@ -1,0 +1,4 @@
+---
+openshift_health_url: https://master.manage.{{ ansible_domain }}:8443/healthz/ping
+
+openshift_registry_mount_host: '/mnt/ose-registry'
