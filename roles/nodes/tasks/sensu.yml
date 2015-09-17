@@ -1,5 +1,12 @@
 ---
 
+- name: ensure service sensu-client started
+  service:
+       name: sensu-client
+       state: started
+       enabled: yes
+
+
 - name: loglevel sensu present
   lineinfile:
     dest: /etc/default/sensu

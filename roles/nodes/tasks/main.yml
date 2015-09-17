@@ -1,8 +1,7 @@
 ---
-- include: loglevel_sensu.yml
+- include: sensu.yml
 - include: openshift-node.yml
 - include: nfs.yml
-- include: backup.yml
 - include: scripts.yml
 - include: crontab.sh
 - include: collecd.yml

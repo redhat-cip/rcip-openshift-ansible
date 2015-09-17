@@ -1,10 +1,32 @@
+- name: config /etc/collectd.conf
+  lineinfile:
+    dest: /etc/collectd.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  notify:
+      - restart collectd
+  with_items:
+    - { regexp: '^Hostname .*$', line: "Hostname {{ ansible_fqdn }}" }
+    - { regexp: '^Include "/etc/collectd.d"$', line: 'Include "/etc/collectd.d"' }
 
-#TODO
-#/etc/collectd.conf Hostname "master.axa.enoshift.com"
-#Include "/etc/collectd.d"
 
-#TODO
-#setup collectd lvm plugin
+- name: install wget
+  yum: name=wget state=installed
+
+#TODO : add epel repo
+#TODO : yum --enablerepo=epel  install collectd -y
+- name: install collectd
+  yum: name=wget state=installed
+
+- name: ensure service collectd started
+  service:
+       name: collectd
+       state: started
+       enabled: yes
+
+- seboolean: name=collectd_tcp_network_connect state=yes persistent=yes
+
+#TODO : Plugin collectd-lvm
 
 - name: collectd plugins configurations
   template:
