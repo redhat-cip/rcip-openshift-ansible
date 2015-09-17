@@ -1,0 +1,81 @@
+{
+  "checks": {
+
+//Disk
+    "disk_slash": {
+      "command": "/etc/sensu/plugins/check_disk -w :::disk_slash.warning|20%::: -c :::disk_slash.critical|10%::: -W :::disk_slash.warning|20%::: -K :::disk_slash.critical|10%::: -p /",
+      "subscribers": [
+        "default"
+      ],
+      "handlers": ["mailer", "flowdock"],
+      "occurrences": 3,
+      "interval": 60
+    },
+
+
+//load Divide load average results by cpu/core count
+    "load": {
+      "command": "/usr/local/bin/check-load.rb -p -c :::load.critical|3,3,3::: -w :::load.warning|2,2,2:::",
+      "subscribers": [
+        "default"
+      ],
+      "handlers": ["mailer", "flowdock"],
+      "occurrences": 3,
+      "interval": 60
+    },
+
+//mem
+    "memory": {
+      "command": "/usr/local/bin/check-memory-percent.rb -c :::memory.critical|90::: -w :::memory.warning|80:::",
+      "subscribers": [
+        "default"
+      ],
+      "handlers": ["mailer", "flowdock"],
+      "occurrences": 3,
+      "interval": 60
+    },
+
+//Proc
+    "openshift-node-proc": {
+      "command": "/usr/local/bin/check-process.rb -p 'openshift start node' -C 1",
+      "subscribers": [
+        "default"
+      ],
+      "handlers": ["mailer", "flowdock"],
+      "occurrences": 3,
+      "interval": 60
+    },
+
+    "ovs-vswitchd-proc": {
+      "command": "/usr/local/bin/check-process.rb -p 'ovs-vswitchd' -C 1",
+      "subscribers": [
+        "default"
+      ],
+      "handlers": ["mailer", "flowdock"],
+      "occurrences": 3,
+      "interval": 60
+    },
+
+//mount
+    "fstab-mount": {
+      "command": "/usr/local/bin/check-fstab-mounts.rb",
+      "subscribers": [
+        "default"
+      ],
+      "handlers": ["mailer", "flowdock"],
+      "occurrences": 3,
+      "interval": 60
+    },
+
+//docker
+    "docker": {
+      "command": "sudo /opt/rcip-openshift-scripts/monitoring-plugins/wrapper_check_docker.sh --base-url='unix:///var/run/docker.sock' --crit-data-space=:::docker_data_space.critical|90::: --warn-data-space=:::docker_data_space.warning|85::: --crit-meta-space=:::docker_meta_space.critical|90::: --warn-meta-space=:::docker_meta_space.warning|85:::",
+      "subscribers": [
+        "default"
+      ],
+      "handlers": ["mailer", "flowdock"],
+      "occurrences": 3,
+      "interval": 60
+    }
+  }
+}

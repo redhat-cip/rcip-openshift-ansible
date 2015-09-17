@@ -6,4 +6,4 @@
 
 - include: nodes.yml
 - include: masters.yml
-#- include: monitoring.yml
+- include: monitoring.yml
