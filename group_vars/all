@@ -1,4 +1,5 @@
 ---
-openshift_health_url: https://master.manage.{{ ansible_domain }}:8443/healthz/ping
+openshift_vip_fqdn: master.axa.enoshift.com
+openshift_health_url: https://{{ openshift_vip_fqdn }}:8443/healthz/ping
 
 openshift_registry_mount_host: '/mnt/ose-registry'
