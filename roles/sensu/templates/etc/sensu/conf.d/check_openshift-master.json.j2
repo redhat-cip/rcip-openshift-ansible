@@ -3,7 +3,7 @@
 
 //Disk
     "disk_ose_registry": {
-      "command": "/etc/sensu/plugins/check_disk -w :::disk_slash.warning|20%::: -c :::disk_slash.critical|10%::: -W :::disk_slash.warning|20%::: -K :::disk_slash.critical|10%::: -p {{ openshift_registry_mount_host }}
+      "command": "/etc/sensu/plugins/check_disk -w :::disk_slash.warning|20%::: -c :::disk_slash.critical|10%::: -W :::disk_slash.warning|20%::: -K :::disk_slash.critical|10%::: -p {{ openshift_registry_mount_host }}",
       "subscribers": [
         "openshift-master"
       ],
