@@ -1,4 +1,7 @@
 ---
+- name: install logrotate
+  yum: name=logrotate state=installed
+
 - name: logrotate compress enable
   lineinfile:
     regexp: '^#?compress$' 
