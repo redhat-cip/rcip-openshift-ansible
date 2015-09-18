@@ -1,0 +1,19 @@
+input {
+    file {
+      type => "syslog"
+      path => "/var/log/messages"
+    }
+}
+filter {
+
+     grok {
+       match => { "message" => "%{SYSLOGBASE}" }
+     }
+}
+    
+output {
+    elasticsearch {
+        protocol => "http"
+        host => "{{ elastisearch_host }}"
+    }
+}

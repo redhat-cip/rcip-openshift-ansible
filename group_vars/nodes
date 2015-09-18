@@ -12,5 +12,7 @@ collecd_disk_rootfs: xvda2
 collecd_disk_ose_registry: xvdg
 
 #private var
-carbon_host: 10.0.0.42
+monitoring_vip: 10.0.0.42
+carbon_host: "{{ monitoring_vip }}"
 carbon_port: 2003
+elastisearch_host: "{{ monitoring_vip }}"

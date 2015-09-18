@@ -1,0 +1,51 @@
+---
+- name: Import elasticsearch gpg key
+  rpm_key: state=present key=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
+
+- name: Add repos /etc/yum.repos.d/logstash.repo
+  template:
+       src: "etc/yum.repos.d/repo.template.j2"
+       dest: "/etc/yum.repos.d/logstash.repo"
+       owner: root
+       group: root
+       mode: 0644
+  with_items:
+       - { name: "elasticsearch-{{ monitoring_elasticsearch_version }}",
+           baseurl: "http://packages.elastic.co/elasticsearch/{{ monitoring_elasticsearch_version }}/centos",
+           gpgcheck: 1,
+           gpgkey: 'http://packages.elasticsearch.org/GPG-KEY-elasticsearch',
+           enabled: 1 }
+
+- name: install java-1.8.0-openjdk
+  yum: name=java-1.8.0-openjdk state=installed
+
+- name: install logstash
+  yum: name=logstash state=installed
+
+- name: logstash config deamon
+  lineinfile:
+    dest: /etc/sysconfig/logstash
+    regexp: '^START=.*$'
+    line: 'START=true'
+    state: present
+  notify:
+          - restart logstash
+
+- name: ensure service logstash started
+  service:
+       name: logstash
+       state: started
+       enabled: yes
+
+- name: Allow logstash on messages
+  file: path=/var/log/messages owner=root group=logstash mode=0640
+
+- name: Add logstash /etc/logstash/conf.d/openshift.conf
+  template:
+       src: "etc/logstash/conf.d/openshift.conf.j2"
+       dest: "/etc/logstash/conf.d/openshift.conf"
+       owner: root
+       group: root
+       mode: 0644
+  notify:
+          - restart logstash

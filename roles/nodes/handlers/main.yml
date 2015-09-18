@@ -4,3 +4,4 @@
 - include: sensu.yml
 - include: nfs.yml
 - include: collectd.yml
+- include: logstash.yml
