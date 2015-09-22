@@ -1,5 +1,21 @@
 ---
 
+- name: Add repos /etc/yum.repos.d/sensu.repo
+  template:
+       src: "etc/yum.repos.d/repo.template.j2"
+       dest: "/etc/yum.repos.d/sensu.repo"
+       owner: root
+       group: root
+       mode: 0644
+  with_items:
+       - { name: "sensu",
+           baseurl: "http://repos.sensuapp.org/yum/el/$basearch/",
+           gpgcheck: 0,
+           enabled: 1 }
+
+- name: install sensu
+  yum: name=sensu state=installed
+
 - name: ensure service sensu-client started
   service:
        name: sensu-client
@@ -15,3 +31,17 @@
     state: present
   notify:
           - restart sensu-client
+
+
+- name: sensu-client config
+  template:
+       src: "{{ item.src }}"
+       dest: "{{ item.dest }}"
+       owner: root
+       group: root
+       mode: 0644
+  notify:
+       - restart sensu-client
+  with_items:
+       - { src: 'etc/sensu/conf.d/client.json.j2', dest: '/etc/sensu/conf.d/client.json' }
+       - { src: 'etc/sensu/config.json.j2', dest: '/etc/sensu/config.json' }

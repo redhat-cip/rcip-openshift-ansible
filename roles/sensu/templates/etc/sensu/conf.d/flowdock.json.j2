@@ -1,0 +1,14 @@
+{
+  "flowdock": {
+    "auth_token": "{{ sensu_flowdock_auth_token }}",
+    "tags" : "{{ sensu_flowdock_tags }}",
+    "push_type": "inbox",
+    "mail_from": "{{ sensu_flowdock_mail_from }}",
+    "name_from": "{{ sensu_flowdock_name_from }}",
+    "subscriptions": {
+        "openshift-master": {
+            "tags": "openshift-master"
+        }
+    }
+  }
+}

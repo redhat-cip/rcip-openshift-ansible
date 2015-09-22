@@ -1,0 +1,41 @@
+---
+#- name: Import elasticsearch gpg key
+#  rpm_key: state=present key=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
+
+- name: Add repos /etc/yum.repos.d/sensu.repo
+  template:
+       src: "etc/yum.repos.d/repo.template.j2"
+       dest: "/etc/yum.repos.d/sensu.repo"
+       owner: root
+       group: root
+       mode: 0644
+  with_items:
+       - { name: "sensu",
+           baseurl: "http://repos.sensuapp.org/yum/el/$basearch/",
+           gpgcheck: 0,
+           enabled: 1 }
+
+- name: install sensu
+  yum: name=sensu state=installed
+
+
+- name: write Sensu /etc/sensu/config.json
+  template: src=etc/sensu/config.json.j2 dest=/etc/sensu/config.json
+  notify:
+    - restart sensu-server
+    - restart sensu-api
+
+
+
+
+- name: ensure service sensu-server started
+  service:
+       name: sensu-server
+       state: started
+       enabled: yes
+
+- name: ensure service sensu-api started
+  service:
+       name: sensu-api
+       state: started
+       enabled: yes

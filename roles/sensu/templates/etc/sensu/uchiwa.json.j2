@@ -1,0 +1,16 @@
+{
+  "sensu": [
+    {
+      "name": "{{ customer }}",
+      "host": "127.0.0.1",
+      "port": {{ sensu_api_port }},
+      "timeout": 5
+    }
+  ],
+  "uchiwa": {
+    "host": "0.0.0.0",
+    "port": {{ sensu_uchiwa_port }},
+    "interval": 5
+  }
+}
+

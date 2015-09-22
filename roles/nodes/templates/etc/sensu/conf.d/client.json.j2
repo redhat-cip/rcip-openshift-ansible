@@ -1,0 +1,13 @@
+{
+  "client": {
+    "name": "{{ ansible_fqdn }}",
+    "address": "{{ ansible_default_ipv4['address'] }}",
+    "subscriptions": [
+{% if ansible_fqdn in groups['masters'] %}
+      "openshift-master",
+{% endif %}
+      "openshift-node",
+      "default"
+    ]
+  }
+}

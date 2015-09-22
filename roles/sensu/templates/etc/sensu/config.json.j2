@@ -1,0 +1,38 @@
+{
+  "rabbitmq": {
+    "host": "localhost",
+    "port": {{ rabbitmq_port }},
+    "user": "{{ rabbitmq_sensu_user }}",
+    "password": "{{ rabbitmq_sensu_password }}",
+    "vhost": "{{ rabbitmq_sensu_vhost }}"
+  },
+  "redis": {
+    "host": "localhost",
+    "port": {{ redis_sensu_port }}
+  },
+  "api": {
+    "host": "localhost",
+    "port": {{ sensu_api_port }}
+  },
+  "handlers": {
+    "default": {
+      "type": "set",
+      "handlers": [
+        "stdout"
+      ]
+    },
+    "stdout": {
+      "type": "pipe",
+      "command": "cat"
+    }
+  },
+  "checks": {
+    "test": {
+      "command": "echo -n OK",
+      "subscribers": [
+        "test"
+      ],
+      "interval": 60
+    }
+  },
+}

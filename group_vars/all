@@ -5,3 +5,15 @@ openshift_health_url: https://{{ openshift_vip_fqdn }}:8443/healthz/ping
 openshift_registry_mount_host: '/mnt/ose-registry'
 
 monitoring_elasticsearch_version: '1.7'
+
+carbon_port: 2003
+rabbitmq_port: 5672
+rabbitmq_sensu_vhost: "/sensu"
+rabbitmq_sensu_user: "sensu"
+redis_sensu_port: 6379
+sensu_api_port: 4567
+
+#private var
+carbon_host: "{{ monitoring_vip }}"
+elastisearch_host: "{{ monitoring_vip }}"
+rabbitmq_host: "{{ monitoring_vip }}"
