@@ -69,7 +69,7 @@
 
 //docker
     "docker": {
-      "command": "sudo /opt/rcip-openshift-scripts/monitoring-plugins/wrapper_check_docker.sh --base-url='unix:///var/run/docker.sock' --crit-data-space=:::docker_data_space.critical|90::: --warn-data-space=:::docker_data_space.warning|85::: --crit-meta-space=:::docker_meta_space.critical|90::: --warn-meta-space=:::docker_meta_space.warning|85:::",
+      "command": "sudo /opt/rcip-openshift-scripts/monitoring-plugins/wrapper_check_docker.sh /etc/sensu/plugins/check_docker --base-url='unix:///var/run/docker.sock' --crit-data-space=:::docker_data_space.critical|90::: --warn-data-space=:::docker_data_space.warning|85::: --crit-meta-space=:::docker_meta_space.critical|90::: --warn-meta-space=:::docker_meta_space.warning|85:::",
       "subscribers": [
         "default"
       ],

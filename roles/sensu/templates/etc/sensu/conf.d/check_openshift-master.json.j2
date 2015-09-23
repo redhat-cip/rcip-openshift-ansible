@@ -57,7 +57,7 @@
 
 //Openshift Nodes
     "openshift-nodes-ready": {
-      "command": "/etc/sensu/plugins/monitoring-plugins/openshift/check_openshift.py -tf /etc/sensu/openshift_token --check_nodes",
+      "command": "/etc/sensu/plugins/monitoring-plugins/check_openshift.py -tf /etc/sensu/openshift_token --check_nodes",
       "subscribers": [
         "openshift-master"
       ],
@@ -67,7 +67,7 @@
     },
 //Openshift Schedules region
     "openshift-label-retiring": {
-      "command": "/etc/sensu/plugins/monitoring-plugins/openshift/check_openshift.py -tf /etc/sensu/openshift_token --check_labels",
+      "command": "/etc/sensu/plugins/monitoring-plugins/check_openshift.py -tf /etc/sensu/openshift_token --check_labels",
       "subscribers": [
         "openshift-master"
       ],
@@ -77,7 +77,7 @@
     },
 //Openshift Pods
     "openshift-pods": {
-      "command": "/etc/sensu/plugins/monitoring-plugins/openshift/check_openshift.py -tf /etc/sensu/openshift_token --check_pods",
+      "command": "/etc/sensu/plugins/monitoring-plugins/check_openshift.py -tf /etc/sensu/openshift_token --check_pods",
       "subscribers": [
         "openshift-master"
       ],

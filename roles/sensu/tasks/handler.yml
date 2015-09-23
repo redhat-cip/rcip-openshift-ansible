@@ -16,6 +16,12 @@
        - { src: 'etc/sensu/conf.d/handler_mailer.json.j2', dest: '/etc/sensu/conf.d/handler_mailer.json' }
        - { src: 'etc/sensu/conf.d/mailer.json.j2', dest: '/etc/sensu/conf.d/mailer.json' }
 
+- name: gem install mail
+  gem: name=mail state=present
 
-#/usr/local/bin/handler-mailer.rb
-#/usr/local/bin/handler-flowdock.rb
+  #/usr/local/bin/handler-mailer.rb
+- name: gem install sensu-plugins-mailer
+  gem: name=sensu-plugins-mailer state=present
+
+
+#TODO /usr/local/bin/handler-flowdock.rb

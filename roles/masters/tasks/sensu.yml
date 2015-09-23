@@ -1,0 +1,8 @@
+---
+
+#- name: install nmap
+#  yum: name=nmap state=installed
+
+#spesific check
+- name: gem install sensu-plugins-etcd
+  gem: name=sensu-plugins-etcd state=present

@@ -1,0 +1,8 @@
+---
+
+#debug packages
+- name: install nmap-ncat
+  yum: name=nmap-ncat state=installed
+
+- name: install tcpdump
+  yum: name=nmap-ncat state=installed

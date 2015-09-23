@@ -45,3 +45,62 @@
   with_items:
        - { src: 'etc/sensu/conf.d/client.json.j2', dest: '/etc/sensu/conf.d/client.json' }
        - { src: 'etc/sensu/config.json.j2', dest: '/etc/sensu/config.json' }
+
+#Check depend
+- name: install ruby
+  yum: name=ruby state=installed
+
+- name: install bc
+  yum: name=bc state=installed
+
+- name: install gem
+  yum: name=gem state=installed
+
+- name: install gcc-c++
+  yum: name=gcc-c++ state=installed
+
+- name: install ruby-devel
+  yum: name=ruby-devel state=installed
+
+#check
+- name: gem install sensu-plugins-process-checks
+  gem: name=sensu-plugins-process-checks state=present
+
+- name: gem install sensu-plugins-network-checks
+  gem: name=sensu-plugins-network-checks state=present
+
+- name: gem install sensu-plugins-load-checks
+  gem: name=sensu-plugins-load-checks state=present
+
+- name: gem install sensu-plugins-memory-checks
+  gem: name=sensu-plugins-memory-checks state=present
+
+- name: gem install sensu-plugins-disk-checks
+  gem: name=sensu-plugins-disk-checks state=present
+
+- name: gem install sensu-plugins-http
+  gem: name=sensu-plugins-http state=present
+
+#http://nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
+- name: copy /etc/sensu/plugins/check_disk
+  copy: src=etc/sensu/plugins/check_disk dest=/etc/sensu/plugins/check_disk
+
+#git clone https://github.com/newrelic/check_docker.git
+- name: copy /etc/sensu/plugins/check_docker
+  copy: src=etc/sensu/plugins/check_docker dest=/etc/sensu/plugins/check_docker
+
+- name: symlink /opt/rcip-openshift-scripts/monitoring-plugins /etc/sensu/plugins/monitoring-plugins
+  file: src=/opt/rcip-openshift-scripts/monitoring-plugins
+        path=/etc/sensu/plugins/monitoring-plugins
+        state=link 
+        force=yes
+
+- name: Add /etc/sudoers.d/sensu
+  lineinfile:
+    dest: /etc/sudoers.d/sensu
+    line: "{{ item.line }}"
+    create: yes
+  with_items:
+    - {line: "Defaults:sensu !requiretty" }
+    - {line: 'sensu ALL=(root) NOPASSWD: /opt/rcip-openshift-scripts/monitoring-plugins/wrapper_check_docker.sh' }
+
