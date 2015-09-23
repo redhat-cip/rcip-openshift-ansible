@@ -1,0 +1,8 @@
+---
+- name: add token file
+  copy:
+    content: "{{ hostvars[groups['masters'][0]]['ansible_local'].openshift_data.tokens.metrics }}"
+    dest: /etc/sensu/openshift_token
+    owner: sensu
+    group: sensu
+    mode: 0600
