@@ -2,4 +2,4 @@
 - include: openshift-master.yml
 - include: nfs.yml
 - include: scripts.yml
-- include: crontab.sh
+- include: crontab.yml
