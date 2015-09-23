@@ -21,4 +21,3 @@
        name: openshift-master
        state: started
        enabled: yes
-

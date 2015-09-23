@@ -1,3 +1,4 @@
+---
 - name: directory to push script
   file:
       path: '/root/bin'
