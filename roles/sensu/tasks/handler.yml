@@ -25,3 +25,15 @@
 
 
 #TODO /usr/local/bin/handler-flowdock.rb
+- name: gem install sensu-plugins-flowdock
+  gem: name=sensu-plugins-flowdock state=present
+
+- name: gem install flowdock
+  gem: name=flowdock state=present
+
+- name: TEMPORAIRE add sensu-plugins-flowdock from talset github
+  get_url:
+    url: https://raw.githubusercontent.com/talset/sensu-plugins-flowdock/master/bin/handler-flowdock.rb
+    dest: /etc/sensu/handlers/handler-flowdock.rb
+    mode: 0777
+

@@ -84,10 +84,14 @@
 #http://nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
 - name: copy /etc/sensu/plugins/check_disk
   copy: src=etc/sensu/plugins/check_disk dest=/etc/sensu/plugins/check_disk
+- name: chmod /etc/sensu/plugins/check_disk
+  file: path=/etc/sensu/plugins/check_disk state=file mode=0755
 
 #git clone https://github.com/newrelic/check_docker.git
 - name: copy /etc/sensu/plugins/check_docker
   copy: src=etc/sensu/plugins/check_docker dest=/etc/sensu/plugins/check_docker
+- name: chmod /etc/sensu/plugins/check_docker
+  file: path=/etc/sensu/plugins/check_docker state=file mode=0755
 
 - name: symlink /opt/rcip-openshift-scripts/monitoring-plugins /etc/sensu/plugins/monitoring-plugins
   file: src=/opt/rcip-openshift-scripts/monitoring-plugins

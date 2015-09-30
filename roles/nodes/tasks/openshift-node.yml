@@ -8,6 +8,36 @@
   notify:
         - restart openshift-node
 
+- name: DOCKER_NETWORK_OPTIONS mtu openshift-node
+  lineinfile:
+    dest: /etc/sysconfig/openshift-node
+    regexp: '^DOCKER_NETWORK_OPTIONS=.*$'
+    line: 'DOCKER_NETWORK_OPTIONS={{ docker_network_options }}'
+  notify:
+        - restart openshift-node
+
+#Update max-pods in node-config.yaml max-pods 100
+- name: Add kubeletArguments section in node-config.yaml
+  lineinfile:
+    dest: /etc/openshift/node/node-config.yaml
+    line: 'kubeletArguments:'
+  tags:
+         - openshift-node
+
+- name: Add max-pods in node-config.yaml
+  lineinfile:
+    dest: /etc/openshift/node/node-config.yaml
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    insertafter: "{{ item.insertafter }}"
+  with_items:
+       - { line: "  max-pods:",    regexp: '^  max-pods:$',   insertafter: "^kubeletArguments:$"}
+       - { line: "     - \"100\"", regexp: '     - "[0-9]+"', insertafter: "^  max-pods:$"}
+  tags:
+         - openshift-node
+  notify:
+        - restart openshift-node
+
 - name: ensure service openshift-node started
   service:
        name: openshift-node

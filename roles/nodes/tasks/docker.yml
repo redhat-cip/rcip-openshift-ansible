@@ -1,5 +1,5 @@
 ---
-- name: loglevel openshift-node
+- name: loglevel docker
   lineinfile:
     dest: /etc/sysconfig/docker
     regexp: '^OPTIONS=.*'

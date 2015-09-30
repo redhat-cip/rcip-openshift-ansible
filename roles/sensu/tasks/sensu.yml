@@ -15,18 +15,47 @@
            gpgcheck: 0,
            enabled: 1 }
 
+- name: install rabbitmq-server
+  yum: name=rabbitmq-server state=installed
+
+- name: ensure service rabbitmq-server started
+  service:
+       name: rabbitmq-server
+       state: started
+       enabled: yes
+
+- name: install redis
+  yum: name=redis state=installed
+
+- name: Rabbimq sensu vhost
+  rabbitmq_vhost:
+    name: "{{ rabbitmq_sensu_vhost }}"
+    state: present
+
+- name: Rabbimq sensu user
+  rabbitmq_user:
+    user: "{{ rabbitmq_sensu_user }}"
+    password: "{{ rabbitmq_sensu_password }}"
+    vhost: "{{ rabbitmq_sensu_vhost }}"
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+
+- name: ensure service redis started
+  service:
+       name: redis
+       state: started
+       enabled: yes
+
 - name: install sensu
   yum: name=sensu state=installed
-
 
 - name: write Sensu /etc/sensu/config.json
   template: src=etc/sensu/config.json.j2 dest=/etc/sensu/config.json
   notify:
     - restart sensu-server
     - restart sensu-api
-
-
-
 
 - name: ensure service sensu-server started
   service:
@@ -39,3 +68,14 @@
        name: sensu-api
        state: started
        enabled: yes
+
+#optional
+- name: install gem
+  yum: name=gem state=installed
+
+- name: install gcc-c++
+  yum: name=gcc-c++ state=installed
+
+- name: install ruby-devel
+  yum: name=ruby-devel state=installed
+

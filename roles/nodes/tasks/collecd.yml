@@ -26,7 +26,10 @@
 
 - seboolean: name=collectd_tcp_network_connect state=yes persistent=yes
 
-#TODO : Plugin collectd-lvm
+- name: install the collectd-lvm plugin rpm from a remote repo
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/7/x86_64/c/collectd-lvm-5.5.0-2.el7.x86_64.rpm
+    state: present
 
 - name: collectd plugins configurations
   template:
