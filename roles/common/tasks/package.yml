@@ -5,4 +5,4 @@
   yum: name=nmap-ncat state=installed
 
 - name: install tcpdump
-  yum: name=nmap-ncat state=installed
+  yum: name=tcpdump state=installed
