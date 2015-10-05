@@ -1,5 +1,5 @@
 ---
-- name: config crontab prune master
+- name: [ master | config crontab prune master ]
   lineinfile:
     dest: /var/spool/cron/root
     regexp: "{{ item.regexp }}"
@@ -8,7 +8,7 @@
   with_items:
     - { regexp: '.* bash /opt/rcip-openshift-scripts/maintenance/prune.sh openshift$', line: "{{ crontab_prune_openshift_time }} bash /opt/rcip-openshift-scripts/maintenance/prune.sh openshift" }
 
-- name: config crontab backup etcd
+- name: [ master | config crontab backup etcd ]
   lineinfile:
     dest: /var/spool/cron/root
     regexp: "{{ item.regexp }}"

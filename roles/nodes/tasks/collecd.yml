@@ -15,6 +15,9 @@
 
 #TODO : add epel repo
 #TODO : yum --enablerepo=epel  install collectd -y
+- name: install the nginx rpm from a remote repo
+  yum: name=http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm state=present
+
 - name: install collectd
   yum: name=wget state=installed
 

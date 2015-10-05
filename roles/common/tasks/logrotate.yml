@@ -1,8 +1,8 @@
 ---
-- name: install logrotate
+- name: [ common | install logrotate ]
   yum: name=logrotate state=installed
 
-- name: logrotate compress enable
+- name: [ common | logrotate compress enable ]
   lineinfile:
     regexp: '^#?compress$' 
     dest: /etc/logrotate.conf
