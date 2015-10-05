@@ -1,5 +1,5 @@
 ---
-- name: [ common | create /opt/bin ]
+- name: create /opt/bin
   file: path=/opt/bin state=directory mode=0755
 - name: add jq
   get_url:

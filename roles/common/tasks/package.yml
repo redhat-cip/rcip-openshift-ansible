@@ -1,11 +1,8 @@
 ---
 
 #debug packages
-- name: [ common | install nmap-ncat ]
+- name: install nmap-ncat
   yum: name=nmap-ncat state=installed
 
-- name: [ common | install tcpdump ]
+- name: install tcpdump
   yum: name=tcpdump state=installed
-
-- name: [ common | install vim ]
-  yum: name=vim state=installed
