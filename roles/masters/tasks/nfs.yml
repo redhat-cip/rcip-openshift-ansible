@@ -1,5 +1,5 @@
 ---
-- name: directory to exports
+- name: [ master | directory to exports ]
   file:
       path: "{{ item.path }}"
       state: directory
@@ -15,7 +15,7 @@
       - { path: '/var/export/vol5' }
       - { path: '/var/export/vol6' }
 
-- name: change sysctl nfs
+- name: [ master | change sysctl nfs ]
   lineinfile:
     dest: /etc/sysctl.conf
     regexp: "{{ item.regexp }}"
@@ -26,7 +26,7 @@
     - { regexp: '^fs.nfs.nlm_tcpport=.*$', line: 'fs.nfs.nlm_tcpport=53248' }
     - { regexp: '^fs.nfs.nlm_udpport.*$', line: 'fs.nfs.nlm_udpport=53248' }
 
-- name: change RPCMOUNTDOPTS STATDARG nfs
+- name: [ master | change RPCMOUNTDOPTS STATDARG nfs ]
   lineinfile:
     dest: /etc/sysconfig/nfs
     regexp: "{{ item.regexp }}"
@@ -37,7 +37,7 @@
     - { regexp: '^RPCMOUNTDOPTS=.*$', line: 'RPCMOUNTDOPTS="-p 20048"' }
     - { regexp: '^STATDARG=.*$', line: 'STATDARG="-p 50825"' }
 
-- name: add exports line
+- name: [ master | add exports line ]
   lineinfile:
     dest: /etc/exports
     line: "{{ item.line }}"
@@ -54,7 +54,7 @@
     - { line: '/var/export/vol5 *(rw,sync,all_squash)' }
     - { line: '/var/export/vol6 *(rw,sync,all_squash)' }
 
-- name: Add iptables NFS
+- name: [ master | Add iptables NFS ]
   lineinfile:
     dest: /etc/sysconfig/iptables
     regexp: "{{ item.regexp }}"
@@ -69,25 +69,25 @@
   notify:
         - Add nfs iptables rules
 
-- name: ensure service rpcbind started
+- name: [ master | ensure service rpcbind started ]
   service:
        name: rpcbind
        state: started
        enabled: yes
 
-- name: ensure service nfs-server started
+- name: [ master | ensure service nfs-server started ]
   service:
        name: nfs-server
        state: started
        enabled: yes
 
-- name: ensure service nfs-lock started
+- name: [ master | ensure service nfs-lock started ]
   service:
        name: nfs-lock
        state: started
        enabled: yes
 
-- name: ensure service nfs-idmap started
+- name: [ master | ensure service nfs-idmap started ]
   service:
        name: nfs-idmap
        state: started

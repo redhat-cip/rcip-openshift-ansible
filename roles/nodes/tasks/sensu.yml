@@ -16,22 +16,6 @@
 - name: install sensu
   yum: name=sensu state=installed
 
-- name: ensure service sensu-client started
-  service:
-       name: sensu-client
-       state: started
-       enabled: yes
-
-
-- name: loglevel sensu present
-  lineinfile:
-    dest: /etc/default/sensu
-    regexp: '^LOG_LEVEL=.*$'
-    line: 'LOG_LEVEL={{ loglevel_sensuclient }}'
-    state: present
-  notify:
-          - restart sensu-client
-
 
 - name: sensu-client config
   template:
@@ -59,8 +43,11 @@
 - name: install gcc-c++
   yum: name=gcc-c++ state=installed
 
-- name: install ruby-devel
-  yum: name=ruby-devel state=installed
+#- name: install ruby-devel
+#  yum: name=ruby-devel state=installed
+
+- name: install the ruby-2.0.0.598-24.el7 rpm from a remote repo
+  yum: name=http://vault.centos.org/7.1.1503/os/Source/SPackages/ruby-2.0.0.598-24.el7.src.rpm state=present
 
 #check
 - name: gem install sensu-plugins-process-checks
@@ -107,4 +94,20 @@
   with_items:
     - {line: "Defaults:sensu !requiretty" }
     - {line: 'sensu ALL=(root) NOPASSWD: /opt/rcip-openshift-scripts/monitoring-plugins/wrapper_check_docker.sh' }
+
+- name: ensure service sensu-client started
+  service:
+       name: sensu-client
+       state: started
+       enabled: yes
+
+
+- name: loglevel sensu present
+  lineinfile:
+    dest: /etc/default/sensu
+    regexp: '^LOG_LEVEL=.*$'
+    line: 'LOG_LEVEL={{ loglevel_sensuclient }}'
+    state: present
+  notify:
+          - restart sensu-client
 
