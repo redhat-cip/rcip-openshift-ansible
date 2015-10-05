@@ -46,8 +46,8 @@
 #- name: install ruby-devel
 #  yum: name=ruby-devel state=installed
 
-- name: install the ruby-2.0.0.598-24.el7 rpm from a remote repo
-  yum: name=http://vault.centos.org/7.1.1503/os/Source/SPackages/ruby-2.0.0.598-24.el7.src.rpm state=present
+- name: install the ruby-devel-2.0.0.598-25.el7 rpm from a remote repo
+  yum: http://oss.oracle.com/ol7/SRPMS-updates/ruby-2.0.0.598-25.el7_1.src.rpm state=present
 
 #check
 - name: gem install sensu-plugins-process-checks
