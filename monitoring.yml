@@ -2,3 +2,4 @@
 - hosts: monitoring
   roles:
       - sensu
+      - monitoring_httpd
