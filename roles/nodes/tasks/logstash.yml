@@ -10,8 +10,8 @@
        group: root
        mode: 0644
   with_items:
-       - { name: "elasticsearch-{{ monitoring_elasticsearch_version }}",
-           baseurl: "http://packages.elastic.co/elasticsearch/{{ monitoring_elasticsearch_version }}/centos",
+       - { name: "logstash-{{ monitoring_elasticsearch_version }}",
+           baseurl: "http://packages.elasticsearch.org/logstash/{{ monitoring_logstash_version }}/centos",
            gpgcheck: 1,
            gpgkey: 'http://packages.elasticsearch.org/GPG-KEY-elasticsearch',
            enabled: 1 }
