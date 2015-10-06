@@ -7,7 +7,7 @@
   yum: name=http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm state=present
 
 - name: install collectd
-  yum: name=wget state=installed
+  yum: name=collectd state=installed
 
 - name: ensure service collectd started
   service:
