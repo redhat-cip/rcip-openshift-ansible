@@ -7,3 +7,15 @@
        name: httpd
        state: started
        enabled: yes
+
+
+- name: Add iptables https
+  lineinfile:
+    dest: /etc/sysconfig/iptables
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    insertbefore: "^COMMIT$"
+  with_items:
+    - { regexp: '^-A INPUT -p tcp --dport 443 -s 0.0.0.0/0 -j ACCEPT$', line: '-A INPUT -p tcp --dport 443 -s 0.0.0.0/0 -j ACCEPT' }
+  notify:
+        - Add https iptables rules
