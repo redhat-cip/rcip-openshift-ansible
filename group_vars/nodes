@@ -8,6 +8,8 @@ docker_options: '--insecure-registry=172.30.0.0/16 --selinux-enabled --log-level
 docker_network_options: '-b=lbr0 --mtu=1400'
 
 #device name without /dev/
-docker_storage_dev: 'xvdf'
-collecd_disk_rootfs: xvda2
-collecd_disk_ose_registry: xvdg
+docker_storage_dev: "{{ customer_docker_storage_dev | default(vdb) }}"
+collecd_disk_rootfs: "{{ customer_collecd_disk_rootfs | default(vda1) }}"
+collecd_disk_ose_registry: "{{ customer_collecd_disk_ose_registry | default(vdc) }}"
+
+hostname: "{{ openshift_hostname | default(None) }}"
