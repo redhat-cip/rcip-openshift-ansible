@@ -1,15 +1,3 @@
-- name: config /etc/collectd.conf
-  lineinfile:
-    dest: /etc/collectd.conf
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-  notify:
-      - restart collectd
-  with_items:
-    - { regexp: '^Hostname .*$', line: "Hostname {{ ansible_fqdn }}" }
-    - { regexp: '^Include "/etc/collectd.d"$', line: 'Include "/etc/collectd.d"' }
-
-
 - name: install wget
   yum: name=wget state=installed
 
@@ -33,6 +21,17 @@
   yum:
     name: https://dl.fedoraproject.org/pub/epel/7/x86_64/c/collectd-lvm-5.5.0-2.el7.x86_64.rpm
     state: present
+
+- name: config /etc/collectd.conf
+  lineinfile:
+    dest: /etc/collectd.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  notify:
+      - restart collectd
+  with_items:
+    - { regexp: '^Hostname .*$', line: "Hostname {{ ansible_fqdn }}" }
+    - { regexp: '^Include "/etc/collectd.d"$', line: 'Include "/etc/collectd.d"' }
 
 - name: collectd plugins configurations
   template:
