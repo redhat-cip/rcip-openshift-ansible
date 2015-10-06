@@ -5,7 +5,7 @@ set -e
 
 [ "root" = "$(whoami)" ]
 
-oc get serviceaccount || oc create -f - <<EOF
+oc get serviceaccount metrics || oc create -f - <<EOF
 {
   "apiVersion": "v1",
   "kind": "ServiceAccount",
