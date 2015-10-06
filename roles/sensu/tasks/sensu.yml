@@ -79,6 +79,10 @@
 - name: install gcc-c++
   yum: name=gcc-c++ state=installed
 
-- name: install ruby-devel
-  yum: name=ruby-devel state=installed
+#- name: install ruby-devel
+#  yum: name=ruby-devel state=installed
 
+- name: install the ruby-devel-2.0.0.598-25.el7 rpm from a remote repo
+  yum:
+    name: http://rpmfind.net/linux/centos/7.1.1503/updates/x86_64/Packages/ruby-devel-2.0.0.598-25.el7_1.x86_64.rpm
+    state: present
