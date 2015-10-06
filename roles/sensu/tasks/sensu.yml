@@ -15,6 +15,9 @@
            gpgcheck: 0,
            enabled: 1 }
 
+- name: install fedora epel-release-7-5 for rabbitmq
+  yum: name=http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm state=present
+
 - name: install rabbitmq-server
   yum: name=rabbitmq-server state=installed
 
