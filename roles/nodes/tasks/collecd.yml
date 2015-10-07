@@ -15,6 +15,9 @@
        state: started
        enabled: yes
 
+- name: ensure package libsemanage-python is installed
+  yum: name=libsemanage-python state=installed
+
 - seboolean: name=collectd_tcp_network_connect state=yes persistent=yes
 
 - name: install the collectd-lvm plugin rpm from a remote repo
