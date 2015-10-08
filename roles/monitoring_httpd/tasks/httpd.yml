@@ -1,13 +1,15 @@
 ---
 - name: install httpd
+  tags: monitoring_httpd
   yum: name=httpd state=installed
 
-- name: ensure service httpd started
-  service:
-       name: httpd
-       state: started
-       enabled: yes
+- name: install mod_ssl
+  tags: monitoring_httpd
+  yum: name=mod_ssl state=installed
 
+- name: install mod_wsgi
+  tags: monitoring_httpd
+  yum: name=mod_wsgi state=installed
 
 - name: Add iptables https
   lineinfile:
@@ -15,7 +17,49 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     insertbefore: "^COMMIT$"
+  tags: monitoring_httpd
   with_items:
     - { regexp: '^-A INPUT -p tcp --dport 443 -s 0.0.0.0/0 -j ACCEPT$', line: '-A INPUT -p tcp --dport 443 -s 0.0.0.0/0 -j ACCEPT' }
+    - { regexp: '^-A INPUT -p tcp --dport 5672 -s 0.0.0.0/0 -j ACCEPT$', line: '-A INPUT -p tcp --dport 5672 -s 0.0.0.0/0 -j ACCEPT' }
+    - { regexp: '^-A INPUT -p tcp --dport 2003 -s 0.0.0.0/0 -j ACCEPT$', line: '-A INPUT -p tcp --dport 2003 -s 0.0.0.0/0 -j ACCEPT' }
   notify:
         - Add https iptables rules
+
+
+- name: httpd listen {{ graphite_port }} for graphite-web
+  lineinfile:
+    dest: /etc/httpd/conf/httpd.conf
+    line: "Listen {{ graphite_port }}"
+  tags: monitoring_httpd
+  notify:
+    - restart httpd
+
+
+#TODO: generate /etc/httpd/openshift-passwd
+#chmod 600 /etc/httpd/openshift-passwd 
+#chown apache /etc/httpd/openshift-passwd
+#TODO: push cert monitoring_cert monitoring_key
+
+
+- name: httpd configuration
+  template:
+       src: "{{ item.src }}"
+       dest: "{{ item.dest }}"
+       owner: root
+       group: root
+       mode: 0644
+  notify:
+       - restart httpd
+  tags: monitoring_httpd
+  with_items:
+       - { src: 'etc/httpd/conf.d/grafana.conf.j2', dest: '/etc/httpd/conf.d/grafana.conf' }
+       - { src: 'etc/httpd/conf.d/graphite-web.conf.j2', dest: '/etc/httpd/conf.d/graphite-web.conf' }
+       - { src: 'etc/httpd/conf.d/sendu.conf.j2', dest: '/etc/httpd/conf.d/sendu.conf' }
+
+- name: ensure service httpd started
+  tags: monitoring_httpd
+  service:
+       name: httpd
+       state: started
+       enabled: yes
+

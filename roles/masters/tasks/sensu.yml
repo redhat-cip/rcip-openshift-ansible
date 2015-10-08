@@ -5,4 +5,4 @@
 
 #spesific check
 - name: gem install sensu-plugins-etcd
-  gem: name=sensu-plugins-etcd state=present
+  gem: name=sensu-plugins-etcd state=present user_install=no

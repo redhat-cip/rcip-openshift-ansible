@@ -30,6 +30,7 @@
        - { src: 'etc/sensu/conf.d/client.json.j2', dest: '/etc/sensu/conf.d/client.json' }
        - { src: 'etc/sensu/config.json.j2', dest: '/etc/sensu/config.json' }
 
+
 #Check depend
 - name: install ruby
   yum: name=ruby state=installed
@@ -53,23 +54,26 @@
 
 
 #check
+- name: gem install sensu-plugin
+  gem: name=sensu-plugin state=present user_install=no
+
 - name: gem install sensu-plugins-process-checks
-  gem: name=sensu-plugins-process-checks state=present
+  gem: name=sensu-plugins-process-checks state=present user_install=no
 
 - name: gem install sensu-plugins-network-checks
-  gem: name=sensu-plugins-network-checks state=present
+  gem: name=sensu-plugins-network-checks state=present user_install=no
 
 - name: gem install sensu-plugins-load-checks
-  gem: name=sensu-plugins-load-checks state=present
+  gem: name=sensu-plugins-load-checks state=present user_install=no
 
 - name: gem install sensu-plugins-memory-checks
-  gem: name=sensu-plugins-memory-checks state=present
+  gem: name=sensu-plugins-memory-checks state=present user_install=no
 
 - name: gem install sensu-plugins-disk-checks
-  gem: name=sensu-plugins-disk-checks state=present
+  gem: name=sensu-plugins-disk-checks state=present user_install=no
 
 - name: gem install sensu-plugins-http
-  gem: name=sensu-plugins-http state=present
+  gem: name=sensu-plugins-http state=present user_install=no
 
 #http://nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
 - name: copy /etc/sensu/plugins/check_disk

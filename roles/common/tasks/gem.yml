@@ -1,0 +1,7 @@
+---
+- name: set /etc/gemrc
+  copy:
+    content: "---\ngem: --no-ri --no-rdoc\nbenchmark: false"
+    dest: /etc/gemrc
+    owner: root
+    group: root

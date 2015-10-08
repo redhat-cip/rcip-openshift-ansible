@@ -7,3 +7,16 @@
     - restart sensu-server
     - restart sensu-api
   tags: sensu monitoring
+
+
+- name: install uchiwa
+  tags: monitoring_httpd
+  yum: name=uchiwa state=installed
+
+
+- name: ensure service uchiwa started
+  tags: monitoring_httpd
+  service:
+       name: uchiwa
+       state: started
+       enabled: yes

@@ -1,5 +1,7 @@
 ---
 - include: logrotate.yml
 - include: jq.yml
+- include: gem.yml
+- include: package.yml
 #- include: token.yml
 #TODO token only if metric account created

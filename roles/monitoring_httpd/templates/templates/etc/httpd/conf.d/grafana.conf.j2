@@ -1,0 +1,32 @@
+<VirtualHost *:443>
+  ServerName {{ httpd_graphs_fqdn }}
+  #ServerAlias metrics
+
+  #
+  # Proxy
+  #
+
+  SSLEngine on
+  SSLCertificateFile {{ monitoring_cert }}
+  SSLCertificateKeyFile {{ monitoring_key }}
+
+  <Proxy *>
+    Order deny,allow
+    Allow from all
+    AuthType Basic
+    AuthName "Password Required"
+    AuthUserFile /etc/httpd/openshift-passwd
+    Require valid-user
+  </Proxy>
+
+  ProxyRequests Off
+  ProxyPass / http://127.0.0.1:{{ grafana_port }}
+  ProxyPassReverse / http://127.0.0.1:{{ grafana_port }}
+  RewriteEngine on
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule .* http://127.0.0.1:{{ grafana_port }}%{REQUEST_URI} [P,QSA]
+
+  ErrorLog /var/log/httpd/grafana_error.log
+  LogLevel warn
+  CustomLog /var/log/httpd/grafana_access.log combined
+</VirtualHost>
