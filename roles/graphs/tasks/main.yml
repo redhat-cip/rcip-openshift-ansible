@@ -1,0 +1,50 @@
+---
+- name: Install Graphite Dependencies for Redhat
+  yum: "name={{ item }} state=present"
+  with_items:
+    - gcc
+    - mod_wsgi
+    - python-pip
+    - python-devel
+
+
+- name: install pip packages
+  pip: "name={{ item }}"
+  environment:
+    CFLAGS: '-march=x86-64'
+  with_items:
+    - https://github.com/graphite-project/ceres/tarball/master
+    - whisper
+    - https://codeload.github.com/graphite-project/carbon/zip/master
+    - graphite-web
+
+- command: cp /opt/graphite/conf/carbon.conf.example /opt/graphite/conf/carbon.conf
+  args:
+    creates: /opt/graphite/conf/carbon.conf
+- command: cp /opt/graphite/conf/graphite.wsgi.example /opt/graphite/conf/graphite.wsgi
+  args:
+    creates: /opt/graphite/conf/graphite.wsgi
+
+- name: setup carbon storage
+  copy: src=opt/graphite/conf/storage-schemas.conf dest=/opt/graphite/conf/storage-schemas.conf
+
+- name: setup carbon storage aggregation
+  copy: src=opt/graphite/conf/storage-aggregation.conf dest=/opt/graphite/conf/storage-aggregation.conf
+
+
+- name: add graphite user
+  user: name=graphite
+
+- name: create systemd unit for carbon-cache
+  copy: src=etc/systemd/system/multi-user.target.wants/carbon-cache.service dest=/etc/systemd/system/multi-user.target.wants/carbon-cache.service
+  notify:
+    - daemon-reload
+
+- name: Start carbon cache
+  service: name=carbon-cache state=running enabled=yes
+
+- name: copy apache vhost for graphite
+  copy: src=etc/httpd/conf.d/graphite_vhost.conf dest=/etc/httpd/conf.d/graphite_vhost.conf
+
+- name: restart apache
+  service: name=apache state=restarted

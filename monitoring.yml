@@ -3,3 +3,4 @@
   roles:
       - sensu
       - monitoring_httpd
+      - graphs

@@ -1,0 +1,14 @@
+[Unit]
+Description=carbon-cache instance (graphite)
+
+[Service]
+User=graphite
+Group=graphite
+ExecStartPre=/bin/rm -f /opt/graphite/storage/carbon-cache.pid
+ExecStart=/opt/graphite/bin/carbon-cache.py start
+Type=simple
+PIDFile=/opt/graphite/storage/carbon-cache.pid
+LimitNOFILE=128000
+
+[Install]
+WantedBy=multi-user.target
