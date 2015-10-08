@@ -4,3 +4,4 @@
 - include: scripts.yml
 - include: crontab.yml
 - include: service_accounts.yml
+- include: sensu.yml

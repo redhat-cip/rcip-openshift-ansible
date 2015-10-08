@@ -1,0 +1,34 @@
+<VirtualHost *:443>
+  ServerName {{ httpd_logs_fqdn }}
+  #ServerAlias logs
+  #
+  # Proxy
+  #
+
+  SSLEngine on
+  SSLCertificateFile {{ monitoring_cert }}
+  SSLCertificateKeyFile {{ monitoring_key }}
+
+  <Proxy *>
+    Order deny,allow
+    Allow from all
+    AuthType Basic
+    AuthName "Password Required"
+    AuthUserFile /etc/httpd/openshift-passwd
+    Require valid-user
+  </Proxy>
+
+  ProxyRequests Off
+  ProxyPass / http://127.0.0.1:{{ kibana_port }}
+  ProxyPassReverse / http://127.0.0.1:{{ kibana_port }}
+  RewriteEngine on
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule .* http://127.0.0.1:{{ kibana_port }}%{REQUEST_URI} [P,QSA]
+
+  ProxyPass        /elasticsearch http://localhost:{{ elasticsearch_port }}
+  ProxyPassReverse /elasticsearch http://localhost:{{ elasticsearch_port }}
+
+  ErrorLog /var/log/httpd/kibana_error.log
+  LogLevel warn
+  CustomLog /var/log/httpd/kibana_access.log combined
+</VirtualHost>
