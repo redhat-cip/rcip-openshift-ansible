@@ -6,6 +6,7 @@ sensu_uchiwa_port: 3001
 
 grafana_port: 3000
 graphite_port: 3003
+etcd_port: 2379
 
 httpd_graphs_fqdn: "graphs.{{ customer_domain }}"
 httpd_mon_fqdn: "mon.{{ customer_domain }}"

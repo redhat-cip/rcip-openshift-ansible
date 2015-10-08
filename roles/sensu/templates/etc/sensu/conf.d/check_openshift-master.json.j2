@@ -14,7 +14,7 @@
 
 //Etcd
     "etcd-http-status": {
-      "command": "/usr/local/bin/check-etcd.rb -h 127.0.0.1 -p 4001 --cert /etc/openshift/master/master.etcd-client.crt --key /etc/openshift/master/master.etcd-client.key  --ssl --insecure",
+      "command": "/usr/local/bin/check-etcd.rb -h 127.0.0.1 -p {{ etcd_port }} --cert /etc/openshift/master/master.etcd-client.crt --key /etc/openshift/master/master.etcd-client.key  --ssl --insecure",
       "subscribers": [
         "openshift-master"
       ],
