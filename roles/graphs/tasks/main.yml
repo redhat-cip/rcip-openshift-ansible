@@ -9,7 +9,7 @@
 
 
 - name: install pip packages
-  pip: "name={{ item }}"
+  pip: "name={{ item }} state=present"
   environment:
     CFLAGS: '-march=x86-64'
   with_items:
