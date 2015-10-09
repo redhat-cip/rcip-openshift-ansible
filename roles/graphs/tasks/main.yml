@@ -7,12 +7,13 @@
     - python-pip
     - python-devel
 
-
 - name: install pip packages
   pip: "name={{ item }} state=present"
   environment:
     CFLAGS: '-march=x86-64'
   with_items:
+    - django-tagging
+    - django
     - https://github.com/graphite-project/ceres/tarball/master
     - whisper
     - https://codeload.github.com/graphite-project/carbon/zip/master
@@ -40,11 +41,24 @@
   notify:
     - daemon-reload
 
+- file: path=/opt/graphite/storage owner=graphite group=apache mode=0775 state=directory
+- file: path=/opt/graphite/storage/log/webapp group=apache mode=0775
+- copy: src=opt/graphite/webapp/graphite/local_settings.py dest=/opt/graphite/webapp/graphite/local_settings.py
 - name: Start carbon cache
   service: name=carbon-cache state=running enabled=yes
 
 - name: copy apache vhost for graphite
   copy: src=etc/httpd/conf.d/graphite_vhost.conf dest=/etc/httpd/conf.d/graphite_vhost.conf
 
+- name: Setup sqlitedb
+  command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite
+   creates=/opt/graphite/storage/graphite.db
+  sudo_user: apache
+  register: sqlite_setup
+- name: Wait for sqlitedb to be setup
+  shell: sleep 3
+  when: sqlite_setup.changed
+- file: path=/opt/graphite/storage/graphite.db owner=graphite group=apache mode=0775
+- lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^Listen 3003$' line='Listen 3003'
 - name: restart apache
-  service: name=apache state=restarted
+  service: name=httpd state=restarted
