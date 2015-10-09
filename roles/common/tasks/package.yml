@@ -9,3 +9,6 @@
 
 - name: install vim
   yum: name=vim state=installed
+
+- name: install wget
+  yum: name=wget state=installed

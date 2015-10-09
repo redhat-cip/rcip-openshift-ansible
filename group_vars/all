@@ -12,6 +12,7 @@ rabbitmq_sensu_vhost: "/sensu"
 rabbitmq_sensu_user: "sensu"
 redis_sensu_port: 6379
 sensu_api_port: 4567
+elasticsearch_port: 9200
 
 #private var
 carbon_host: "{{ monitoring_vip }}"

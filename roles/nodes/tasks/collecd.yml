@@ -1,6 +1,3 @@
-- name: install wget
-  yum: name=wget state=installed
-
 #TODO : add epel repo
 #TODO : yum --enablerepo=epel  install collectd -y
 - name: install fedora epel-release-7-5 repo for collectd
@@ -33,8 +30,7 @@
   notify:
       - restart collectd
   with_items:
-    - regexp: '^FQDNLookup'
-      line: 'FQDNLookup false'
+    - { regexp: '^FQDNLookup', line: 'FQDNLookup false' }
     - { regexp: '^Hostname .*$', line: "Hostname {{ ansible_fqdn }}" }
     - { regexp: '^Include "/etc/collectd.d"$', line: 'Include "/etc/collectd.d"' }
 
