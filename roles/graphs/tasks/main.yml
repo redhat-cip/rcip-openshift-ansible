@@ -37,7 +37,7 @@
   user: name=graphite
 
 - name: create systemd unit for carbon-cache
-  copy: src=etc/systemd/system/multi-user.target.wants/carbon-cache.service dest=/etc/systemd/system/multi-user.target.wants/carbon-cache.service
+  copy: src=etc/systemd/system/carbon-cache.service dest=/etc/systemd/system/carbon-cache.service
   notify:
     - daemon-reload
 

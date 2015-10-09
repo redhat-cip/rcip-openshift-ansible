@@ -1,11 +1,13 @@
 [Unit]
 Description=carbon-cache instance (graphite)
+After=network.target
 
 [Service]
 User=graphite
 Group=graphite
 ExecStartPre=/bin/rm -f /opt/graphite/storage/carbon-cache.pid
-ExecStart=/opt/graphite/bin/carbon-cache.py start
+ExecStart=/opt/graphite/bin/carbon-cache.py --pidfile /opt/graphite/storage/carbon-cache.pid start
+ExecStop=/opt/graphite/bin/carbon-cache.py --pidfile /opt/graphite/storage/carbon-cache.pid stop
 Type=simple
 PIDFile=/opt/graphite/storage/carbon-cache.pid
 LimitNOFILE=128000
