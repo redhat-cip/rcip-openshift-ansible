@@ -1,5 +1,4 @@
 ---
-
 - name: sensu handler config
   template:
        src: "{{ item.src }}"
@@ -35,5 +34,4 @@
   get_url:
     url: https://raw.githubusercontent.com/talset/sensu-plugins-flowdock/master/bin/handler-flowdock.rb
     dest: /etc/sensu/handlers/handler-flowdock.rb
-    mode: 0777
-
+    mode: 0755
