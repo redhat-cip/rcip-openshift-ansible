@@ -33,6 +33,8 @@
   notify:
       - restart collectd
   with_items:
+    - regexp: '^FQDNLookup'
+      line: 'FQDNLookup false'
     - { regexp: '^Hostname .*$', line: "Hostname {{ ansible_fqdn }}" }
     - { regexp: '^Include "/etc/collectd.d"$', line: 'Include "/etc/collectd.d"' }
 
