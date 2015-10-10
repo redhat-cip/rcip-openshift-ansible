@@ -18,3 +18,5 @@ elasticsearch_port: 9200
 carbon_host: "{{ monitoring_vip }}"
 elastisearch_host: "{{ monitoring_vip }}"
 rabbitmq_host: "{{ monitoring_vip }}"
+
+proxy_env: "{{ customer_proxy_env | default(None) }}"
