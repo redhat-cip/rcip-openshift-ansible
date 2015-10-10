@@ -55,24 +55,31 @@
 
 #check
 - name: gem install sensu-plugin
+  environment: proxy_env
   gem: name=sensu-plugin state=present user_install=no
 
 - name: gem install sensu-plugins-process-checks
+  environment: proxy_env
   gem: name=sensu-plugins-process-checks state=present user_install=no
 
 - name: gem install sensu-plugins-network-checks
+  environment: proxy_env
   gem: name=sensu-plugins-network-checks state=present user_install=no
 
 - name: gem install sensu-plugins-load-checks
+  environment: proxy_env
   gem: name=sensu-plugins-load-checks state=present user_install=no
 
 - name: gem install sensu-plugins-memory-checks
+  environment: proxy_env
   gem: name=sensu-plugins-memory-checks state=present user_install=no
 
 - name: gem install sensu-plugins-disk-checks
+  environment: proxy_env
   gem: name=sensu-plugins-disk-checks state=present user_install=no
 
 - name: gem install sensu-plugins-http
+  environment: proxy_env
   gem: name=sensu-plugins-http state=present user_install=no
 
 #http://nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz

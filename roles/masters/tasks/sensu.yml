@@ -5,6 +5,7 @@
 
 #spesific check
 - name: gem install sensu-plugins-etcd
+  environment: proxy_env
   gem: name=sensu-plugins-etcd state=present user_install=no
 
 - name: chmod 644 /etc/openshift/master/master.etcd-client.crt

@@ -16,21 +16,26 @@
        - { src: 'etc/sensu/conf.d/mailer.json.j2', dest: '/etc/sensu/conf.d/mailer.json' }
 
 - name: gem install mail
+  environment: proxy_env
   gem: name=mail state=present user_install=no
 
   #/usr/local/bin/handler-mailer.rb
 - name: gem install sensu-plugins-mailer
+  environment: proxy_env
   gem: name=sensu-plugins-mailer state=present user_install=no
 
 
 #TODO /usr/local/bin/handler-flowdock.rb
 - name: gem install sensu-plugins-flowdock
+  environment: proxy_env
   gem: name=sensu-plugins-flowdock state=present user_install=no
 
 - name: gem install flowdock
+  environment: proxy_env
   gem: name=flowdock state=present user_install=no
 
 - name: TEMPORAIRE add sensu-plugins-flowdock from talset github
+  environment: proxy_env
   get_url:
     url: https://raw.githubusercontent.com/talset/sensu-plugins-flowdock/master/bin/handler-flowdock.rb
     dest: /etc/sensu/handlers/handler-flowdock.rb
