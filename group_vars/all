@@ -19,4 +19,6 @@ carbon_host: "{{ monitoring_vip }}"
 elastisearch_host: "{{ monitoring_vip }}"
 rabbitmq_host: "{{ monitoring_vip }}"
 
-proxy_env: "{{ customer_proxy_env | default(None) }}"
+proxy_env:
+  http_proxy: "{{ customer_http_proxy | default(None) }}"
+  https_proxy: "{{ customer_https_proxy | default(None) }}"

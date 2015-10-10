@@ -30,6 +30,5 @@ sensu_mail_to="mail1@domain.com, mail2@domain"
 customer_docker_storage_dev=xvdf
 customer_collecd_disk_rootfs=xvda2
 customer_collecd_disk_ose_registry=xvdg
-customer_proxy_env:
-  http_proxy: http://openshiftproxy.com:8080
-  https_proxy: http://openshiftproxy.com:8080
+customer_http_proxy=http://openshiftproxy.com:8080
+customer_https_proxy=http://openshiftproxy.com:8080
