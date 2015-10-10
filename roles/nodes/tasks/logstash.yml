@@ -1,5 +1,6 @@
 ---
 - name: Import elasticsearch gpg key
+  environment: proxy_env
   rpm_key: state=present key=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
 
 - name: Add repos /etc/yum.repos.d/logstash.repo
