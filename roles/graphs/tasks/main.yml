@@ -11,6 +11,7 @@
   pip: "name={{ item }} state=present"
   environment:
     proxy_env
+  environment:
     CFLAGS: '-march=x86-64'
   with_items:
     - django-tagging
