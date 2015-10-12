@@ -17,7 +17,7 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
-    - { regexp: '^HTTP_PROXY=.*', line: "HTTP_PROXY='{{ proxy_env[http_proxy] }}'" }
+    - { regexp: '^HTTP_PROXY=.*', line: "HTTP_PROXY='{{ proxy_env[\'http_proxy\'] }}'" }
     - { regexp: '^NO_PROXY=.*', line: "NO_PROXY='localhost,127.0.0.0/8,172.30.0.0/16'" }
   notify:
       - restart docker
