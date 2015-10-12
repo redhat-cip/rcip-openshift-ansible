@@ -10,6 +10,7 @@
 - name: install pip packages
   pip: "name={{ item }} state=present"
   environment:
+    proxy_env
     CFLAGS: '-march=x86-64'
   with_items:
     - django-tagging
