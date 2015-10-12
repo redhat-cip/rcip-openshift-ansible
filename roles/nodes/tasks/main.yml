@@ -1,6 +1,7 @@
 ---
 - include: sensu.yml
 - include: openshift-node.yml
+- include: docker.yml
 - include: nfs.yml
 - include: scripts.yml
 - include: crontab.sh
