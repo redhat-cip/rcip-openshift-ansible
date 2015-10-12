@@ -7,6 +7,22 @@
   notify:
       - restart docker
 
+#TODO if proxy_env[http_proxy]
+#when: test_var is defined and test_var
+#HTTP_PROXY=http://10.225.104.121:8080
+#NO_PROXY=localhost,127.0.0.0/8,172.30.0.0/16
+- name: http_proxy docker
+  lineinfile:
+    dest: /etc/sysconfig/docker
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^HTTP_PROXY=.*', line: "HTTP_PROXY='{{ proxy_env[http_proxy] }}'" }
+    - { regexp: '^NO_PROXY=.*', line: "NO_PROXY='localhost,127.0.0.0/8,172.30.0.0/16'" }
+  notify:
+      - restart docker
+  when: proxy_env[http_proxy] is defined
+
 - name: config /etc/sysconfig/docker-storage-setup
   lineinfile:
     dest: /etc/sysconfig/docker-storage-setup

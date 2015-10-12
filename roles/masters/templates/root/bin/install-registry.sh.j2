@@ -14,7 +14,7 @@ oc delete dc docker-registry
 oc delete svc docker-registry
 oc delete pod docker-registry-1-deploy
 
-#First setup, need to create ServiceAccount
+#For <=3.0.1 First setup, need to create ServiceAccount
 #echo \
 #    '{"kind":"ServiceAccount","apiVersion":"v1","metadata":{"name":"registry"}}' \
 #    | oc create -f -
@@ -22,6 +22,7 @@ oc delete pod docker-registry-1-deploy
 #oc edit scc privileged
 #Add a line under users with the user name system:serviceaccount:default:registry.
 
+#oadm manage-node {{ ansible_fqdn }}--schedulable=false
 
 oadm registry --create --service-account=registry \
   --config=/etc/openshift/master/admin.kubeconfig \
