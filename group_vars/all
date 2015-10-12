@@ -22,3 +22,5 @@ rabbitmq_host: "{{ monitoring_vip }}"
 proxy_env:
   http_proxy: "{{ customer_http_proxy | default(None) }}"
   https_proxy: "{{ customer_https_proxy | default(None) }}"
+
+no_proxy: "{{ customer_no_proxy | default('localhost,127.0.0.0/8,172.30.0.0/16,192.168.0.0/24') }}"
