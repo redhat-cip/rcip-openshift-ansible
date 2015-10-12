@@ -26,7 +26,7 @@
   with_items:
     - { regexp: '^HTTP_PROXY=.*', line: "HTTP_PROXY='{{ proxy_env[\'http_proxy\'] }}'" }
     - { regexp: '^HTTPS_PROXY=.*', line: "HTTPS_PROXY='{{ proxy_env[\'https_proxy\'] }}'" }
-    - { regexp: '^NO_PROXY=.*', line: "NO_PROXY='{{ no_proxy }}'" }
+    - { regexp: '^NO_PROXY=.*', line: "NO_PROXY='{{ no_proxy }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %}'" }
   notify:
       - restart openshift-node
   when: proxy_env['http_proxy'] is defined
