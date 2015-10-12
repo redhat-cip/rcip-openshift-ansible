@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
 
-#mkfs.ext4 -m 0 /dev/{{ collecd_disk_ose_registry }}
 #pvcreate /dev/{{ collecd_disk_ose_registry }}
 #vgcreate vg_ose /dev/{{ collecd_disk_ose_registry }}
-#lvcreate --size 20g --name ose-registry vg_ose
+#lvcreate -l 100%FREE --name ose-registry vg_ose
 #mkdir /mnt/ose-registry
-#echo '/dev/mapper/vg_ose-ose-registry /mnt/ose-registry ext4 rw,noatime,data=ordered 0 0' >> /etc/fstab
+#mkfs.ext4 -m0 /dev/mapper/vg_ose-ose--registry
+#echo '/dev/mapper/vg_ose-ose--registry /mnt/ose-registry ext4 rw,noatime,data=ordered 0 0' >> /etc/fstab
+#mount -a
 
 #delete registry
 oc delete dc docker-registry
