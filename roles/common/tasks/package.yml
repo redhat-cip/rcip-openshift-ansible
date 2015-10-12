@@ -12,3 +12,6 @@
 
 - name: install wget
   yum: name=wget state=installed
+
+- name: install httpd-tools
+  yum: name=httpd-tools state=installed

@@ -7,10 +7,6 @@
   notify:
       - restart docker
 
-#TODO if proxy_env[http_proxy]
-#when: test_var is defined and test_var
-#HTTP_PROXY=http://10.225.104.121:8080
-#NO_PROXY=localhost,127.0.0.0/8,172.30.0.0/16
 - name: http_proxy docker
   lineinfile:
     dest: /etc/sysconfig/docker
