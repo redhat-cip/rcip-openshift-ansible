@@ -5,10 +5,11 @@
   #
   # Proxy
   #
-
+{% if grafana_httpd_ssl | bool %}
   SSLEngine on
   SSLCertificateFile {{ monitoring_cert }}
   SSLCertificateKeyFile {{ monitoring_key }}
+{% endif %}
 
   <Proxy *>
     Order deny,allow

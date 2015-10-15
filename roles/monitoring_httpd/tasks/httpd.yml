@@ -25,14 +25,18 @@
         - Add https iptables rules
   tags: monitoring_httpd
 
-- name: httpd listen {{ graphite_port }} for graphite-web
+- name: httpd listen {{ graphite_port }} {{ sensu_httpd_port }} {{ grafana_httpd_port }} {{ kibana_httpd_port }}
   lineinfile:
     dest: /etc/httpd/conf/httpd.conf
-    line: "Listen {{ graphite_port }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { line: "Listen {{ graphite_port }}" }
+    - { line: "Listen {{ sensu_httpd_port }}" }
+    - { line: "Listen {{ grafana_httpd_port }}" }
+    - { line: "Listen {{ kibana_httpd_port }}" }
   tags: monitoring_httpd
   notify:
     - restart httpd
-
 
 #TODO: generate /etc/httpd/openshift-passwd
 #chmod 600 /etc/httpd/openshift-passwd 

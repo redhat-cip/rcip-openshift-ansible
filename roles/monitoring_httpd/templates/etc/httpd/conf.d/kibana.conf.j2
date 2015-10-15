@@ -1,13 +1,15 @@
-<VirtualHost *:{{ grafana_httpd_port }}>
+<VirtualHost *:{{ kibana_httpd_port }}>
   ServerName {{ httpd_logs_fqdn }}
   #ServerAlias logs
   #
   # Proxy
   #
 
+{% if kibana_httpd_ssl | bool %}
   SSLEngine on
   SSLCertificateFile {{ monitoring_cert }}
   SSLCertificateKeyFile {{ monitoring_key }}
+{% endif %}
 
   <Proxy *>
     Order deny,allow
