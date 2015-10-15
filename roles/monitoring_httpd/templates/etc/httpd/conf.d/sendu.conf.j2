@@ -1,14 +1,15 @@
-<VirtualHost *:443>
+<VirtualHost *:{{ sensu_httpd_port }}>
   ServerName {{ httpd_mon_fqdn }}
   #ServerAlias sensu
 
   #
   # Proxy
   #
-
+{% if sensu_httpd_ssl | bool %}
   SSLEngine on
   SSLCertificateFile {{ monitoring_cert }}
   SSLCertificateKeyFile {{ monitoring_key }}
+{% endif %}
 
   <Proxy *>
     Order deny,allow

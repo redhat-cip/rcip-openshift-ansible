@@ -1,4 +1,4 @@
-<VirtualHost *:443>
+<VirtualHost *:{{ grafana_httpd_port }}>
   ServerName {{ httpd_logs_fqdn }}
   #ServerAlias logs
   #

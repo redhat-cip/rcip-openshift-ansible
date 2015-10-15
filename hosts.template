@@ -34,3 +34,11 @@ customer_http_proxy=http://openshiftproxy.com:8080
 customer_https_proxy=http://openshiftproxy.com:8080
 customer_no_proxy="localhost,127.0.0.0/8,172.30.0.0/16,192.168.0.0/24"
 customer_default_node_selector="primary"
+
+
+customer_sensu_httpd_port='443'
+customer_sensu_httpd_ssl='true'
+customer_grafana_httpd_port='443'
+customer_grafana_httpd_ssl='true'
+customer_kibana_httpd_port='443'
+customer_kibana_httpd_ssl='true'
