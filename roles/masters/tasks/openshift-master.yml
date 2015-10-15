@@ -22,11 +22,11 @@
   when: proxy_env['http_proxy'] is defined
 
 #Node and registry placement
-- name: defaultNodeSelector primary master-config.yaml
+- name: defaultNodeSelector {{ default_node_selector }} master-config.yaml
   lineinfile:
     dest: /etc/openshift/master/master-config.yaml
     regexp: '^  defaultNodeSelector:.*$'
-    line: '  defaultNodeSelector: "region=primary"'
+    line: '  defaultNodeSelector: "region={{ default_node_selector }}"'
     insertafter: '^projectConfig:\n'
   tags: 
          - openshift-master-config
