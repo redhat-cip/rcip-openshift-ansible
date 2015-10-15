@@ -3,5 +3,6 @@
 - include: jq.yml
 - include: gem.yml
 - include: package.yml
+- include: bashrc.yml
 #- include: token.yml
 #TODO token only if metric account created

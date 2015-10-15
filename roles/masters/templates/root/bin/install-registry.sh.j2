@@ -22,10 +22,12 @@ oc delete pod docker-registry-1-deploy
 #oc edit scc privileged
 #Add a line under users with the user name system:serviceaccount:default:registry.
 
-#oadm manage-node {{ ansible_fqdn }}--schedulable=false
+#oadm manage-node {{ ansible_fqdn }} --schedulable=true
 
 oadm registry --create --service-account=registry \
   --config=/etc/openshift/master/admin.kubeconfig \
   --credentials=/etc/openshift/master/openshift-registry.kubeconfig \
   --images='registry.access.redhat.com/openshift3/ose-${component}:${version}' \
   --mount-host={{openshift_registry_mount_host}} --selector="region=infra"
+
+#oadm manage-node {{ ansible_fqdn }} --schedulable=false
