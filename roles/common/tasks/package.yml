@@ -15,3 +15,8 @@
 
 - name: install httpd-tools
   yum: name=httpd-tools state=installed
+
+- name: install docker-python
+  yum: name=docker-python state=installed
+
+docker-python
