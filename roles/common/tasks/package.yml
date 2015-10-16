@@ -18,5 +18,3 @@
 
 - name: install docker-python
   yum: name=docker-python state=installed
-
-docker-python
