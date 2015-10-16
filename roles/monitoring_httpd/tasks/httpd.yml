@@ -7,6 +7,8 @@
   tags: monitoring_httpd
   yum: name=mod_ssl state=installed
 
+- file: dest=/etc/httpd/conf.d/ssl.conf state=absent
+
 - name: install mod_wsgi
   tags: monitoring_httpd
   yum: name=mod_wsgi state=installed
