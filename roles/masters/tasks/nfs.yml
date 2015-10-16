@@ -36,7 +36,7 @@
   with_items:
     - { regexp: '^RPCMOUNTDOPTS=.*$', line: 'RPCMOUNTDOPTS="-p 20048"' }
     - { regexp: '^STATDARG=.*$', line: 'STATDARG="-p 50825"' }
-    - { regexp: '^RPCNFSDCOUNT=.*$', line: "RPCNFSDCOUNT='{{ ansible_processor_count**8 }}'" }
+    - { regexp: '^RPCNFSDCOUNT=.*$', line: "RPCNFSDCOUNT='{{ ansible_processor_count*8 }}'" }
 
 - name: add exports line
   lineinfile:
