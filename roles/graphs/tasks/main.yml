@@ -75,8 +75,3 @@
   shell: sleep 3
   when: sqlite_setup.changed
 - file: path=/opt/graphite/storage/graphite.db owner=graphite group=apache mode=0775
-- lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^Listen 3003$' line='Listen 3003'
-
-#remove restart, replace by handler to avoid multi restart
-- name: restart apache
-  service: name=httpd state=restarted
