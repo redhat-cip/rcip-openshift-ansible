@@ -45,13 +45,27 @@
 
 - file: path=/opt/graphite/storage owner=graphite group=apache mode=0775 state=directory
 - file: path=/opt/graphite/storage/log/webapp group=apache mode=0775
+#flo
+
+- name: install fedora epel-release-7-5 for g
+  yum: name=http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm state=present
+
+- name: install graphite-web
+  yum: name=graphite-web state=installed
+
+#TODO use template with variable password for mysql, port ...
+- copy: src=opt/graphite/webapp/graphite/local_settings.py dest=/etc/graphite-web/local_settings.py
+
+#####
+
 - copy: src=opt/graphite/webapp/graphite/local_settings.py dest=/opt/graphite/webapp/graphite/local_settings.py
 - name: Start carbon cache
   service: name=carbon-cache state=running enabled=yes
 
-- name: copy apache vhost for graphite
-  copy: src=etc/httpd/conf.d/graphite_vhost.conf dest=/etc/httpd/conf.d/graphite_vhost.conf
+#- name: copy apache vhost for graphite
+#  copy: src=etc/httpd/conf.d/graphite_vhost.conf dest=/etc/httpd/conf.d/graphite_vhost.conf
 
+#TODO Use mysql no sqlitedb
 - name: Setup sqlitedb
   command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite
    creates=/opt/graphite/storage/graphite.db

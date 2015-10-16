@@ -26,7 +26,7 @@
     - { regexp: '^fs.nfs.nlm_tcpport=.*$', line: 'fs.nfs.nlm_tcpport=53248' }
     - { regexp: '^fs.nfs.nlm_udpport.*$', line: 'fs.nfs.nlm_udpport=53248' }
 
-- name: change RPCMOUNTDOPTS STATDARG nfs
+- name: change RPCMOUNTDOPTS STATDARG RPCNFSDCOUNT nfs
   lineinfile:
     dest: /etc/sysconfig/nfs
     regexp: "{{ item.regexp }}"
