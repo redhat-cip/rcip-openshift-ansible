@@ -3,3 +3,5 @@
 - include: handler.yml
 - include: checks.yml
 - include: uchiwa.yml
+- include: mail.yml
+  tags: mail

@@ -1,0 +1,13 @@
+---
+- yum: name=postfix state=installed
+- lineinfile:
+    dest: /etc/postfix/main.cf
+    regexp: '^myorigin ='
+    line: "myorigin = {{ postfix_myorigin }}"
+  when: postfix_myorigin is defined
+- lineinfile:
+    dest: /etc/postfix/main.cf
+    regexp: '^relayhost ='
+    line: "relayhost = {{ postfix_relayhost }}"
+  when: postfix_relayhost is defined
+- service: name=postfix state=restarted enabled=yes
