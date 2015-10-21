@@ -1,0 +1,7 @@
+---
+- yum: name=ntp state=installed
+- template:
+    src: etc/ntp.conf.j2
+    dest: /etc/ntp.conf
+    mode: 0644
+- service: name=ntpd state=running enabled=yes
