@@ -4,3 +4,4 @@
       - sensu
       - graphs
       - monitoring_httpd
+      - dns

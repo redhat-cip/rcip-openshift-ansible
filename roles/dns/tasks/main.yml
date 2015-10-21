@@ -1,0 +1,9 @@
+---
+- yum: name=dnsmasq state=installed
+  tags: dns
+- copy:
+    dest: /etc/dnsmasq.d/axadns.conf
+    content: "{% for s in dns_servers %}server={{ s }}\n{% endfor %}"
+  tags: dns
+- service: name=dnsmasq state=restarted enabled=yes
+  tags: dns
