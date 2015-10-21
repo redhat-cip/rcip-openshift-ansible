@@ -42,3 +42,4 @@ customer_grafana_httpd_port='443'
 customer_grafana_httpd_ssl='true'
 customer_kibana_httpd_port='443'
 customer_kibana_httpd_ssl='true'
+ntp_servers=["ntp1.customer", "ntp2.customer"]
