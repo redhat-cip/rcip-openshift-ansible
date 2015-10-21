@@ -6,3 +6,4 @@
     owner: sensu
     group: sensu
     mode: 0600
+  when: hostvars[groups['masters'][0]]['ansible_local'].openshift_data.tokens.metrics is defined

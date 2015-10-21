@@ -6,5 +6,4 @@
 - include: bashrc.yml
 - include: ntp.yml
   tags: ntp
-#- include: token.yml
-#TODO token only if metric account created
+- include: token.yml
