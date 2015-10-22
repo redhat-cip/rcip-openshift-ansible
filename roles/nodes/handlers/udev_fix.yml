@@ -1,3 +1,4 @@
 ---
 - name: fix udev timeout
   command: '/usr/bin/udevadm control --timeout=300'
+  ignore_errors: yes
