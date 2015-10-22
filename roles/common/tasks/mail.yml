@@ -14,4 +14,4 @@
   when: postfix_relayhost is defined
   register: postfixrestart
 - when: postfixrestart
-  service: name=postfix state=restarted
+  notify: restart postfix
