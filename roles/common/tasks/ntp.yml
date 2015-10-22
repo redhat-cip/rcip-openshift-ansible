@@ -5,3 +5,8 @@
     dest: /etc/ntp.conf
     mode: 0644
 - service: name=ntpd state=running enabled=yes
+- name: set timezone
+  file:
+    state: link
+    dest: /etc/localtime
+    src: "/usr/share/zoneinfo/{{ timezone }}"

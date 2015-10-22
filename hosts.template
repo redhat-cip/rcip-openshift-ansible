@@ -46,3 +46,4 @@ ntp_servers=["ntp1.customer", "ntp2.customer"]
 dns_servers=["10.0.0.1", "10.0.0.2"]
 postfix_relayhost="smtp.mycustomer.intranet"
 postfix_myorigin="smtp.mycustomer.com"
+timezone="Europe/Paris"
