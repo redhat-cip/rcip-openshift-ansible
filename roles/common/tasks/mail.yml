@@ -6,12 +6,10 @@
     regexp: '^myorigin ='
     line: "myorigin = {{ postfix_myorigin }}"
   when: postfix_myorigin is defined
-  register: postfixrestart
+  notify: restart postfix
 - lineinfile:
     dest: /etc/postfix/main.cf
     regexp: '^relayhost ='
     line: "relayhost = {{ postfix_relayhost }}"
   when: postfix_relayhost is defined
-  register: postfixrestart
-- when: postfixrestart
   notify: restart postfix
