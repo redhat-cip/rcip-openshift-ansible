@@ -1,0 +1,8 @@
+---
+- name: udevadm control --timeout=300 and /etc/rc.local
+  lineinfile:
+    dest: /etc/rc.local
+    line: 'udevadm control --timeout=300'
+  notify:
+      - fix udev timeout
+      - restart docker

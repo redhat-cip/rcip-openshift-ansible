@@ -1,0 +1,3 @@
+---
+- name: fix udev timeout
+  command: 'udevadm control --timeout=300'
