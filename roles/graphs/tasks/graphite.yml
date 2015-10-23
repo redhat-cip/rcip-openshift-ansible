@@ -13,6 +13,7 @@
     http_proxy: "{{ proxy_env['http_proxy'] }}"
     https_proxy: "{{ proxy_env['https_proxy'] }}"
     CFLAGS: '-march=x86-64'
+    PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
   with_items:
     - django-tagging
     - django
