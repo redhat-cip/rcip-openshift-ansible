@@ -8,4 +8,3 @@
 - include: bashrc.yml
 - include: ntp.yml
   tags: ntp
-- include: token.yml
