@@ -43,8 +43,16 @@
   notify:
     - daemon-reload
 
-- file: path=/opt/graphite/storage owner=graphite group=apache mode=0775 state=directory
-- file: path=/opt/graphite/storage/log/webapp group=apache mode=0775
+- file:
+    path: "/opt/graphite/storage{{ item }}"
+    owner: graphite
+    group: apache
+    mode: 0755
+    state: directory
+  with_items:
+    - ""
+    - "/log"
+    - "/log/webapp"
 #flo
 
 - name: install fedora epel-release-7-5 for graphite-web
