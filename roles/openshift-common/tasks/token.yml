@@ -1,9 +1,9 @@
 ---
 
 - name: create /etc/sensu/ dir
-     file:
-        path: /etc/sensu/
-        state: directory
+  file:
+     path: /etc/sensu/
+     state: directory
 
 - name: add token file
   copy:
