@@ -1,10 +1,5 @@
 ---
 
-- name: create /etc/sensu/ dir
-  file:
-     path: /etc/sensu/
-     state: directory
-
 - name: add token file
   copy:
     content: "{{ hostvars[groups['masters'][0]]['ansible_local'].openshift_data.tokens.metrics }}"

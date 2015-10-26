@@ -7,9 +7,9 @@
 - include: nodes.yml
 - include: masters.yml
 
+- include: monitoring.yml
+
 # deploy token everywhere once serviceaccounts are created
 - hosts: all
   roles:
     - openshift-common
-
-- include: monitoring.yml
