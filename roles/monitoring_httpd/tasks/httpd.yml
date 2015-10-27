@@ -60,7 +60,7 @@
   with_items:
        - { src: 'etc/httpd/conf.d/grafana.conf.j2', dest: '/etc/httpd/conf.d/grafana.conf' }
        - { src: 'etc/httpd/conf.d/graphite-web.conf.j2', dest: '/etc/httpd/conf.d/graphite-web.conf' }
-       - { src: 'etc/httpd/conf.d/sendu.conf.j2', dest: '/etc/httpd/conf.d/sendu.conf' }
+       - { src: 'etc/httpd/conf.d/sensu.conf.j2', dest: '/etc/httpd/conf.d/sensu.conf' }
        - { src: 'etc/httpd/conf.d/kibana.conf.j2', dest: '/etc/httpd/conf.d/kibana.conf' }
 
 - name: ensure service httpd started
