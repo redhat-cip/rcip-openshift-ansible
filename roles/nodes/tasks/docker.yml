@@ -17,7 +17,7 @@
     - { regexp: '^NO_PROXY=.*', line: "NO_PROXY='{{ no_proxy }},{{ openshift_vip_fqdn_internal }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %}'" }
   notify:
       - restart docker
-  when: proxy_env['http_proxy'] is defined
+  when: proxy_env['http_proxy']
 
 - name: config /etc/sysconfig/docker-storage-setup
   lineinfile:
