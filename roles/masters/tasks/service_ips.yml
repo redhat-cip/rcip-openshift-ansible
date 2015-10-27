@@ -3,7 +3,8 @@
 - name: download /etc/ansible/facts.d/rcip_openshift.fact from github
   get_url:
     url: https://raw.githubusercontent.com/talset/openshift-tools/master/ansible/fact/rcip_openshift.fact
-    dest: /etc/ansible/facts.d/rcip_openshift.fact mode=0755
+    dest: /etc/ansible/facts.d/rcip_openshift.fact
+    mode: 0755
   tags: service_ips
 
 - name: re-read facts after adding custom fact rcip
