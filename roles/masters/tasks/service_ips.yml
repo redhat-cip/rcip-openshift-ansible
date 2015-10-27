@@ -13,5 +13,5 @@
 
 - debug: var=ansible_local
   tags: service_ips
-- debug: msg="the current date is {{ hostvars[groups['masters'][0]].ansible_local.rcip_openshift.service }}"
+- debug: msg="the current date is {% for host in hostvars[groups['masters'][0]].ansible_local.rcip_openshift.service %},{{ hostvars[groups['masters'][0]].ansible_local.rcip_openshift.service.host }}{% endfor %}"
   tags: service_ips
