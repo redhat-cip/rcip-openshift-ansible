@@ -1,0 +1,12 @@
+---
+#fix no proxy service ip
+- name: download /etc/ansible/facts.d/rcip_openshift.fact from github
+  get_url:
+    url: https://raw.githubusercontent.com/talset/openshift-tools/master/ansible/fact/rcip_openshift.fact
+    dest: /etc/ansible/facts.d/rcip_openshift.fact mode=0755
+
+- name: re-read facts after adding custom fact rcip
+  setup: filter=ansible_local
+
+- debug: var=ansible_local
+- debug: msg="the current date is {{ hostvars[groups['masters'][0]].ansible_local.rcip_openshift.service }}"
