@@ -4,9 +4,13 @@
   get_url:
     url: https://raw.githubusercontent.com/talset/openshift-tools/master/ansible/fact/rcip_openshift.fact
     dest: /etc/ansible/facts.d/rcip_openshift.fact mode=0755
+  tags: service_ips
 
 - name: re-read facts after adding custom fact rcip
   setup: filter=ansible_local
+  tags: service_ips
 
 - debug: var=ansible_local
+  tags: service_ips
 - debug: msg="the current date is {{ hostvars[groups['masters'][0]].ansible_local.rcip_openshift.service }}"
+  tags: service_ips

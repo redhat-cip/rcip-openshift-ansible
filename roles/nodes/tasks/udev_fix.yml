@@ -7,6 +7,12 @@
 #      - fix udev timeout
 #      - restart docker
 
+crashkernel=auto console=tty0 no_timer_check net.ifnames=0 console=ttyS0,115200n8 udev.event-timeout=300 udev.event-timeout=300
+crashkernel=auto console=tty0 no_timer_check net.ifnames=0 console=ttyS0,115200n8 udev.event-timeout=300 udev.event-timeout=300
+
+- name: Check if file has udev.event-timeout
+  shell: grep -v 'udev.event-timeout' /etc/sysconfig/grub
+  register: grep
 
 - name: fix udevadm timeout kernel param
   lineinfile:
@@ -14,5 +20,6 @@
     regexp: '^GRUB_CMDLINE_LINUX=(.*)"$'
     line: 'GRUB_CMDLINE_LINUX=\1 udev.event-timeout=300"'
     backrefs: yes
+  when: grep.stdout.find("GRUB_CMDLINE_LINUX") != -1
   notify:
         - grub2-mkconfig
