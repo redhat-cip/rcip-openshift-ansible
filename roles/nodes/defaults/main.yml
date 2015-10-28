@@ -1,2 +1,2 @@
 ---
-nodes_manage_docker_storage: {{ manage_docker_storage | default('true') }}
+nodes_manage_docker_storage: "{{ manage_docker_storage | default('true') }}"
