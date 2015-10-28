@@ -1,0 +1,4 @@
+---
+- include: facts_service_ips.yml
+  tags: service_ips
+  when: inventory_hostname in groups['masters']

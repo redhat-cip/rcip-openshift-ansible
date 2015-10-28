@@ -1,4 +1,5 @@
 ---
+
 #fix no proxy service ip
 - name: download /etc/ansible/facts.d/rcip_openshift.fact from github
   get_url:
@@ -11,8 +12,6 @@
   setup: filter=ansible_local
   tags: service_ips
 
-- debug: var=ansible_local
-  tags: service_ips
-- debug: msg="the current date is {% for host in hostvars[groups['masters'][0]].ansible_local.rcip_openshift.service.values() %},{{ host }}{% endfor %}"
-  tags: service_ips
-
+#need to add into no_proxy
+#- debug: msg="the current date is {% for host in hostvars[groups['masters'][0]].ansible_local.rcip_openshift.service.values() %},{{ host }}{% endfor %}"
+#  tags: service_ips
