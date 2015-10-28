@@ -7,6 +7,6 @@
   with_items:
     - { regexp: '^export http_proxy=.*', line: "export http_proxy='{{ proxy_env[\'http_proxy\'] }}'" }
     - { regexp: '^export https_proxy=.*', line: "export https_proxy='{{ proxy_env[\'https_proxy\'] }}'" }
-    - { regexp: '^export no_proxy=.*', line: "export no_proxy='{{ no_proxy }},{{ openshift_vip_fqdn_internal }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %}'" }
+    - { regexp: '^export no_proxy=.*', line: "export no_proxy='{{ no_proxy }},{{ openshift_vip_fqdn_internal }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %},{% for host in hostvars[groups[\"masters\"][0]].ansible_local.rcip_openshift.service.values() %},{{ host }}{% endfor %}'" }
   when: proxy_env['http_proxy']
   tags: proxyenv

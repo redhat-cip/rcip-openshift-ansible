@@ -14,7 +14,7 @@
     line: "{{ item.line }}"
   with_items:
     - { regexp: '^HTTP_PROXY=.*', line: "HTTP_PROXY='{{ proxy_env[\'http_proxy\'] }}'" }
-    - { regexp: '^NO_PROXY=.*', line: "NO_PROXY='{{ no_proxy }},{{ openshift_vip_fqdn_internal }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %}'" }
+    - { regexp: '^NO_PROXY=.*', line: "NO_PROXY='{{ no_proxy }},{{ openshift_vip_fqdn_internal }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %},{% for host in hostvars[groups[\"masters\"][0]].ansible_local.rcip_openshift.service.values() %},{{ host }}{% endfor %}'" }
   notify:
       - restart docker
   when: proxy_env['http_proxy']
