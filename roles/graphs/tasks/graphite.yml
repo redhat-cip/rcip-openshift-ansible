@@ -20,6 +20,7 @@
     - "https://github.com/graphite-project/ceres/archive/{{ ceres_commit }}.zip"
     - whisper
     - "https://github.com/graphite-project/carbon/archive/{{ carbon_commit }}.zip"
+    - graphite-web
 
 - name: set carbon.conf
   command: cp /opt/graphite/conf/carbon.conf.example /opt/graphite/conf/carbon.conf
@@ -32,16 +33,22 @@
     creates: /opt/graphite/conf/graphite.wsgi
 
 - name: setup carbon storage
-  copy: src=opt/graphite/conf/storage-schemas.conf dest=/opt/graphite/conf/storage-schemas.conf
+  copy:
+    src: opt/graphite/conf/storage-schemas.conf
+    dest: /opt/graphite/conf/storage-schemas.conf
 
 - name: setup carbon storage aggregation
-  copy: src=opt/graphite/conf/storage-aggregation.conf dest=/opt/graphite/conf/storage-aggregation.conf
+  copy:
+    src: opt/graphite/conf/storage-aggregation.conf
+    dest: /opt/graphite/conf/storage-aggregation.conf
 
 - name: add graphite user
   user: name=graphite
 
 - name: create systemd unit for carbon-cache
-  copy: src=etc/systemd/system/carbon-cache.service dest=/etc/systemd/system/carbon-cache.service
+  copy:
+    src: etc/systemd/system/carbon-cache.service
+    dest: /etc/systemd/system/carbon-cache.service
   notify:
     - daemon-reload
 
@@ -57,19 +64,11 @@
     - "/log"
     - "/log/webapp"
 
-- name: install fedora epel-release-7-5 for graphite-web
-  yum:
-    name: http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-    state: present
-
-- name: install graphite-web
-  yum: name=graphite-web state=installed
-
 # TODO: use template with variable password for mysql, port ...
 - name: configure graphite-web
   copy:
     src: opt/graphite/webapp/graphite/local_settings.py
-    dest: /etc/graphite-web/local_settings.py
+    dest: /opt/graphite/webapp/graphite/local_settings.py
 
 - name: Start carbon cache
   service: name=carbon-cache state=running enabled=yes
@@ -80,7 +79,22 @@
    creates=/opt/graphite/storage/graphite.db
   sudo_user: apache
   register: sqlite_setup
+
 - name: Wait for sqlitedb to be setup
   shell: sleep 3
   when: sqlite_setup.changed
-- file: path=/opt/graphite/storage/graphite.db owner=graphite group=apache mode=0775
+
+- name: set permission on graphite.db
+  file:
+    path: /opt/graphite/storage/graphite.db
+    owner: graphite
+    group: apache
+    mode: 0775
+
+- name: add port 3003 to httpd.conf
+  lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^Listen 3003$' line='Listen 3003'
+  notify: restart httpd
+
+- name: copy apache vhost for graphite
+  copy: src=etc/httpd/conf.d/graphite_vhost.conf dest=/etc/httpd/conf.d/graphite_vhost.conf
+  notify: restart httpd
