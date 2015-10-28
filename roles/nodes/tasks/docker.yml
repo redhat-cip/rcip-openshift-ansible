@@ -20,4 +20,4 @@
   when: proxy_env['http_proxy']
 
 - include: docker-storage.yml
-  when: manage_docker_storage
+  when: nodes_manage_docker_storage
