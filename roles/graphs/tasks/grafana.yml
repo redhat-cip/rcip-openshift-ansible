@@ -1,0 +1,19 @@
+---
+- name: install grafana via RPM
+  yum:
+    name: https://grafanarel.s3.amazonaws.com/builds/grafana-2.5.0-1.x86_64.rpm
+    state: installed
+  notify:
+    - daemon-reload
+- ini_file: dest=/etc/grafana/grafana.ini
+            section=auth.anonymous
+            option=enabled
+            value=true
+- ini_file: dest=/etc/grafana/grafana.ini
+            section=auth.basic
+            option=enabled
+            value=false
+- service:
+    name: grafana-server
+    state: started
+    enabled: yes

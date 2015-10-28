@@ -1,2 +1,5 @@
 ---
 - include: graphite.yml
+  tags: graphite
+- include: grafana.yml
+  tags: grafana
