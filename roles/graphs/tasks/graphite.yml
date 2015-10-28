@@ -89,7 +89,7 @@
     path: /opt/graphite/storage/graphite.db
     owner: graphite
     group: apache
-    mode: 0775
+    mode: 0660
 
 - name: add port 3003 to httpd.conf
   lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^Listen 3003$' line='Listen 3003'
