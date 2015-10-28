@@ -6,7 +6,7 @@ LoadPlugin disk
     Disk "/{{ collecd_disk_rootfs }}/"
     #volume docker storage
     Disk "/{{ docker_storage_dev }}1/"
-{% if ansible_fqdn in groups['masters'] %}
+{% if inventory_hostname in groups['masters'] %}
     #volume ose-registry
     Disk "/{{ collecd_disk_ose_registry }}/"
 {% endif %}

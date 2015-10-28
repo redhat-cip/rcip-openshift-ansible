@@ -1,9 +1,9 @@
 {
   "client": {
-    "name": "{{ ansible_fqdn }}",
+    "name": "{{ inventory_hostname }}",
     "address": "{{ ansible_default_ipv4['address'] }}",
     "subscriptions": [
-{% if ansible_fqdn in groups['masters'] %}
+{% if inventory_hostname in groups['masters'] %}
       "openshift-master",
 {% endif %}
       "openshift-node",

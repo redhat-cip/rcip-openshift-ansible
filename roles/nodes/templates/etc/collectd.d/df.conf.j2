@@ -2,7 +2,7 @@ LoadPlugin df
 
 <Plugin df>
     MountPoint "/"
-{% if ansible_fqdn in groups['masters'] %}
+{% if inventory_hostname in groups['masters'] %}
     MountPoint "/mnt/ose-registry"
 {% endif %}
     IgnoreSelected false

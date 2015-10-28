@@ -32,7 +32,7 @@
       - restart collectd
   with_items:
     - { regexp: '^FQDNLookup', line: 'FQDNLookup false' }
-    - { regexp: '^Hostname .*$', line: "Hostname {{ ansible_fqdn }}" }
+    - { regexp: '^Hostname .*$', line: "Hostname {{ inventory_hostname }}" }
     - { regexp: '^Include "/etc/collectd.d"$', line: 'Include "/etc/collectd.d"' }
 
 - name: collectd plugins configurations
