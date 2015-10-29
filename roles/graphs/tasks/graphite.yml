@@ -94,7 +94,3 @@
 - name: add port 3003 to httpd.conf
   lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^Listen 3003$' line='Listen 3003'
   notify: restart httpd
-
-- name: copy apache vhost for graphite
-  copy: src=etc/httpd/conf.d/graphite_vhost.conf dest=/etc/httpd/conf.d/graphite_vhost.conf
-  notify: restart httpd
