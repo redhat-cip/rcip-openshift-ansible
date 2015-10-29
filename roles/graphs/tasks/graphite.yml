@@ -57,7 +57,7 @@
     path: "/opt/graphite/storage{{ item }}"
     owner: graphite
     group: apache
-    mode: 0755
+    mode: 0775
     state: directory
   with_items:
     - ""
