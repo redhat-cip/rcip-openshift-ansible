@@ -63,6 +63,7 @@
     - ""
     - "/log"
     - "/log/webapp"
+    - "/whisper"
 
 # TODO: use template with variable password for mysql, port ...
 - name: configure graphite-web
