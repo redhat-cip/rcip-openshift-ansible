@@ -15,7 +15,7 @@
     CFLAGS: '-march=x86-64'
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
   with_items:
-    - django-tagging
+    - django-tagging==0.3.6
     - django
     - "https://github.com/graphite-project/ceres/archive/{{ ceres_commit }}.zip"
     - whisper
