@@ -6,21 +6,18 @@
     - mod_wsgi
     - python-pip
     - python-devel
+- name: get requirements.txt for graphite-web
+  get_url:
+    url: https://raw.githubusercontent.com/graphite-project/graphite-web/master/requirements.txt
+    dest: /tmp/graphite-web-requirements.txt
 
 - name: install pip packages
-  pip: "name={{ item }} state=present"
+  pip: requirements=/tmp/graphite-web-requirements.txt
   environment:
     http_proxy: "{{ proxy_env['http_proxy'] }}"
     https_proxy: "{{ proxy_env['https_proxy'] }}"
     CFLAGS: '-march=x86-64'
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
-  with_items:
-    - django-tagging
-    - django
-    - "https://github.com/graphite-project/ceres/archive/{{ ceres_commit }}.zip"
-    - whisper
-    - "https://github.com/graphite-project/carbon/archive/{{ carbon_commit }}.zip"
-    - graphite-web
 
 - name: set carbon.conf
   command: cp /opt/graphite/conf/carbon.conf.example /opt/graphite/conf/carbon.conf
