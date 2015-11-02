@@ -21,38 +21,6 @@
       - restart openshift-master
   when: proxy_env['http_proxy']
 
-#Node and registry placement
-- name: defaultNodeSelector {{ default_node_selector }} master-config.yaml
-  lineinfile:
-    dest: /etc/openshift/master/master-config.yaml
-    regexp: '^  defaultNodeSelector:.*$'
-    line: '  defaultNodeSelector: "region={{ default_node_selector }}"'
-    insertafter: '^projectConfig:\n'
-  tags: 
-         - openshift-master-config
-  notify:
-        - restart openshift-master
-
-- name: oc replace openshift.io/node-selector region=infra
-  command: "echo '{\"kind\":\"Namespace\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"default\",\"annotations\":{\"openshift.io/node-selector\": \"region=infra\"}}}' | oc replace -f -"
-  args:
-    creates: /tmp/ansible_node-selector_infra
-  register: node_selector
-
-#TODO need to replace by fact
-- name: TODO fact openshift node-selector
-  file:
-    path: /tmp/ansible_node-selector_infra
-    state: touch
-  when: node_selector|changed
-
-- name: scheduler.json openshift
-  copy:
-    src: ../files/etc/openshift/master/scheduler.json
-    dest: /etc/openshift/master/scheduler.json
-    mode: 0644
-  notify:
-        - restart openshift-master
 
 - name: ensure service openshift-master started
   service:
