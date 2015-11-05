@@ -1,11 +1,6 @@
 ---
-- include: facts.yml
-- include: mail.yml
-  tags: mail
-- include: logrotate.yml
-- include: jq.yml
-- include: gem.yml
-- include: package.yml
-- include: bashrc.yml
-- include: ntp.yml
-  tags: ntp
+- include: pre.yml
+  when: rcip_step_pre_only | bool
+
+- include: post.yml
+  when: not rcip_step_pre_only | bool

@@ -1,0 +1,10 @@
+---
+- include: facts.yml
+- include: mail.yml
+  tags: mail
+- include: logrotate.yml
+- include: jq.yml
+- include: gem.yml
+- include: bashrc.yml
+- include: ntp.yml
+  tags: ntp
