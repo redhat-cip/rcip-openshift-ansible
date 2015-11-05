@@ -11,7 +11,7 @@ yum -y install http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.
 yum --enablerepo=epel install ansible -y
 ```
 
-Run rcip-openshift-ansible <pre>
+Run pre.yml rcip-openshift-ansible 
 
 ```bash
 ansible-playbook pre.yml
@@ -30,7 +30,7 @@ ansible-playbook playbooks/byo/config.yml
 
 ## Step 3 : Setup monitoring and custom configs
 
-Run rcip-openshift-ansible <post>
+Run post.yaml rcip-openshift-ansible
 
 ```bash
 ansible-playbook post.yml
