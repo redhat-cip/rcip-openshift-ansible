@@ -1,6 +1,6 @@
 ---
-- include: pre.yml
+- include: pre/main.yml
   when: rcip_step_pre_only | bool
 
-- include: post.yml
+- include: post/main.yml
   when: not rcip_step_pre_only | bool
