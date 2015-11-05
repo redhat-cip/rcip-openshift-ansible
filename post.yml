@@ -1,12 +1,17 @@
 ---
-vars:
-  rcip_step_pre_only: false
-
 - hosts: all
   roles:
     - common
     - openshift-common
+  vars:
+    rcip_step_pre_only: false
 
 - include: nodes.yml
+  vars:
+    rcip_step_pre_only: false
 - include: masters.yml
+  vars:
+    rcip_step_pre_only: false
 - include: monitoring.yml
+  vars:
+    rcip_step_pre_only: false

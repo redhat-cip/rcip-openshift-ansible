@@ -1,11 +1,13 @@
 ---
-vars:
-  rcip_step_pre_only: false
 
 - hosts: all
   roles:
     - common
+  vars:
+    rcip_step_pre_only: false
 
 - hosts: monitoring                                                                                                                                                                                   
   roles:
       - dns
+  vars:
+    rcip_step_pre_only: false
