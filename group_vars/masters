@@ -3,6 +3,3 @@ crontab_prune_openshift_time: '*/30 * * * *'
 crontab_etcd_backup_time: '0 */12 * * *'
 crontab_etcd_backup_cold_time: '5 0 * * *'
 crontab_etcd_prune_time: '1 */12 * * *'
-
-#private
-default_node_selector: "{{ customer_default_node_selector | default('primary') }}"

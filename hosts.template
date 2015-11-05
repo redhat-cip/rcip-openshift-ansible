@@ -35,7 +35,6 @@ customer_https_proxy=http://openshiftproxy.com:8080
 customer_append_no_proxy=",.intranet.customer"
 # or if you want to overwrite default no_proxy instead:
 #customer_no_proxy="localhost,.svc.cluster.local,.intranet.customer"
-customer_default_node_selector="primary"
 # manage docker storage true/false
 manage_docker_storage=true
 
