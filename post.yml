@@ -1,4 +1,11 @@
 ---
-- include: site.yml
+- hosts: all
+  roles:
+    - common
+    - openshift-common
+
+    - include: nodes.yml
+    - include: masters.yml
+    - include: monitoring.yml
   vars:
     rcip_step_pre_only: false
