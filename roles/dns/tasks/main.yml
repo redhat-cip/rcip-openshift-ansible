@@ -4,13 +4,29 @@
   yum: name=dnsmasq state=installed
   tags: dns
 
-
-- name: config /etc/dnsmasq.d/axadns.conf
+- name: config /etc/dnsmasq.d/external.conf
   copy:
-    dest: /etc/dnsmasq.d/axadns.conf
+    dest: /etc/dnsmasq.d/external.conf
     content: "{% for s in dns_servers %}server={{ s }}\n{% endfor %}"
   tags: dns
   notify: restart dns
+
+- name: Add hostname into hosts for dnsmasq
+  lineinfile:
+     dest: /etc/hosts
+     state: present
+     line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}      {{ hostvars[item]['ansible_fqdn'] }} {{ hostvars[item]['ansible_hostname'] }}"
+  with_items: groups['all']
+
+- name: Add vip cluster
+  lineinfile:
+     dest: /etc/hosts
+     state: present
+     line: "{{ openshift_master_cluster_vip }}    {{ openshift_master_cluster_hostname }}"
+  with_items: groups['all']
+  when: openshift_master_cluster_vip
+
+- lineinfile: dest=/etc/hosts state=present line="{{ hostvars[groups['master'][0]]['ansible_default_ipv4']['address'] }} api.node1"
 
 - name: ensure start dnsmasq
   service: name=dnsmasq state=started enabled=yes
