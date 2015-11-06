@@ -17,3 +17,7 @@
 - include: monitoring.yml
   vars:
     rcip_step_pre_only: false
+
+- include: nfs.yml
+  vars:
+    rcip_step_pre_only: false

@@ -1,2 +1,5 @@
 ---
+- include: subscription.yml
+  when: subscription_pool is defined and subscription_pool
+
 - include: package.yml

@@ -4,6 +4,9 @@ Ansible to change config or set up additional stuff
 
 ## Step 1 : Prerequisite
 
+Ensure you satisfy the NetworkManager configuration describe in :
+  * https://github.com/openshift/training/blob/master/01-Requirements-and-Preparation.md#requirements
+
 Setup ansible
 
 ```bash

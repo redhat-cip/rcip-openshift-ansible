@@ -1,6 +1,14 @@
 ---
 
 #debug packages
+
+- name: upgrade all packages
+  yum: name=* state=latest
+
+- name: install docker
+  yum: name=docker state=installed
+  when: deployment_type is defined and ( deployment_type in ['origin'] )
+
 - name: install nmap-ncat
   yum: name=nmap-ncat state=installed
 
