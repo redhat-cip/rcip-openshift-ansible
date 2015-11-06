@@ -1,6 +1,5 @@
 ---
 - include: openshift-master.yml
-- include: nfs.yml
 - include: scripts.yml
 - include: crontab.yml
 - include: service_accounts.yml

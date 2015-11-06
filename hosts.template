@@ -11,6 +11,14 @@ node1.openshift.com
 [monitoring]
 monitoring.openshift.com
 
+[dns]
+#setup dnsmasq
+monitoring.openshift.com
+
+[nfs]
+#setup nfs server
+master1.openshift.com
+
 [common-openshift:children]
 masters
 nodes
@@ -26,7 +34,10 @@ sensu_mail_to="mail1@domain.com, mail2@domain"
 #wildcard to generate router certificat
 openshift_wildcard_dns="*.{{ customer_domain }}"
 
+#
 #Optional
+#
+
 customer_docker_storage_dev=xvdf
 customer_collecd_disk_rootfs=xvda2
 customer_collecd_disk_ose_registry=xvdg
@@ -38,14 +49,22 @@ customer_append_no_proxy=",.intranet.customer"
 # manage docker storage true/false
 manage_docker_storage=true
 
-customer_sensu_httpd_port='443'
-customer_sensu_httpd_ssl='true'
-customer_grafana_httpd_port='443'
-customer_grafana_httpd_ssl='true'
-customer_kibana_httpd_port='443'
-customer_kibana_httpd_ssl='true'
+# Subscriptions. If you want to automatically register all your nodes.
+# subscription_name='username'
+# subscription_pass='password'
+# subscription_pool='^Openshift Standard.*$'
+
+# customer_sensu_httpd_port='443'
+# customer_sensu_httpd_ssl='true'
+# customer_grafana_httpd_port='443'
+# customer_grafana_httpd_ssl='true'
+# customer_kibana_httpd_port='443'
+# customer_kibana_httpd_ssl='true'
+
 ntp_servers=["ntp1.customer", "ntp2.customer"]
 dns_servers=["10.0.0.1", "10.0.0.2"]
 postfix_relayhost="smtp.mycustomer.intranet"
 postfix_myorigin="smtp.mycustomer.com"
 timezone="Europe/Paris"
+
+

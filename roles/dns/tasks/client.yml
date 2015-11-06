@@ -1,0 +1,6 @@
+---
+
+- name: configure /etc/resolv.conf with {{ hostvars[groups['dns'][0]] }} ip
+  copy:
+    dest: /etc/resolv.conf
+    content: "nameserver {{ hostvars[groups['dns'][0]]['ansible_default_ipv4']['address']  }}"
