@@ -1,5 +1,12 @@
 #can use your /etc/ansible/hosts
 
+[OSEv3:children]
+masters
+nodes
+etcd
+nfs
+dns
+
 [masters]
 master.openshift.com
 
