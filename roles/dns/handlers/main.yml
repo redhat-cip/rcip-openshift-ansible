@@ -1,16 +1,3 @@
 ---
-- name: restart dns
-  service: name=dnsmasq state=restarted
-  tags: dns
-
-- name: Add iptables for dnsmasq
-  lineinfile:
-    dest: /etc/sysconfig/iptables
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    insertbefore: "^COMMIT$"
-  with_items:
-    - { regexp: '^-A INPUT -p tcp --dport 53 -j ACCEPT$', line: '-A INPUT -p tcp --dport 53 -j ACCEPT' }
-    - { regexp: '^-A INPUT -p udp --dport 53 -j ACCEPT$', line: '-A INPUT -p udp --dport 53 -j ACCEPT' }
-  notify:
-        - allow dns query
+- include: iptables.yml
+- include: dnsmasq.yml
