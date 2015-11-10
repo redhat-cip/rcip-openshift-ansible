@@ -1,7 +1,7 @@
 ---
 - name: loglevel openshift-node
   lineinfile:
-    dest: /etc/sysconfig/openshift-node
+    dest: "/etc/sysconfig/{{ nodes_etc_config }}-node"
     regexp: '^OPTIONS=(.*)--loglevel=[0-9](.*)$'
     line: 'OPTIONS=\1--loglevel={{ loglevel_openshift_node }}\2'
     backrefs: yes
@@ -12,7 +12,7 @@
 
 - name: DOCKER_NETWORK_OPTIONS mtu openshift-node
   lineinfile:
-    dest: /etc/sysconfig/openshift-node
+    dest: "/etc/sysconfig/{{ nodes_etc_config }}-node"
     regexp: '^DOCKER_NETWORK_OPTIONS=.*$'
     line: 'DOCKER_NETWORK_OPTIONS={{ docker_network_options }}'
   notify:
@@ -20,7 +20,7 @@
 
 - name: http_proxy openshift-node
   lineinfile:
-    dest: /etc/sysconfig/openshift-node
+    dest: "/etc/sysconfig/{{ nodes_etc_config }}-node"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
@@ -36,14 +36,14 @@
 #Update max-pods in node-config.yaml max-pods 100
 - name: Add kubeletArguments section in node-config.yaml
   lineinfile:
-    dest: /etc/openshift/node/node-config.yaml
+    dest: "/etc/{{ nodes_etc_config }}/node/node-config.yaml"
     line: 'kubeletArguments:'
   tags:
          - openshift-node
 
 - name: Add max-pods in node-config.yaml
   lineinfile:
-    dest: /etc/openshift/node/node-config.yaml
+    dest: "/etc/{{ nodes_etc_config }}/node/node-config.yaml"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     insertafter: "{{ item.insertafter }}"
@@ -55,8 +55,8 @@
   notify:
         - restart openshift-node
 
-- name: ensure service openshift-node started
+- name: "ensure service {{ nodes_deamon_name }} started"
   service:
-       name: openshift-node
+       name: "{{ nodes_deamon_name }}"
        state: started
        enabled: yes

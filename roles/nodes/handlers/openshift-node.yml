@@ -1,3 +1,5 @@
 ---
-- name: restart openshift-node
-  service: name=openshift-node state=restarted
+- name: "restart {{ nodes_deamon_name }}"
+  service: 
+       name: "{{ nodes_deamon_name }}"
+       state: restarted
