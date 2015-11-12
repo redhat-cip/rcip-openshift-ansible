@@ -1,0 +1,106 @@
+---
+
+- name: Add repos /etc/yum.repos.d/sensu.repo
+  template:
+       src: "etc/yum.repos.d/repo.template.j2"
+       dest: "/etc/yum.repos.d/sensu.repo"
+       owner: root
+       group: root
+       mode: 0644
+  with_items:
+       - { name: "sensu",
+           baseurl: "http://repos.sensuapp.org/yum/el/$basearch/",
+           gpgcheck: 0,
+           enabled: 1 }
+
+- name: install sensu
+  yum: name=sensu state=installed
+
+
+- name: sensu-client config
+  template:
+       src: "{{ item.src }}"
+       dest: "{{ item.dest }}"
+       owner: root
+       group: root
+       mode: 0644
+  notify:
+       - restart sensu-client
+  with_items:
+       - { src: 'etc/sensu/conf.d/client.json.j2', dest: '/etc/sensu/conf.d/client.json' }
+       - { src: 'etc/sensu/config.json.j2', dest: '/etc/sensu/config.json' }
+
+
+#Check depend
+- name: install ruby
+  yum: name=ruby state=installed
+
+- name: install bc
+  yum: name=bc state=installed
+
+- name: install gem
+  yum: name=gem state=installed
+
+- name: install gcc-c++
+  yum: name=gcc-c++ state=installed
+
+#- name: install ruby-devel
+#  yum: name=ruby-devel state=installed
+
+- name: install the ruby-devel-2.0.0.598-25.el7 rpm from a remote repo
+  yum:
+    name: http://rpmfind.net/linux/centos/7.1.1503/updates/x86_64/Packages/ruby-devel-2.0.0.598-25.el7_1.x86_64.rpm
+    state: present
+
+
+#check
+- name: gem install sensu-plugin
+  environment: proxy_env
+  gem: name=sensu-plugin state=present user_install=no
+
+- name: gem install sensu-plugins-process-checks
+  environment: proxy_env
+  gem: name=sensu-plugins-process-checks state=present user_install=no
+
+- name: gem install sensu-plugins-network-checks
+  environment: proxy_env
+  gem: name=sensu-plugins-network-checks state=present user_install=no
+
+- name: gem install sensu-plugins-load-checks
+  environment: proxy_env
+  gem: name=sensu-plugins-load-checks state=present user_install=no
+
+- name: gem install sensu-plugins-memory-checks
+  environment: proxy_env
+  gem: name=sensu-plugins-memory-checks state=present user_install=no
+
+- name: gem install sensu-plugins-disk-checks
+  environment: proxy_env
+  gem: name=sensu-plugins-disk-checks state=present user_install=no
+
+- name: gem install sensu-plugins-http
+  environment: proxy_env
+  gem: name=sensu-plugins-http state=present user_install=no
+
+#http://nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
+- name: copy /etc/sensu/plugins/check_disk
+  copy: src=etc/sensu/plugins/check_disk dest=/etc/sensu/plugins/check_disk
+- name: chmod /etc/sensu/plugins/check_disk
+  file: path=/etc/sensu/plugins/check_disk state=file mode=0755
+
+
+- name: ensure service sensu-client started
+  service:
+       name: sensu-client
+       state: started
+       enabled: yes
+
+- name: loglevel sensu present
+  lineinfile:
+    dest: /etc/default/sensu
+    regexp: '^LOG_LEVEL=.*$'
+    line: 'LOG_LEVEL={{ loglevel_sensuclient }}'
+    state: present
+  notify:
+          - restart sensu-client
+
