@@ -16,6 +16,7 @@
        mode: 0644
 
 - name: "chmod 644 /etc/{{ masters_etc_config }}/master/master.etcd-client.key"
+  file:
        path: "/etc/{{ masters_etc_config }}/master/master.etcd-client.key"
        owner: root
        group: root
