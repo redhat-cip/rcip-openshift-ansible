@@ -1,6 +1,6 @@
 ---
 
 masters_deployment_type: "{{ deployment_type | default('openshift') }}"
-master_deamon_name: "{% if deployment_type == 'origin' %}origin-master{% else %}openshift-master{% endif %}"
+masters_deamon_name: "{% if deployment_type == 'origin' %}origin-master{% else %}openshift-master{% endif %}"
 
-master_etc_config: "{% if deployment_type == 'origin' %}origin{% else %}openshift{% endif %}"
+masters_etc_config: "{% if deployment_type == 'origin' %}origin{% else %}openshift{% endif %}"

@@ -1,7 +1,7 @@
 ---
 - name: loglevel openshift-master
   lineinfile:
-    dest: "/etc/sysconfig/{{ master_etc_config }}-master"
+    dest: "/etc/sysconfig/{{ masters_etc_config }}-master"
     regexp: '^OPTIONS=(.*)--loglevel=[0-9](.*)$'
     line: 'OPTIONS=\1--loglevel={{ loglevel_openshift_master }}\2'
     backrefs: yes
@@ -10,7 +10,7 @@
 
 - name: http_proxy openshift-master
   lineinfile:
-    dest: "/etc/sysconfig/{{ master_etc_config }}-master"
+    dest: "/etc/sysconfig/{{ masters_etc_config }}-master"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:

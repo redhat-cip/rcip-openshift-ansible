@@ -1,5 +1,5 @@
 ---
 - name: restart openshift-master
   service:
-     name: "{{ master_deamon_name }}"
+     name: "{{ masters_deamon_name }}"
      state: restarted
