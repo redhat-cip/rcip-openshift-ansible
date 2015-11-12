@@ -25,8 +25,8 @@ oc delete pod docker-registry-1-deploy
 #oadm manage-node {{ inventory_hostname }} --schedulable=true
 
 oadm registry --create --service-account=registry \
-  --config=/etc/openshift/master/admin.kubeconfig \
-  --credentials=/etc/openshift/master/openshift-registry.kubeconfig \
+  --config=/etc/{{ masters_etc_config }}/master/admin.kubeconfig \
+  --credentials=/etc/{{ masters_etc_config }}/master/openshift-registry.kubeconfig \
   --images='registry.access.redhat.com/openshift3/ose-${component}:${version}' \
   --mount-host={{openshift_registry_mount_host}} --selector="region=infra"
 

@@ -5,7 +5,7 @@ set -x
 #delete router
 #oc delete rc router-1; oc delete svc router; oc delete dc router
 
-CA=/etc/openshift/master
+CA=/etc/{{ masters_etc_config }}/master
 
 if [[ ! -e $CA/cloudapps.router.pem ]];then
   oadm ca create-server-cert --signer-cert=$CA/ca.crt \
@@ -17,6 +17,6 @@ fi
 
 
 oadm router --default-cert=$CA/cloudapps.router.pem \
---credentials=/etc/openshift/master/openshift-router.kubeconfig \
+--credentials=$CA/openshift-router.kubeconfig \
 --images='openshift3/ose-${component}:${version}' \
 --selector='region=infra'  --service-account=router

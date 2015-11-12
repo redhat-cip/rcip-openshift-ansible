@@ -8,8 +8,15 @@
   environment: proxy_env
   gem: name=sensu-plugins-etcd state=present user_install=no
 
-- name: chmod 644 /etc/openshift/master/master.etcd-client.crt
-  file: path=/etc/openshift/master/master.etcd-client.crt owner=root group=root mode=0644
+- name: "chmod 644 /etc/{{ masters_etc_config }}/master/master.etcd-client.crt"
+  file:
+       path: "/etc/{{ masters_etc_config }}/master/master.etcd-client.crt"
+       owner: root
+       group: root
+       mode: 0644
 
-- name: chmod 644 /etc/openshift/master/master.etcd-client.key
-  file: path=/etc/openshift/master/master.etcd-client.key owner=root group=root mode=0644
+- name: "chmod 644 /etc/{{ masters_etc_config }}/master/master.etcd-client.key"
+       path: "/etc/{{ masters_etc_config }}/master/master.etcd-client.key"
+       owner: root
+       group: root
+       mode: 0644
