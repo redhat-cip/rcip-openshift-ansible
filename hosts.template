@@ -6,6 +6,7 @@ nodes
 etcd
 nfs
 dns
+monitoring
 
 [masters]
 master.openshift.com
