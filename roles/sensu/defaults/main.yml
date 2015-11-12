@@ -1,0 +1,4 @@
+---
+
+sensu_deployment_type: "{{ deployment_type | default('openshift') }}"
+sensu_openshift_etc_config: "{% if sensu_deployment_type == 'origin' %}origin{% else %}openshift{% endif %}"
