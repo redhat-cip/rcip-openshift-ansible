@@ -1,0 +1,12 @@
+---
+- name: restart openshift-master
+  service:
+     name: "{{ masters_deamon_name }}-controllers"
+     state: restarted
+  notify: restart openshift-master-api
+
+
+- name: restart openshift-master-api
+  service:
+     name: "{{ masters_deamon_name }}-api"
+     state: restarted

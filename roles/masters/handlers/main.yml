@@ -1,4 +1,9 @@
 ---
 - include: openshift-master.yml
+  when: (openshift_master_cluster_method is defined and openshift_master_cluster_method == "pacemaker") or openshift_master_cluster_method is not defined
+
+- include: openshift-master-native.yml
+  when: openshift_master_cluster_method is defined and openshift_master_cluster_method == "native"
+
 - include: nfs.yml
 - include: sysctl.yml
