@@ -28,9 +28,9 @@
     creates: /opt/graphite/conf/carbon.conf
 
 - name: set graphite.wsgi
-  command: cp /opt/graphite/conf/graphite.wsgi.example /opt/graphite/conf/graphite.wsgi
-  args:
-    creates: /opt/graphite/conf/graphite.wsgi
+  copy:
+    src: opt/graphite/conf/graphite.wsgi
+    dest: /opt/graphite/conf/graphite.wsgi
 
 - name: setup carbon storage
   copy:
