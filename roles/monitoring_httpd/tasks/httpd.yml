@@ -10,6 +10,9 @@
 - name: install mod_wsgi
   yum: name=mod_wsgi state=installed
 
+- name: install iptables-services
+  yum: name=iptables-services state=installed
+
 - name: httpd security rules (iptables / selinux)
   lineinfile:
     dest: /etc/sysconfig/iptables
