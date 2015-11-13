@@ -5,4 +5,4 @@ ntp_servers:
   - 2.rhel.pool.ntp.org
   - 3.rhel.pool.ntp.org
 timezone: 'America/New_York'
-postfix_myorigin: {{ customer_domain }}
+postfix_myorigin: "{{ customer_domain }}"
