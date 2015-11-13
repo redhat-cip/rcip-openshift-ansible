@@ -1,2 +1,3 @@
 ---
 - include: httpd.yml
+  tags: monitoring_httpd
