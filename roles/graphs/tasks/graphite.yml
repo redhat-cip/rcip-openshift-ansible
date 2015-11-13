@@ -59,6 +59,7 @@
     group: apache
     mode: 0775
     state: directory
+    recurse: yes
   with_items:
     - ""
     - "/log"
