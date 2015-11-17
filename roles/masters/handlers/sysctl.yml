@@ -1,3 +1,0 @@
----
-- name: persist the sysctl changes
-  command: /usr/sbin/sysctl -p
