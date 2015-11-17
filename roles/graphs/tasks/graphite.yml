@@ -55,22 +55,32 @@
 - name: Set right permissions for some dir in /opt/graphite
   file:
     path: "/opt/graphite/storage{{ item }}"
-    owner: graphite
-    group: apache
-    mode: 0775
     state: directory
-    recurse: yes
+    mode: 0775
   with_items:
     - ""
     - "/log"
     - "/log/webapp"
     - "/whisper"
+- name: Set right owner:groups recursively for /opt/graphite/storage
+  file:
+    path: "/opt/graphite/storage"
+    owner: graphite
+    group: apache
+    state: directory
+    recurse: yes
+
+- shell: semanage fcontext -l | grep '/opt/graphite/storage/log/webapp(/.*)?' | grep httpd_log_t && echo 1 > /root/.ansible_fcontext_graphite
+  args:
+    creates: /root/.ansible_fcontext_graphite
+  register: context_present
 
 - name: Set SELinux fcontext for apache to be able to use log dir for wsgi
   command: "{{ item }}"
   with_items:
     - semanage fcontext -a -t httpd_log_t "/opt/graphite/storage/log/webapp(/.*)?"
     - restorecon -R -v /opt/graphite/storage/log/webapp
+  when: context_present|failed
 
 # TODO: use template with variable password for mysql, port ...
 - name: configure graphite-web
