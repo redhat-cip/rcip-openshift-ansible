@@ -1,6 +1,10 @@
 ---
 
 masters_deployment_type: "{{ deployment_type | default('openshift') }}"
-masters_deamon_name: "{% if deployment_type == 'origin' %}origin-master{% else %}openshift-master{% endif %}"
+
+masters_openshift_master_cluster_method: "{{ openshift_master_cluster_method | default('pacemaker') }}"
+
+masters_deamon_name: "{% if deployment_type == 'origin' %}origin-master{% else %}openshift-master{% endif %}{% if masters_openshift_master_cluster_method == 'native' %}-api{% endif %}"
+masters_deamon_name_controllers: "{% if deployment_type == 'origin' %}origin-master{% else %}openshift-master{% endif %}{% if masters_openshift_master_cluster_method == 'native' %}-controllers{% endif %}"
 
 masters_etc_config: "{% if deployment_type == 'origin' %}origin{% else %}openshift{% endif %}"
