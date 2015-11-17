@@ -1,3 +1,2 @@
 ---
 - include: openshift-master.yml
-- include: sysctl.yml
