@@ -38,9 +38,12 @@
        state: started
        enabled: yes
 
+# TODO: fix the ugly workaround of setting ignore_errors
+#       the controllers service tries to start even if it is already started
 - name: ensure service openshift-master-controllers started
   service:
        name: "{{ masters_deamon_name_controllers }}"
        state: started
        enabled: yes
   when: masters_openshift_master_cluster_method == 'native'
+  ignore_errors: yes
