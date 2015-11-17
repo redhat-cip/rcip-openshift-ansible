@@ -66,6 +66,12 @@
     - "/log/webapp"
     - "/whisper"
 
+- name: Set SELinux fcontext for apache to be able to use log dir for wsgi
+  command: "{{ item }}"
+  with_items:
+    - semanage fcontext -a -t httpd_log_t "/opt/graphite/storage/log/webapp(/.*)?"
+    - restorecon -R -v /opt/graphite/storage/log/webapp
+
 # TODO: use template with variable password for mysql, port ...
 - name: configure graphite-web
   copy:
