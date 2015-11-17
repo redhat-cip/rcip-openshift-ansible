@@ -1,5 +1,13 @@
 ---
-- name: restart openshift-master
+
+- name: restart openshift-master-api
   service:
      name: "{{ masters_deamon_name }}"
      state: restarted
+#  notify: restart openshift-master-controllers
+
+- name: restart openshift-master-controllers
+  service:
+     name: "{{ masters_deamon_name_controllers }}"
+     state: restarted
+#  when: masters_openshift_master_cluster_method == 'native'
