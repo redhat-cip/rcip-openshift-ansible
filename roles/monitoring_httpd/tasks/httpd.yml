@@ -26,6 +26,8 @@
   notify:
         - httpd security rules
 
+- meta: flush_handlers
+
 - name: httpd listen {{ graphite_port }} {{ sensu_httpd_port }} {{ grafana_httpd_port }} {{ kibana_httpd_port }}
   lineinfile:
     dest: /etc/httpd/conf/httpd.conf
