@@ -29,9 +29,6 @@
   service: name=dnsmasq state=started enabled=yes
   tags: dns
 
-- name: install iptables-services                                                                                                                                                                     
-  yum: name=iptables-services state=installed
-
 - name: allow port 53 iptables                                                                                                                                                     
   lineinfile:
     dest: /etc/sysconfig/iptables

@@ -26,3 +26,6 @@
 
 - name: install docker-python
   yum: name=docker-python state=installed
+
+- name: install iptables-services
+  yum: name=iptables-services state=installed

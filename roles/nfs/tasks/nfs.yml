@@ -45,9 +45,6 @@
   with_items:
     - { line: '/var/export/vol1 *(rw,sync,all_squash)' }
 
-- name: install iptables-services                                                                                                                                                                     
-  yum: name=iptables-services state=installed
-
 - name: Add iptables NFS
   lineinfile:
     dest: /etc/sysconfig/iptables
