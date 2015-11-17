@@ -1,12 +1,22 @@
 ---
-- name: loglevel openshift-master
+- name: loglevel openshift-master api
   lineinfile:
-    dest: "/etc/sysconfig/{{ masters_etc_config }}-master"
+    dest: "/etc/sysconfig/{{ masters_deamon_name }}"
     regexp: '^OPTIONS=(.*)--loglevel=[0-9](.*)$'
     line: 'OPTIONS=\1--loglevel={{ loglevel_openshift_master }}\2'
     backrefs: yes
   notify:
-        - restart openshift-master
+      - restart openshift-master-api
+
+- name: loglevel openshift-master controllers
+  lineinfile:
+    dest: "/etc/sysconfig/{{ masters_deamon_name_controllers }}"
+    regexp: '^OPTIONS=(.*)--loglevel=[0-9](.*)$'
+    line: 'OPTIONS=\1--loglevel={{ loglevel_openshift_master }}\2'
+    backrefs: yes
+  notify:
+      - restart openshift-master-api
+  when: masters_openshift_master_cluster_method == 'native'
 
 - name: http_proxy openshift-master
   lineinfile:
@@ -18,12 +28,19 @@
     - { regexp: '^HTTPS_PROXY=.*', line: "HTTPS_PROXY='{{ proxy_env[\'https_proxy\'] }}'" }
     - { regexp: '^NO_PROXY=.*', line: "NO_PROXY='{{ no_proxy }},{{ openshift_vip_fqdn_internal }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %}{% for host in hostvars[groups[\"masters\"][0]].ansible_local.rcip_openshift.service.values() %},{{ host }}{% endfor %}'" }
   notify:
-      - restart openshift-master
+      - restart openshift-master-api
   when: proxy_env['http_proxy']
 
 
-- name: ensure service openshift-master started
+- name: ensure service openshift-master api started
   service:
        name: "{{ masters_deamon_name }}"
        state: started
        enabled: yes
+
+- name: ensure service openshift-master-controllers started
+  service:
+       name: "{{ masters_deamon_name_controllers }}"
+       state: started
+       enabled: yes
+  when: masters_openshift_master_cluster_method == 'native'
