@@ -1,18 +1,22 @@
 ---
-- name: write Sensu check JSON config
+- name: write Sensu check JSON config file
   copy:
     src: "etc/sensu/conf.d/check_{{ item }}.json"
     dest: "/etc/sensu/conf.d/check_{{ item }}.json"
+  with_items:
+    - default
+  tags: sensu monitoring
   notify:
     - restart sensu-server
     - restart sensu-api
-  tags: sensu monitoring
-  with_items:
-    - default
-    - openshift-node
 
-- name: write Sensu default_openshift-master.json
-  template: src=etc/sensu/conf.d/check_openshift-master.json.j2 dest=/etc/sensu/conf.d/check_openshift-master.json
+- name: write Sensu check JSON config template
+  template:
+    src: "etc/sensu/conf.d/check_{{ item }}.json.j2"
+    dest: "/etc/sensu/conf.d/check_{{ item }}.json"
+  with_items:
+    - openshift-master
+    - openshift-node
   notify:
     - restart sensu-server
     - restart sensu-api
