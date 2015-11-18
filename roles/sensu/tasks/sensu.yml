@@ -2,18 +2,19 @@
 #- name: Import elasticsearch gpg key
 #  rpm_key: state=present key=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
 
-- name: Add repos /etc/yum.repos.d/sensu.repo
-  template:
-       src: "etc/yum.repos.d/repo.template.j2"
-       dest: "/etc/yum.repos.d/sensu.repo"
-       owner: root
-       group: root
-       mode: 0644
-  with_items:
-       - { name: "sensu",
-           baseurl: "http://repos.sensuapp.org/yum/el/$basearch/",
-           gpgcheck: 0,
-           enabled: 1 }
+#Already in common
+#- name: Add repos /etc/yum.repos.d/sensu.repo
+#  template:
+#       src: "etc/yum.repos.d/repo.template.j2"
+#       dest: "/etc/yum.repos.d/sensu.repo"
+#       owner: root
+#       group: root
+#       mode: 0644
+#  with_items:
+#       - { name: "sensu",
+#           baseurl: "http://repos.sensuapp.org/yum/el/$basearch/",
+#           gpgcheck: 0,
+#           enabled: 1 }
 
 - name: install fedora epel-release-7-5 for rabbitmq
   yum: name=http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm state=present
@@ -71,18 +72,3 @@
        name: sensu-api
        state: started
        enabled: yes
-
-#optional
-- name: install gem
-  yum: name=gem state=installed
-
-- name: install gcc-c++
-  yum: name=gcc-c++ state=installed
-
-#- name: install ruby-devel
-#  yum: name=ruby-devel state=installed
-
-- name: install the ruby-devel-2.0.0.598-25.el7 rpm from a remote repo
-  yum:
-    name: http://rpmfind.net/linux/centos/7.1.1503/updates/x86_64/Packages/ruby-devel-2.0.0.598-25.el7_1.x86_64.rpm
-    state: present
