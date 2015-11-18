@@ -2,3 +2,5 @@
 
 sensu_deployment_type: "{{ deployment_type | default('openshift') }}"
 sensu_openshift_etc_config: "{% if sensu_deployment_type == 'origin' %}origin{% else %}openshift{% endif %}"
+
+sensu_openshift_base_api: "{{ openshift_base_api | default('/api/v1/') }}"

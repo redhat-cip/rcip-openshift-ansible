@@ -8,5 +8,3 @@ masters_deamon_name: "{% if deployment_type == 'origin' %}origin-master{% else %
 masters_deamon_name_controllers: "{% if deployment_type == 'origin' %}origin-master{% else %}openshift-master{% endif %}{% if masters_openshift_master_cluster_method == 'native' %}-controllers{% endif %}"
 
 masters_etc_config: "{% if deployment_type == 'origin' %}origin{% else %}openshift{% endif %}"
-
-masters_openshift_base_api: "{{ openshift_base_api | default('/api/v1/') }}"
