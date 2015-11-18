@@ -6,6 +6,9 @@
 {% if inventory_hostname in groups['masters'] %}
       "openshift-master",
 {% endif %}
+{% if inventory_hostname in groups['etcd'] %}
+      "etcd",
+{% endif %}
       "openshift-node",
       "default"
     ]

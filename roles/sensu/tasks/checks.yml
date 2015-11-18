@@ -17,3 +17,12 @@
     - restart sensu-server
     - restart sensu-api
   tags: sensu monitoring
+
+- name: write Sensu default_etcd.json
+  template:
+    src: etc/sensu/conf.d/check_etcd.json.j2
+    dest: /etc/sensu/conf.d/check_etcd.json
+  notify:
+    - restart sensu-server
+    - restart sensu-api
+  tags: sensu monitoring
