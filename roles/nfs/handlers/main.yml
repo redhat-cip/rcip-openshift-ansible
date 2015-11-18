@@ -2,3 +2,4 @@
 
 - include: sysctl.yml
 - include: iptables.yml
+- include: sensu.yml
