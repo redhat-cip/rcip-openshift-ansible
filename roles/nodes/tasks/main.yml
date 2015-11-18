@@ -1,5 +1,4 @@
 ---
-- include: sensu.yml
 - include: openshift-node.yml
 - include: udev_fix.yml
 - include: docker.yml

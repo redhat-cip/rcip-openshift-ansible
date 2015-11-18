@@ -8,3 +8,5 @@
 - include: bashrc.yml
 - include: ntp.yml
   tags: ntp
+- include: sensu.yml
+  tags: sensu-client

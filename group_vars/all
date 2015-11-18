@@ -24,3 +24,4 @@ proxy_env:
   https_proxy: "{{ customer_https_proxy | default(None) }}"
 
 no_proxy: "{{ customer_no_proxy | default('localhost,.svc.cluster.local') }}{{ customer_append_no_proxy | default(None) }}"
+loglevel_sensuclient: error

@@ -1,25 +1,23 @@
 ---
-
 - name: Add repos /etc/yum.repos.d/sensu.repo
   template:
-       src: "etc/yum.repos.d/repo.template.j2"
+       src: "../../templates/etc/yum.repos.d/repo.template.j2"
        dest: "/etc/yum.repos.d/sensu.repo"
        owner: root
        group: root
        mode: 0644
   with_items:
-       - { name: "sensu",
-           baseurl: "http://repos.sensuapp.org/yum/el/$basearch/",
-           gpgcheck: 0,
-           enabled: 1 }
+       - name: "sensu"
+         baseurl: "http://repos.sensuapp.org/yum/el/$basearch/"
+         gpgcheck: 0
+         enabled: 1
 
 - name: install sensu
   yum: name=sensu state=installed
 
-
 - name: sensu-client config
   template:
-       src: "{{ item.src }}"
+       src: "../../templates/{{ item.src }}"
        dest: "{{ item.dest }}"
        owner: root
        group: root
@@ -27,11 +25,12 @@
   notify:
        - restart sensu-client
   with_items:
-       - { src: 'etc/sensu/conf.d/client.json.j2', dest: '/etc/sensu/conf.d/client.json' }
-       - { src: 'etc/sensu/config.json.j2', dest: '/etc/sensu/config.json' }
+       - src: 'etc/sensu/conf.d/client.json.j2'
+         dest: '/etc/sensu/conf.d/client.json'
+       - src: 'etc/sensu/config.json.j2'
+         dest: '/etc/sensu/config.json'
 
-
-#Check depend
+# Checks prerequisites
 - name: install ruby
   yum: name=ruby state=installed
 
@@ -44,16 +43,12 @@
 - name: install gcc-c++
   yum: name=gcc-c++ state=installed
 
-#- name: install ruby-devel
-#  yum: name=ruby-devel state=installed
-
 - name: install the ruby-devel-2.0.0.598-25.el7 rpm from a remote repo
   yum:
     name: http://rpmfind.net/linux/centos/7.1.1503/updates/x86_64/Packages/ruby-devel-2.0.0.598-25.el7_1.x86_64.rpm
     state: present
 
-
-#check
+# Checks
 - name: gem install sensu-plugin
   environment: proxy_env
   gem: name=sensu-plugin state=present user_install=no
@@ -84,20 +79,24 @@
 
 #http://nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
 - name: copy /etc/sensu/plugins/check_disk
-  copy: src=etc/sensu/plugins/check_disk dest=/etc/sensu/plugins/check_disk
+  copy:
+    src: ../../files/etc/sensu/plugins/check_disk
+    dest: /etc/sensu/plugins/check_disk
 - name: chmod /etc/sensu/plugins/check_disk
   file: path=/etc/sensu/plugins/check_disk state=file mode=0755
 
 #git clone https://github.com/newrelic/check_docker.git
 - name: copy /etc/sensu/plugins/check_docker
-  copy: src=etc/sensu/plugins/check_docker dest=/etc/sensu/plugins/check_docker
+  copy:
+    src: ../../files/etc/sensu/plugins/check_docker
+    dest: /etc/sensu/plugins/check_docker
 - name: chmod /etc/sensu/plugins/check_docker
   file: path=/etc/sensu/plugins/check_docker state=file mode=0755
 
 - name: symlink /opt/rcip-openshift-scripts/monitoring-plugins /etc/sensu/plugins/monitoring-plugins
   file: src=/opt/rcip-openshift-scripts/monitoring-plugins
         path=/etc/sensu/plugins/monitoring-plugins
-        state=link 
+        state=link
         force=yes
 
 - name: Add /etc/sudoers.d/sensu
@@ -111,9 +110,9 @@
 
 - name: ensure service sensu-client started
   service:
-       name: sensu-client
-       state: started
-       enabled: yes
+    name: sensu-client
+    state: started
+    enabled: yes
 
 - name: loglevel sensu present
   lineinfile:
@@ -122,5 +121,4 @@
     line: 'LOG_LEVEL={{ loglevel_sensuclient }}'
     state: present
   notify:
-          - restart sensu-client
-
+    - restart sensu-client
