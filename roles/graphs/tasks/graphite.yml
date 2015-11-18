@@ -73,6 +73,7 @@
 - shell: semanage fcontext -l | grep '/opt/graphite/storage/log/webapp(/.*)?' | grep httpd_log_t && echo 1 > /root/.ansible_fcontext_graphite
   args:
     creates: /root/.ansible_fcontext_graphite
+  ignore_errors: True
   register: context_present
 
 - name: Set SELinux fcontext for apache to be able to use log dir for wsgi
