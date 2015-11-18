@@ -10,9 +10,7 @@ set -e
 #mount -a
 
 #delete registry
-oc delete dc docker-registry
-oc delete svc docker-registry
-oc delete pod docker-registry-1-deploy
+#oc delete dc docker-registry; oc delete svc docker-registry; oc delete pod docker-registry-1-deploy
 
 #For <=3.0.1 First setup, need to create ServiceAccount
 #echo \
