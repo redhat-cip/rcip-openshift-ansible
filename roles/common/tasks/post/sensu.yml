@@ -31,51 +31,32 @@
          dest: '/etc/sensu/config.json'
 
 # Checks prerequisites
-- name: install ruby
-  yum: name=ruby state=installed
-
-- name: install bc
-  yum: name=bc state=installed
-
-- name: install gem
-  yum: name=gem state=installed
-
-- name: install gcc-c++
-  yum: name=gcc-c++ state=installed
-
-- name: install the ruby-devel-2.0.0.598-25.el7 rpm from a remote repo
+- name: install common packages sensu
   yum:
-    name: http://rpmfind.net/linux/centos/7.1.1503/updates/x86_64/Packages/ruby-devel-2.0.0.598-25.el7_1.x86_64.rpm
-    state: present
+    name: "{{ item }}"
+    state: installed
+  with_items:
+       - ruby
+       - bc
+       - gem
+       - gcc-c++
+       - http://rpmfind.net/linux/centos/7.1.1503/updates/x86_64/Packages/ruby-devel-2.0.0.598-25.el7_1.x86_64.rpm
 
 # Checks
-- name: gem install sensu-plugin
+- name: install common gems sensu
   environment: proxy_env
-  gem: name=sensu-plugin state=present user_install=no
-
-- name: gem install sensu-plugins-process-checks
-  environment: proxy_env
-  gem: name=sensu-plugins-process-checks state=present user_install=no
-
-- name: gem install sensu-plugins-network-checks
-  environment: proxy_env
-  gem: name=sensu-plugins-network-checks state=present user_install=no
-
-- name: gem install sensu-plugins-load-checks
-  environment: proxy_env
-  gem: name=sensu-plugins-load-checks state=present user_install=no
-
-- name: gem install sensu-plugins-memory-checks
-  environment: proxy_env
-  gem: name=sensu-plugins-memory-checks state=present user_install=no
-
-- name: gem install sensu-plugins-disk-checks
-  environment: proxy_env
-  gem: name=sensu-plugins-disk-checks state=present user_install=no
-
-- name: gem install sensu-plugins-http
-  environment: proxy_env
-  gem: name=sensu-plugins-http state=present user_install=no
+  gem:
+    name: "{{ item }}"
+    state: present
+    user_install: no
+  with_items:
+       - sensu-plugin
+       - sensu-plugins-process-checks
+       - sensu-plugins-network-checks
+       - sensu-plugins-load-checks
+       - sensu-plugins-memory-checks
+       - sensu-plugins-disk-checks
+       - sensu-plugins-http
 
 #http://nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
 - name: copy /etc/sensu/plugins/check_disk

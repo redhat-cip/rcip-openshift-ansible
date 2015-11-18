@@ -2,6 +2,7 @@
 
 #debug packages
 
+
 - name: upgrade all packages
   yum: name=* state=latest
 
@@ -9,23 +10,15 @@
   yum: name=docker state=installed
   when: deployment_type is defined and ( deployment_type in ['origin'] )
 
-- name: install nmap-ncat
-  yum: name=nmap-ncat state=installed
-
-- name: install tcpdump
-  yum: name=tcpdump state=installed
-
-- name: install vim
-  yum: name=vim state=installed
-
-- name: install wget
-  yum: name=wget state=installed
-
-- name: install httpd-tools
-  yum: name=httpd-tools state=installed
-
-- name: install docker-python
-  yum: name=docker-python state=installed
-
-- name: install iptables-services
-  yum: name=iptables-services state=installed
+- name: install common packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+       - nmap-ncat
+       - tcpdump
+       - vim
+       - wget
+       - httpd-tools
+       - docker-python
+       - iptables-services
