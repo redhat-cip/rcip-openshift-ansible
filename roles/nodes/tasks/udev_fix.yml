@@ -7,9 +7,14 @@
 #      - fix udev timeout
 #      - restart docker
 
+#More information on fix : 
+#  * https://access.redhat.com/support/cases/#/case/01526825
+#  * https://access.redhat.com/solutions/1986893
+
 - name: Check if file has udev.event-timeout
   shell: grep 'udev.event-timeout' /etc/sysconfig/grub
   ignore_errors: True
+  always_run: yes
   register: grep
 
 - name: fix udevadm timeout kernel param
