@@ -1,14 +1,23 @@
 ---
-- name: "chmod 644 /etc/{{ masters_etc_config }}/master/master.etcd-client.crt"
+- name: "set permissions to {{ masters_etc_config }} for sensu"
   file:
-       path: "/etc/{{ masters_etc_config }}/master/master.etcd-client.crt"
-       owner: root
-       group: root
-       mode: 0644
+    path: "/etc/{{ masters_etc_config }}/master"
+    group: adm
+    mode: g+rx
 
-- name: "chmod 644 /etc/{{ masters_etc_config }}/master/master.etcd-client.key"
+- name: set permissions to openshift etcd certs for sensu check
   file:
-       path: "/etc/{{ masters_etc_config }}/master/master.etcd-client.key"
-       owner: root
-       group: root
-       mode: 0644
+    path: "/etc/{{ masters_etc_config }}/master/master.etcd-client.{{ item }}"
+    owner: root
+    group: adm
+    mode: 0640
+  with_items:
+    - key
+    - crt
+
+- name: add user sensu to group adm
+  user:
+    name: sensu
+    groups: adm
+    append: yes
+  notify: restart sensu-client
