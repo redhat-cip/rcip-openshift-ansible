@@ -21,6 +21,10 @@
   vars:
     rcip_step_pre_only: false
 
+- include: etcd.yml
+  vars:
+    rcip_step_pre_only: false
+
 - hosts: all
   roles:
     - openshift-common

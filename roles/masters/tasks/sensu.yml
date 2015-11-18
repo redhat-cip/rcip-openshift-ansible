@@ -1,13 +1,4 @@
 ---
-
-#- name: install nmap
-#  yum: name=nmap state=installed
-
-#spesific check
-- name: gem install sensu-plugins-etcd
-  environment: proxy_env
-  gem: name=sensu-plugins-etcd state=present user_install=no
-
 - name: "chmod 644 /etc/{{ masters_etc_config }}/master/master.etcd-client.crt"
   file:
        path: "/etc/{{ masters_etc_config }}/master/master.etcd-client.crt"
