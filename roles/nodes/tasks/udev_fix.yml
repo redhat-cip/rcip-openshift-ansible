@@ -12,7 +12,7 @@
 #  * https://access.redhat.com/solutions/1986893
 
 - name: Check if file has udev.event-timeout
-  shell: grep 'udev.event-timeout' /etc/sysconfig/grub
+shell: grep -v 'udev.event-timeout' /etc/sysconfig/grub
   ignore_errors: True
   always_run: yes
   changed_when: false
