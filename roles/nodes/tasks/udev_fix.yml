@@ -15,6 +15,7 @@
   shell: grep 'udev.event-timeout' /etc/sysconfig/grub
   ignore_errors: True
   always_run: yes
+  changed_when: false
   register: grep
 
 - name: fix udevadm timeout kernel param
