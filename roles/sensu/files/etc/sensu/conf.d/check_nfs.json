@@ -1,0 +1,13 @@
+{
+  "checks": {
+    "nfsd4-proc": {
+      "command": "/usr/local/bin/check-process.rb -p 'nfsd4' -C 1",
+      "subscribers": [
+        "nfs"
+      ],
+      "handlers": ["mailer", "flowdock"],
+      "occurrences": 3,
+      "interval": 60
+    }
+  }
+}

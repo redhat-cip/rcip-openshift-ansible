@@ -9,7 +9,12 @@
 {% if inventory_hostname in groups['etcd'] %}
       "etcd",
 {% endif %}
+{% if inventory_hostname in groups['nodes'] %}
       "openshift-node",
+{% endif %}
+{% if inventory_hostname in groups['nfs'] %}
+      "nfs",
+{% endif %}
       "default"
     ]
   }

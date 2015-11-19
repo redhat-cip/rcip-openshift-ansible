@@ -5,6 +5,7 @@
     dest: "/etc/sensu/conf.d/check_{{ item }}.json"
   with_items:
     - default
+    - nfs
   tags: sensu monitoring
   notify:
     - restart sensu-server

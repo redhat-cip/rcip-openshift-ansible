@@ -23,16 +23,6 @@
       "interval": 60
     },
 
-    "nfsd4-proc": {
-      "command": "/usr/local/bin/check-process.rb -p 'nfsd4' -C 1",
-      "subscribers": [
-        "openshift-master"
-      ],
-      "handlers": ["mailer", "flowdock"],
-      "occurrences": 3,
-      "interval": 60
-    },
-
 //http api openshift
     "openshift-api-https": {
       "command": "/usr/local/bin/check-http.rb -s -k -u {{ openshift_health_url }} -q ok",
