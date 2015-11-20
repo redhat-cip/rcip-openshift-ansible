@@ -44,8 +44,8 @@
       "occurrences": 3,
       "interval": 60
     },
-//Openshift Schedules region
-    "openshift-label-retiring": {
+//Openshift Scheduling
+    "openshift-scheduling": {
       "command": "/etc/sensu/plugins/monitoring-plugins/check_openshift.py -tf /etc/sensu/openshift_token --base_api {{ sensu_openshift_base_api }} --check_scheduling",
       "subscribers": [
         "openshift-master"
