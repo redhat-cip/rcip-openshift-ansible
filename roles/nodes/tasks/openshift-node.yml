@@ -1,7 +1,7 @@
 ---
 - name: loglevel openshift-node
   lineinfile:
-    dest: "/etc/sysconfig/{{ nodes_etc_config }}-node"
+    dest: "/etc/sysconfig/{{ nodes_deamon_name }}"
     regexp: '^OPTIONS=(.*)--loglevel=[0-9](.*)$'
     line: 'OPTIONS=\1--loglevel={{ loglevel_openshift_node }}\2'
     backrefs: yes
@@ -12,7 +12,7 @@
 
 - name: DOCKER_NETWORK_OPTIONS mtu openshift-node
   lineinfile:
-    dest: "/etc/sysconfig/{{ nodes_etc_config }}-node"
+    dest: "/etc/sysconfig/{{ nodes_deamon_name }}"
     regexp: '^DOCKER_NETWORK_OPTIONS=.*$'
     line: 'DOCKER_NETWORK_OPTIONS={{ docker_network_options }}'
   notify:
@@ -20,7 +20,7 @@
 
 - name: http_proxy openshift-node
   lineinfile:
-    dest: "/etc/sysconfig/{{ nodes_etc_config }}-node"
+    dest: "/etc/sysconfig/{{ nodes_deamon_name }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
