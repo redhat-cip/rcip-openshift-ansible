@@ -16,5 +16,4 @@
     create: yes
   with_items:
     - { regexp: '.* /opt/rcip-openshift-scripts/backup/etcd/backup_etcd.sh >> /var/log/backup_etcd.log$', line: "{{ crontab_etcd_backup_time }} /opt/rcip-openshift-scripts/backup/etcd/backup_etcd.sh >> /var/log/backup_etcd.log" }
-    - { regexp: '.* /opt/rcip-openshift-scripts/backup/etcd/cold_backup_etcd.sh >> /var/log/backup_etcd.log$', line: "{{ crontab_etcd_backup_cold_time }} /opt/rcip-openshift-scripts/backup/etcd/cold_backup_etcd.sh >> /var/log/backup_etcd.log" }
     - { regexp: '.* /opt/rcip-openshift-scripts/backup/etcd/purge.sh >> /var/log/purge_backup_etcd.log$', line: "{{ crontab_etcd_prune_time }} /opt/rcip-openshift-scripts/backup/etcd/purge.sh >> /var/log/purge_backup_etcd.log" }
