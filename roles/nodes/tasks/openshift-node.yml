@@ -8,16 +8,6 @@
   notify:
         - restart openshift-node
 
-
-
-- name: DOCKER_NETWORK_OPTIONS mtu openshift-node
-  lineinfile:
-    dest: "/etc/sysconfig/{{ nodes_deamon_name }}"
-    regexp: '^DOCKER_NETWORK_OPTIONS=.*$'
-    line: 'DOCKER_NETWORK_OPTIONS={{ docker_network_options }}'
-  notify:
-        - restart openshift-node
-
 - name: http_proxy openshift-node
   lineinfile:
     dest: "/etc/sysconfig/{{ nodes_deamon_name }}"
