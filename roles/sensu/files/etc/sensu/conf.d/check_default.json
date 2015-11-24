@@ -32,6 +32,7 @@
       ],
       "handlers": ["mailer", "flowdock"],
       "occurrences": 3,
+      "refresh": 86400,
       "interval": 60
     },
 
@@ -43,6 +44,7 @@
       ],
       "handlers": ["mailer", "flowdock"],
       "occurrences": 3,
+      "refresh": 86400,
       "interval": 60
     }
   }
