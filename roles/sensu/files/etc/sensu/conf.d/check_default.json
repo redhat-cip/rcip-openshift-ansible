@@ -35,27 +35,6 @@
       "interval": 60
     },
 
-//Proc
-    "openshift-node-proc": {
-      "command": "/usr/local/bin/check-process.rb -p 'openshift start node' -C 1",
-      "subscribers": [
-        "default"
-      ],
-      "handlers": ["mailer", "flowdock"],
-      "occurrences": 3,
-      "interval": 60
-    },
-
-    "ovs-vswitchd-proc": {
-      "command": "/usr/local/bin/check-process.rb -p 'ovs-vswitchd' -C 1",
-      "subscribers": [
-        "default"
-      ],
-      "handlers": ["mailer", "flowdock"],
-      "occurrences": 3,
-      "interval": 60
-    },
-
 //mount
     "fstab-mount": {
       "command": "/usr/local/bin/check-fstab-mounts.rb",
