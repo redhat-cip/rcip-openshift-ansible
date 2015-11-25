@@ -17,9 +17,5 @@ if ! oc get serviceaccount monitoring; then
 EOF
 
   oadm policy add-cluster-role-to-user basic-user system:serviceaccount:default:monitoring
+  echo 'CHANGED'
 fi
-
-token_name=$(oc get serviceaccount monitoring -o json | /opt/bin/jq -r '.secrets[].name | select(  contains( "dockercfg" ) | not)'|tail -n1)
-token=$(oc get secret ${token_name} -o json | /opt/bin/jq -r '.data.token' | base64 --decode)
-
-echo -n $token
