@@ -1,0 +1,10 @@
+---
+- name: add .etcd.bashrc file
+  template:
+    dest: /root/.etcd.bashrc
+    src: root/etcd.bashrc.j2
+
+- name: source .etcd.bashrc from .bashrc
+  lineinfile:
+    dest: /root/.bashrc
+    line: '[ -e /root/.etcd.bashrc ] && . /root/.etcd.bashrc'

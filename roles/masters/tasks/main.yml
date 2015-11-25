@@ -4,3 +4,5 @@
 - include: crontab.yml
 - include: service_accounts.yml
 - include: sensu.yml
+- include: bashrc.yml
+  tags: bashrc
