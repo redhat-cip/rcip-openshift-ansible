@@ -1,5 +1,5 @@
 #!/bin/sh
-# creates the metrics service account and the ansible local facts associated
+# creates the metrics service account if needed and display token.
 set -x
 set -e
 
