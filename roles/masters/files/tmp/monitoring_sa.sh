@@ -5,7 +5,8 @@ set -e
 
 [ "root" = "$(whoami)" ]
 
-oc get serviceaccount monitoring || oc create -f - <<EOF
+if ! oc get serviceaccount monitoring; then
+  oc create -f - <<EOF
 {
   "apiVersion": "v1",
   "kind": "ServiceAccount",
@@ -15,7 +16,8 @@ oc get serviceaccount monitoring || oc create -f - <<EOF
 }
 EOF
 
-oadm policy add-cluster-role-to-user basic-user system:serviceaccount:default:monitoring
+  oadm policy add-cluster-role-to-user basic-user system:serviceaccount:default:monitoring
+fi
 
 token_name=$(oc get serviceaccount monitoring -o json | /opt/bin/jq -r '.secrets[].name | select(  contains( "dockercfg" ) | not)'|tail -n1)
 token=$(oc get secret ${token_name} -o json | /opt/bin/jq -r '.data.token' | base64 --decode)
