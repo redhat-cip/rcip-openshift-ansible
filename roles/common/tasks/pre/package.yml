@@ -22,3 +22,5 @@
        - httpd-tools
        - docker-python
        - iptables-services
+       - git
+       - screen
