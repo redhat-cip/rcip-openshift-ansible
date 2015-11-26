@@ -16,6 +16,10 @@
       "nfs",
 {% endif %}
       "default"
-    ]
+    ],
+    "load": {
+            "warning": "{{ [ansible_processor_count,ansible_processor_count,ansible_processor_count]|join(',') }}",
+            "critical": "{{ [ansible_processor_count+1,ansible_processor_count+1,ansible_processor_count+1]|join(',') }}"
+    }
   }
 }
