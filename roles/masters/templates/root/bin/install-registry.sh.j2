@@ -1,31 +1,48 @@
 #!/bin/bash
 set -e
 
-#pvcreate /dev/{{ collecd_disk_ose_registry }}
-#vgcreate vg_ose /dev/{{ collecd_disk_ose_registry }}
-#lvcreate -l 100%FREE --name ose-registry vg_ose
-#mkdir /mnt/ose-registry
-#mkfs.ext4 -m0 /dev/mapper/vg_ose-ose--registry
-#echo '/dev/mapper/vg_ose-ose--registry /mnt/ose-registry ext4 rw,noatime,data=ordered 0 0' >> /etc/fstab
-#mount -a
+#delete registry to create new one
+#   oc delete dc docker-registry
+#   oc delete svc docker-registry
+#   for i in $(oc get pods --no-headers | awk '/registry/{print $1}'); do oc delete pod $i; done
 
-#delete registry
-#oc delete dc docker-registry; oc delete svc docker-registry; oc delete pod docker-registry-1-deploy
+# Legacy <=3.0.1, need to create ServiceAccount
+#   echo \
+#       '{"kind":"ServiceAccount","apiVersion":"v1","metadata":{"name":"registry"}}' \
+#       | oc create -f -
+#   oc edit scc privileged
+# Add a line under users with the user name system:serviceaccount:default:registry.
 
-#For <=3.0.1 First setup, need to create ServiceAccount
-#echo \
-#    '{"kind":"ServiceAccount","apiVersion":"v1","metadata":{"name":"registry"}}' \
-#    | oc create -f -
+# Ensure nodes for the registry are schedulable
+#   oadm manage-node {{ inventory_hostname }} --schedulable=true
 
-#oc edit scc privileged
-#Add a line under users with the user name system:serviceaccount:default:registry.
+#
+# Create the registry with local volume
+#
 
-#oadm manage-node {{ inventory_hostname }} --schedulable=true
-
+# Sample to create a local lvm storage for registry
+#   pvcreate /dev/{{ collecd_disk_ose_registry }}
+#   vgcreate vg_ose /dev/{{ collecd_disk_ose_registry }}
+#   lvcreate -l 100%FREE --name ose-registry vg_ose
+#   mkdir /mnt/ose-registry
+#   mkfs.ext4 -m0 /dev/mapper/vg_ose-ose--registry
+#   echo '/dev/mapper/vg_ose-ose--registry /mnt/ose-registry ext4 rw,noatime,data=ordered 0 0' >> /etc/fstab
+#   mount -a
 oadm registry --create --service-account=registry \
   --config=/etc/{{ masters_etc_config }}/master/admin.kubeconfig \
   --credentials=/etc/{{ masters_etc_config }}/master/openshift-registry.kubeconfig \
   --mount-host={{openshift_registry_mount_host}} --selector="region=infra"
 #  --images='registry.access.redhat.com/openshift3/ose-${component}:${version}' \
 
-#oadm manage-node {{ inventory_hostname }} --schedulable=false
+#
+# Create the registry with nfs shared volume
+# https://docs.openshift.com/enterprise/3.0/install_config/install/docker_registry.html#storage-for-the-registry
+#
+
+# With a shared storage, you can add replicas
+#   oadm registry --config=/etc/origin/master/admin.kubeconfig \
+#       --credentials=/etc/origin/master/openshift-registry.kubeconfig \
+#       --selector="region=infra" --replicas=3
+#   oc volume deploymentconfigs/docker-registry \
+#       --add --overwrite --name=registry-storage --mount-path=/registry \
+#       --source='{"nfs": { "server": "nfs.server.com", "path": "/export_path"}}'
