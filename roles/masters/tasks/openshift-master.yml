@@ -20,7 +20,7 @@
 
 - name: http_proxy openshift-master
   lineinfile:
-    dest: "/etc/sysconfig/{{ masters_etc_config }}-master"
+    dest: "/etc/sysconfig/{{ masters_deamon_name }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
