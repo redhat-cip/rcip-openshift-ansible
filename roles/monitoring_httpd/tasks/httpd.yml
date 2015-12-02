@@ -37,12 +37,6 @@
   notify:
     - restart httpd
 
-#TODO: generate /etc/httpd/openshift-passwd
-#chmod 600 /etc/httpd/openshift-passwd 
-#chown apache /etc/httpd/openshift-passwd
-#TODO: push cert monitoring_cert monitoring_key
-#TODO : semanage port -a -t http_port_t -p tcp 3003
-
 - name: httpd configuration
   template:
        src: "{{ item.src }}"
