@@ -30,6 +30,7 @@
   notify:
       - restart openshift-master-api
   when: proxy_env['http_proxy']
+  tags: proxyenv
 
 
 - name: http_proxy openshift-master-controllers
@@ -44,6 +45,7 @@
   notify:
     - restart openshift-master-controllers
   when: masters_openshift_master_cluster_method == 'native' and proxy_env['http_proxy']
+  tags: proxyenv
   ignore_errors: yes
 
 - name: ensure service openshift-master api started
