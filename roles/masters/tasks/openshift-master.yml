@@ -32,6 +32,20 @@
   when: proxy_env['http_proxy']
 
 
+- name: http_proxy openshift-master-controllers
+  lineinfile:
+    dest: "/etc/sysconfig/{{ masters_deamon_name_controllers }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^HTTP_PROXY=.*', line: "HTTP_PROXY='{{ proxy_env[\'http_proxy\'] }}'" }
+    - { regexp: '^HTTPS_PROXY=.*', line: "HTTPS_PROXY='{{ proxy_env[\'https_proxy\'] }}'" }
+    - { regexp: '^NO_PROXY=.*', line: "NO_PROXY='{{ no_proxy }},{{ openshift_vip_fqdn_internal }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %}{% for host in hostvars[groups[\"masters\"][0]].ansible_local.rcip_openshift.service.values() %},{{ host }}{% endfor %}'" }
+  notify:
+    - restart openshift-master-controllers
+  when: masters_openshift_master_cluster_method == 'native' and proxy_env['http_proxy']
+  ignore_errors: yes
+
 - name: ensure service openshift-master api started
   service:
        name: "{{ masters_deamon_name }}"
