@@ -1,0 +1,109 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Author: Florian Lambert <flambert@redhat.com>
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# Requirments: python
+#
+# Fact ansible to get the service ips
+
+import sys
+import argparse
+import subprocess
+import httplib
+import json
+import yaml
+import re
+
+VERSION = '1.1'
+
+class Rcip_openshift_fact(object):
+  """
+  A little object for use REST openshift v3 api
+  """
+
+  def __init__(self,
+               host='127.0.0.1',
+               port='8443',
+               token=None,
+               tokenfile='/etc/sensu/openshift_token',
+               proto='https',
+               base_api='/api/v1/',
+               namespace='default'):
+
+     self.host      = host
+     self.port      = port
+     self.tokenfile = tokenfile
+     self.proto     = proto
+     self.base_api  = base_api
+     self.namespace = namespace
+
+     self.token=self._tokenfile(self.tokenfile)
+
+  def _tokenfile(self,tokenfile):
+     try:
+       f = open(tokenfile, 'r')
+       return f.readline().strip()
+     except IOError:
+       print "{\"service\": {\"fail\": \"tokenfile-inaccessible\"}}"
+       sys.exit(0)
+       
+
+  def get_svc(self,namespace=None):
+
+     if namespace:
+         self.namespace = namespace
+     api_svc = self.base_api + 'namespaces/' + self.namespace + '/services'
+
+     headers = {"Authorization": 'Bearer ' + self.token}
+     #TODO condition if http or http
+     conn = httplib.HTTPSConnection(self.host, self.port)
+     conn.request("GET", api_svc, "", headers)
+
+     r1 = conn.getresponse()
+     rjson = r1.read()
+     conn.close()
+
+     try:
+       parsed_json = json.loads(rjson)
+     except ValueError:
+       print "{\"service\": {\"fail\": \"GET %s %s\"}}" % (api_svc, rjson)
+       sys.exit(0)
+
+     ansible_facts_dict = {'service': {}}
+     for item in parsed_json["items"]:
+       #print item["metadata"]["name"]
+       #print item["spec"]["portalIP"]
+
+       ansible_facts_dict['service'][item["metadata"]["name"]] = item["spec"]["portalIP"]
+
+     print json.dumps(ansible_facts_dict)
+
+
+
+if __name__ == "__main__":
+
+   # https://docs.openshift.com/enterprise/3.0/rest_api/openshift_v1.html
+
+      stream = file('/etc/origin/master/master-config.yaml', 'r')
+      master_config = yaml.load(stream)
+
+      regex = re.match('^([^:]+)://([^:]+):([^ ]+)', master_config['masterPublicURL'])
+      if regex is not None:
+        proto = regex.group(1)
+        host  = regex.group(2)
+        port  = regex.group(3)
+
+      myosfact = Rcip_openshift_fact(proto=proto, host=host, port=port)
+      myosfact.get_svc()

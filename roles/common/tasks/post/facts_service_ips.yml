@@ -1,16 +1,16 @@
 ---
 
-- name: download /etc/ansible/facts.d/rcip_openshift.fact from github
-  get_url:
-    url: https://raw.githubusercontent.com/talset/openshift-tools/549712d50c8ca21f75241d3247b7466d52f9da8c/ansible/fact/rcip_openshift.fact
+- name: copy fact rcip_openshift.fact for enterprise version
+  copy:
+    src: ../../files/etc/ansible/facts.d/rcip_openshift.fact_enterprise
     dest: /etc/ansible/facts.d/rcip_openshift.fact
     mode: 0755
   tags: service_ips
   when: deployment_type is defined and ( deployment_type in ['enterprise'] )
 
-- name: download /etc/ansible/facts.d/rcip_openshift.fact from github
-  get_url:
-    url: https://raw.githubusercontent.com/talset/openshift-tools/master/ansible/fact/rcip_openshift.fact
+- name: copy fact rcip_openshift.fact for openshift-enterprise version
+  copy:
+    src: ../../files/etc/ansible/facts.d/rcip_openshift.fact_openshift-enterprise
     dest: /etc/ansible/facts.d/rcip_openshift.fact
     mode: 0755
   tags: service_ips
