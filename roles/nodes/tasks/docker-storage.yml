@@ -5,17 +5,9 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     create: yes
-#  notify:
-#      - configure docker on lvm
+  notify:
+      - docker-storage-setup
   with_items:
     - { regexp: '^DEVS=.*$', line: "DEVS=/dev/{{ docker_storage_dev }}" }
-    - { regexp: '^VG=.*$', line: 'VG=docker-vg' }
+    - { regexp: '^VG=.*$', line: "VG={{ docker_vg }}" }
     - { regexp: '^SETUP_LVM_THIN_POOL=.*$', line: 'SETUP_LVM_THIN_POOL=yes' }
-
-- name: config /etc/sysconfig/docker-storage
-  lineinfile:
-    dest: /etc/sysconfig/docker-storage
-    regexp: '^DOCKER_STORAGE_OPTIONS=.*'
-    line: "DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.thinpooldev=/dev/mapper/docker--vg-docker--pool"
-  #notify:
-  #    - restart docker
