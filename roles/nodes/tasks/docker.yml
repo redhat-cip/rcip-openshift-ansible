@@ -19,6 +19,7 @@
   notify:
       - restart docker
   when: proxy_env['http_proxy']
+  tags: proxyenv
 
 - include: docker-storage.yml
   when: nodes_manage_docker_storage

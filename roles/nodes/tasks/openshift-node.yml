@@ -20,6 +20,7 @@
   notify:
       - restart openshift-node
   when: proxy_env['http_proxy']
+  tags: proxyenv
 
 
 
