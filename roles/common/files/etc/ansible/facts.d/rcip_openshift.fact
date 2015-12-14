@@ -1,0 +1,123 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Author: Florian Lambert <flambert@redhat.com>
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# Requirments: python
+#
+# Fact ansible to get the service ips
+
+import sys
+import json
+import yaml
+import requests
+from os.path import isfile
+
+# Disable warning for insecure https
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+VERSION = '1.2'
+
+
+class Rcip_openshift_fact(object):
+    """
+    A little object for use REST openshift v3 api
+    """
+
+    def __init__(self,
+                 url='https://127.0.0.1:8443',
+                 token=None,
+                 tokenfile='/etc/sensu/openshift_token',
+                 base_api='/api/v1',
+                 namespace='default'):
+
+        self.url = url.rstrip('/')
+        self.tokenfile = tokenfile
+        self.base_api = base_api.rstrip('/')
+        self.namespace = namespace
+        self.token = self._tokenfile(self.tokenfile)
+
+    def _tokenfile(self, tokenfile):
+        try:
+            f = open(tokenfile, 'r')
+            return f.readline().strip()
+        except IOError:
+            print "{\"service\": {\"fail\": \"tokenfile-inaccessible\"}}"
+            sys.exit(0)
+
+    def get_svc(self, namespace=None):
+        "Return service ip for a namespace"
+        api_svc = self.get_json(url='%s/namespaces/%s/services' % (self.base_api, self.namespace)).get('items')
+        return {x['metadata']['name']: x["spec"]["portalIP"] for x in api_svc}
+
+    def get_namespaces(self):
+        r = self.get_json(url='%s/namespaces' % self.base_api)
+        return r['items']
+
+    def format_namespaces(self, namespaces):
+        """Make a dict of namespaces :
+           {namespace_name: namespace_content}"""
+        return {x['metadata']['name']: x for x in namespaces}
+
+    def gathers_datas(self):
+
+        # Get all namespaces
+        namespaces = self.get_namespaces()
+        formated_namespaces = self.format_namespaces(namespaces=namespaces)
+
+        ansible_fact = {}
+        for namespace in formated_namespaces:
+            ansible_fact[namespace] = {}
+            ansible_fact[namespace]['services'] = self.get_svc(namespace=namespace)
+
+        return ansible_fact
+
+    def get_json(self, url):
+
+        headers = {"Authorization": 'Bearer %s' % self.token}
+        r = requests.get('%s%s' % (self.url, url),
+                         headers=headers,
+                         verify=False)  # don't check ssl
+        try:
+            return r.json()
+        except ValueError:
+            print "{'error': 'could not evaluate %s'}" % url
+            exit(1)
+
+
+if __name__ == "__main__":
+
+    # https://docs.openshift.com/enterprise/3.0/rest_api/openshift_v1.html
+
+    # Legacy take /etc/openshift for openshift < 3.1
+    if isfile('/etc/origin/master/master-config.yaml'):
+        config_file = '/etc/origin/master/master-config.yaml'
+    else:
+        config_file = '/etc/openshift/master/master-config.yaml'
+
+    try:
+        master_config = yaml.load(file(config_file, 'r'))
+    except IOError:
+        print '{"error": "unable to load config file %s"}' % config_file
+        exit(1)
+
+    try:
+        myosfact = Rcip_openshift_fact(url=master_config['oauthConfig']['masterURL'])
+    except KeyError:
+        print '{"error": "could not find masterURL"}'
+        exit(1)
+
+    datas = myosfact.gathers_datas()
+    print json.dumps(datas)
