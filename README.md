@@ -4,15 +4,9 @@ Ansible to change config or set up additional stuff
 
 ## Step 1 : Prerequisite
 
-Ensure you satisfy the NetworkManager configuration describe in :
-  * https://github.com/openshift/training/blob/master/01-Requirements-and-Preparation.md#requirements
+Make sure you have the standard OpenShift prerequist fullfilled as documented here :
 
-Setup ansible
-
-```bash
-yum -y install http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-yum --enablerepo=epel install ansible -y
-```
+https://docs.openshift.com/enterprise/3.1/install_config/install/prerequisites.html
 
 Run pre.yml rcip-openshift-ansible 
 
