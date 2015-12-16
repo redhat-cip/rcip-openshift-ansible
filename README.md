@@ -15,6 +15,7 @@ This ansible playbook can setup several additionnal tools and configuration to a
     * sensu (uchiwa)
     * graphite-web
     * grafana
+* logstash on each nodes for logs
 * install [rcip-openshift-scripts](https://github.com/redhat-cip/rcip-openshift-scripts) and setup crontabs:
   * backup scripts for etcd
   * cleanup scripts (prune.sh) for docker
