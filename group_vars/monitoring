@@ -18,6 +18,7 @@ monitoring_key: "/etc/httpd/ssl/{{ customer }}.key"
 
 sensu_httpd_port: "{{ customer_sensu_httpd_port | default('443') }}"
 sensu_httpd_ssl: "{{ customer_sensu_httpd_ssl | default('true') }}"
+sensu_httpd_aliases: "{{ customer_sensu_httpd_aliases | default([]) }}" 
 
 grafana_httpd_port: "{{ customer_grafana_httpd_port | default('443') }}"
 grafana_httpd_ssl: "{{ customer_grafana_httpd_ssl | default('true') }}"
