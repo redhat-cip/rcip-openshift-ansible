@@ -112,7 +112,7 @@
 
 # TODO: Use mysql no sqlitedb
 - name: Setup sqlitedb
-  command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite
+  command: /usr/bin/python manage.py migrate --noinput chdir=/opt/graphite/webapp/graphite
    creates=/opt/graphite/storage/graphite.db
   sudo_user: apache
   register: sqlite_setup
