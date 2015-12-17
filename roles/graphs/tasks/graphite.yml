@@ -62,13 +62,16 @@
     - "/log"
     - "/log/webapp"
     - "/whisper"
-- name: Set right owner:groups recursively for /opt/graphite/storage
+- name: Set right owner:groups recursively for /opt/graphite/storage...
   file:
-    path: "/opt/graphite/storage"
-    owner: graphite
+    path: "/opt/graphite/{{ item.dir }}"
+    owner: "{{ item.owner }}"
     group: apache
     state: directory
     recurse: yes
+  with_items:
+    - { dir: "storage", owner: "graphite" }
+    - { dir: "storage/log/webapp", owner: "apache" }
 
 - name: check if SELinux fcontext is present 
   shell: semanage fcontext -l | grep '/opt/graphite/storage/log/webapp(/.*)?' | grep httpd_log_t
