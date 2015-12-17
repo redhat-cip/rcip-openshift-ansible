@@ -6,6 +6,8 @@
     - mod_wsgi
     - python-pip
     - python-devel
+    - pytz
+    - pycairo
 
 - name: install pip packages
   pip: "name={{ item }} state=present"
