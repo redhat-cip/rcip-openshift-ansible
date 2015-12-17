@@ -84,6 +84,20 @@
     - restorecon -R -v /opt/graphite/storage/log/webapp
   when: context_present|failed
 
+- name: check if SELinux fcontext is present for graphite.db
+  shell: semanage fcontext -l | grep '/opt/graphite/storage/graphite.db' | grep httpd_log_t
+  ignore_errors: yes
+  changed_when: False
+  always_run: yes
+  register: context_db_present
+
+- name: Set SELinux fcontext for graphite.db
+  command: "{{ item }}"
+  with_items:
+    - semanage fcontext -a -t httpd_log_t "/opt/graphite/storage/graphite.db"
+    - restorecon -R -v /opt/graphite/storage/
+  when: context_db_present|failed
+
 # TODO: use template with variable password for mysql, port ...
 - name: configure graphite-web
   copy:
@@ -107,6 +121,6 @@
 - name: set permission on graphite.db
   file:
     path: /opt/graphite/storage/graphite.db
-    owner: graphite
+    owner: apache
     group: apache
     mode: 0660
