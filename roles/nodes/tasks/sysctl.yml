@@ -1,0 +1,13 @@
+---
+
+#Fix : https://access.redhat.com/solutions/369563
+- name: additional param in sysctl (tcp_rmem and tcp_wmem)
+  lineinfile:
+    dest: /etc/sysctl.conf
+    regexp: "item.regexp"
+    line: "item.line"
+  notify:
+      - reload sysctl
+  with_items:
+    - { regexp: '^net.ipv4.tcp_rmem =(.*)$', line: "net.ipv4.tcp_rmem = 4096 87380 16777216" }
+    - { regexp: '^net.ipv4.tcp_wmem =(.*)$', line: "net.ipv4.tcp_wmem = 4096 65536 16777216" }

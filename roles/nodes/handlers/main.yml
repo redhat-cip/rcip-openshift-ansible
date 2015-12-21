@@ -5,3 +5,4 @@
 - include: nfs.yml
 - include: collectd.yml
 - include: logstash.yml
+- include: sysctl.yml
