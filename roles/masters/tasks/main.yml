@@ -2,6 +2,7 @@
 - include: openshift-master.yml
 - include: scripts.yml
 - include: crontab.yml
+  tags: crontab
 - include: service_accounts.yml
 - include: sensu.yml
 - include: bashrc.yml
