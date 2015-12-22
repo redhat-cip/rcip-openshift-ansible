@@ -4,8 +4,8 @@
 - name: additional param in sysctl (tcp_rmem and tcp_wmem)
   lineinfile:
     dest: /etc/sysctl.conf
-    regexp: "item.regexp"
-    line: "item.line"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
   notify:
       - reload sysctl
   tags:
