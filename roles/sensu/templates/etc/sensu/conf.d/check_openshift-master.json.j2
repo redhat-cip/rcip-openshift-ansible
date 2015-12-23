@@ -25,6 +25,30 @@
       "interval": 60
     },
 
+{% if sensu_openshift_master_cluster_method == 'native' %}
+    "openshift-master-api": {
+      "command": "/usr/local/bin/check-process.rb -p '/usr/bin/openshift start master api' -C 1",
+      "subscribers": [
+        "openshift-master"
+      ],
+      "handlers": ["mailer", "flowdock"],
+      "occurrences": 3,
+      "refresh": 86400,
+      "interval": 60
+    },
+
+    "openshift-master-controllers": {
+      "command": "/usr/local/bin/check-process.rb -p '/usr/bin/openshift start master controllers' -C 1",
+      "subscribers": [
+        "openshift-master"
+      ],
+      "handlers": ["mailer", "flowdock"],
+      "occurrences": 3,
+      "refresh": 86400,
+      "interval": 60
+    },
+{% endif %}
+
 //http api openshift
     "openshift-api-https": {
       "command": "/usr/local/bin/check-http.rb -s -k -u {{ openshift_health_url }} -q ok",
