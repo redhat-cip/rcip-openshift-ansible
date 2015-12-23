@@ -1,0 +1,4 @@
+---
+- include: elasticsearch.yml
+- include: kibana.yml
+  tags: kibana

@@ -1,0 +1,40 @@
+---
+
+# Download kibana source
+
+- name: Download kibana source package from https://download.elastic.co/kibana/kibana
+  environment: proxy_env
+  get_url:
+    url: https://download.elastic.co/kibana/kibana/kibana-{{ kibana_kibana_version }}-linux-x64.tar.gz
+    dest: /usr/src/
+
+- name: Extract kibana source to /opt/
+  unarchive: src=/usr/src/kibana-{{ kibana_kibana_version }}-linux-x64.tar.gz dest=/opt/ copy=no creates=/opt/kibana-{{ kibana_kibana_version }}-linux-x64
+
+- name: Create /opt/kibana link
+  file: src=/opt/kibana-{{ kibana_kibana_version }}-linux-x64 dest=/opt/kibana state=link
+
+# Configure kibana
+
+- name: Configure /opt/kibana/config/kibana.yml
+  lineinfile:
+    dest: "/opt/kibana/config/kibana.yml"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^elasticsearch_preserve_host:.*', line: "elasticsearch_preserve_host: false" }
+    - { regexp: '^elasticsearch_url:.*', line: 'elasticsearch_url: "http://localhost:9200"' }
+    - { regexp: '^pid_file:.*', line: "pid_file: /var/run/kibana.pid" }
+
+- name: Add kibana4 service in systemd
+  template:
+       src: kibana/kibana4.service.j2
+       dest: /etc/systemd/system/kibana4.service
+       owner: root
+       group: root
+       mode: 0644
+  notify:
+    - daemon-reload
+
+- name: Start kibana4
+  service: name=kibana4 state=running enabled=yes
