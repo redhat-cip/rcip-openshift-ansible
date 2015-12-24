@@ -3,4 +3,5 @@ dir=/opt/rcip-openshift-scripts
 if [ -d $dir ]; then
   eval $(${dir}/backup/etcd/get_env.py "${MASTER_CONF}")
   export ETCDCTL="etcdctl --cert-file ${etcd_certFile} --key-file ${etcd_keyFile} --ca-file ${etcd_ca} --no-sync --peers ${etcd_url}"
+  alias etcdctl="${ETCDCTL}"
 fi
