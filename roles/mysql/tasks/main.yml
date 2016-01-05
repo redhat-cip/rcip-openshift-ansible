@@ -1,0 +1,3 @@
+---
+- include: mysqld.yml
+  when: mysql_host in ['localhost', '127.0.0.1']

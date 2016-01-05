@@ -1,3 +1,8 @@
 ---
 carbon_commit: e1ec8e3a1fac12e19be450520947ef324647b8ae
 ceres_commit: dba08b05d93a6f285412b1404524c8c88c6c8a84
+graphite_mysql_db: graphite
+graphite_mysql_user: graphite
+graphite_mysql_password: graphite
+mysql_host: 127.0.0.1
+mysql_port: 3306

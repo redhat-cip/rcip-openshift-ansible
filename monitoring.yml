@@ -2,6 +2,7 @@
 - hosts: monitoring
   roles:
       - sensu
+      - mysql
       - graphs
       - kibana
       - monitoring_httpd

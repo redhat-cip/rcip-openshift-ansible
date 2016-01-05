@@ -77,6 +77,17 @@ manage_docker_storage=true
 # if you don't want to use the default volume group docker-vg for docker:
 # customer_docker_vg=rhel
 
+# you can also override defaults:
+# graphite_mysql_user='graphite'
+# graphite_mysql_password='graphite'
+# graphite_mysql_db='graphite'
+# if you have an external mysql already setup, and you want to use it,
+# you can change mysql_host:
+# mysql_host='127.0.0.1'
+# mysql_port='3306'
+# if it's different of '127.0.0.1' or 'localhost',
+# playbook will then not install mysql and create user/db on monitoring host.
+
 ntp_servers=["ntp1.customer", "ntp2.customer"]
 dns_servers=["10.0.0.1", "10.0.0.2"]
 postfix_relayhost="smtp.mycustomer.intranet"

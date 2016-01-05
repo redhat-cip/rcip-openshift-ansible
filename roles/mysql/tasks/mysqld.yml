@@ -1,0 +1,24 @@
+---
+- name: install mysql packages
+  yum: "name={{ item }} state=installed"
+  with_items:
+    - mariadb
+    - mariadb-server
+
+- name: mysql security rules (iptables / selinux)
+  lineinfile:
+    dest: /etc/sysconfig/iptables
+    line: "-A INPUT -p tcp --dport 3306 -s 127.0.0.1 -j ACCEPT"
+    insertbefore: "^-A INPUT -j REJECT"
+  notify:
+        - mysql security rules
+
+- name: set mysql port
+  ini_file:
+    dest: /etc/my.cnf.d/server.cnf
+    section: mysqld
+    option: port
+    value: "{{ mysql_port }}"
+
+- name: start and enable mysql service
+  service: name=mariadb state=started enabled=yes

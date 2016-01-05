@@ -75,7 +75,7 @@
     - { dir: "storage", owner: "graphite" }
     - { dir: "storage/log/webapp", owner: "apache" }
 
-- name: check if SELinux fcontext is present 
+- name: check if SELinux fcontext is present
   shell: semanage fcontext -l | grep '/opt/graphite/storage/log/webapp(/.*)?' | grep httpd_log_t
   ignore_errors: yes
   changed_when: False
@@ -89,43 +89,47 @@
     - restorecon -R -v /opt/graphite/storage/log/webapp
   when: context_present|failed
 
-- name: check if SELinux fcontext is present for graphite.db
-  shell: semanage fcontext -l | grep '/opt/graphite/storage/graphite.db' | grep httpd_log_t
-  ignore_errors: yes
-  changed_when: False
-  always_run: yes
-  register: context_db_present
-
-- name: Set SELinux fcontext for graphite.db
-  command: "{{ item }}"
-  with_items:
-    - semanage fcontext -a -t httpd_log_t "/opt/graphite/storage/graphite.db"
-    - restorecon -R -v /opt/graphite/storage/
-  when: context_db_present|failed
-
 # TODO: use template with variable password for mysql, port ...
 - name: configure graphite-web
-  copy:
+  template:
     src: opt/graphite/webapp/graphite/local_settings.py
     dest: /opt/graphite/webapp/graphite/local_settings.py
 
 - name: Start carbon cache
   service: name=carbon-cache state=running enabled=yes
 
-# TODO: Use mysql no sqlitedb
-- name: Setup sqlitedb
+
+# mysql
+- name: check in SELinux if httpd can network connect to db
+  shell: semanage boolean -l |grep httpd_can_network_connect_db|egrep '\(on +, +on\)'
+  ignore_errors: yes
+  changed_when: False
+  always_run: yes
+  register: connectdb_present
+
+- name: set in SELinux so httpd can network connect to db
+  command: setsebool -P httpd_can_network_connect_db 1
+  when: connectdb_present|failed
+
+- name: install mysql python
+  yum: name=MySQL-python state=installed
+  when: mysql_host in ['localhost', '127.0.0.1']
+
+- name: create graphite db
+  mysql_db: "name={{ graphite_mysql_db }} state=present"
+  when: mysql_host in ['localhost', '127.0.0.1']
+
+- name: create graphite mysql user
+  mysql_user:
+    name: "{{ graphite_mysql_user }}"
+    password: "{{ graphite_mysql_password }}"
+    priv: "{{ graphite_mysql_db }}.*:ALL"
+    host: "{{ item }}"
+    state: present
+  with_items:
+    - 127.0.0.1
+    - localhost
+  when: mysql_host in ['localhost', '127.0.0.1']
+
+- name: Setup graphite db
   command: /usr/bin/python manage.py migrate --noinput chdir=/opt/graphite/webapp/graphite
-   creates=/opt/graphite/storage/graphite.db
-  sudo_user: apache
-  register: sqlite_setup
-
-- name: Wait for sqlitedb to be setup
-  shell: sleep 3
-  when: sqlite_setup.changed
-
-- name: set permission on graphite.db
-  file:
-    path: /opt/graphite/storage/graphite.db
-    owner: apache
-    group: apache
-    mode: 0660

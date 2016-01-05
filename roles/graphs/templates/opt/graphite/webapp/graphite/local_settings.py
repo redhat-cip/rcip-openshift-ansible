@@ -180,12 +180,12 @@ LOG_DIR = '/opt/graphite/storage/log/webapp'
 #
 DATABASES = {
     'default': {
-        'NAME': '/opt/graphite/storage/graphite.db',
-        'ENGINE': 'django.db.backends.sqlite3',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': ''
+        'NAME': '{{ graphite_mysql_db }}',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': '{{ graphite_mysql_user }}',
+        'PASSWORD': '{{ graphite_mysql_password }}',
+        'HOST': '{{ mysql_host }}',
+        'PORT': '{{ mysql_port }}'
     }
 }
 
@@ -254,4 +254,3 @@ DATABASES = {
 # Uncomment the following line for direct access to Django settings such as
 # MIDDLEWARE_CLASSES or APPS
 #from graphite.app_settings import *
-
