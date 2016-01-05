@@ -6,23 +6,31 @@
     - mod_wsgi
     - python-pip
     - python-devel
-    - pytz
+    - python-cffi
+    - libffi
+    - libffi-devel
     - pycairo
 
-- name: install pip packages
-  pip: "name={{ item }} state=present"
+- name: get requirement.txt for graphite-web
+  get_url:
+    url: https://raw.githubusercontent.com/graphite-project/graphite-web/master/requirements.txt
+    dest: /tmp/graphite-requirements.txt
+
+- name: install pip packages requirements for graphite-web
+  pip: requirements=/tmp/graphite-requirements.txt
   environment:
     http_proxy: "{{ proxy_env['http_proxy'] }}"
     https_proxy: "{{ proxy_env['https_proxy'] }}"
     CFLAGS: '-march=x86-64'
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
-  with_items:
-    - django-tagging==0.3.6
-    - django
-    - "https://github.com/graphite-project/ceres/archive/{{ ceres_commit }}.zip"
-    - whisper
-    - "https://github.com/graphite-project/carbon/archive/{{ carbon_commit }}.zip"
-    - graphite-web
+
+- name: install graphite-web
+  pip: name=graphite-web state=present
+  environment:
+    http_proxy: "{{ proxy_env['http_proxy'] }}"
+    https_proxy: "{{ proxy_env['https_proxy'] }}"
+    CFLAGS: '-march=x86-64'
+    PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
 
 - name: set carbon.conf
   command: cp /opt/graphite/conf/carbon.conf.example /opt/graphite/conf/carbon.conf
