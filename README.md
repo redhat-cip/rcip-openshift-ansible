@@ -13,7 +13,7 @@ This ansible playbook can setup several additionnal tools and configuration to a
   * monitoring httpd conf (proxy) vhosts :
     * kibana
     * sensu (uchiwa)
-    * graphite-web
+    * graphite-web (with mysql as backend)
     * grafana
 * logstash on each nodes for logs
 * install [rcip-openshift-scripts](https://github.com/redhat-cip/rcip-openshift-scripts) and setup crontabs:
