@@ -2,3 +2,6 @@
 
 - name: daemon-reload
   command: systemctl daemon-reload
+
+- name: iptables-reload
+  command: service iptables reload
