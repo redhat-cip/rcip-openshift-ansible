@@ -40,11 +40,13 @@ class Rcip_openshift_fact(object):
                  url='https://127.0.0.1:8443',
                  token=None,
                  tokenfile='/etc/sensu/openshift_token',
-                 base_api='/api/v1'):
+                 base_api='/api/v1',
+                 namespace='default'):
 
         self.url = url.rstrip('/')
         self.tokenfile = tokenfile
         self.base_api = base_api.rstrip('/')
+        self.namespace = namespace
         self.token = self._tokenfile(self.tokenfile)
 
     def _tokenfile(self, tokenfile):
@@ -52,13 +54,12 @@ class Rcip_openshift_fact(object):
             f = open(tokenfile, 'r')
             return f.readline().strip()
         except IOError:
-            print "{\"service\": {\"fail\": \"tokenfile-inaccessible\"}}"
+            print "{\"default\": {\"services\": {\"fail\": \"tokenfile-inaccessible\"}}}"
             sys.exit(0)
 
-    def get_svc(self, namespace='default'):
+    def get_svc(self, namespace=None):
         "Return service ip for a namespace"
-        api_svc = self.get_json(url='%s/namespaces/%s/services' % (self.base_api,
-                                                                   namespace)).get('items')
+        api_svc = self.get_json(url='%s/namespaces/%s/services' % (self.base_api, self.namespace)).get('items')
         return {x['metadata']['name']: x["spec"]["portalIP"] for x in api_svc}
 
     def get_namespaces(self):
