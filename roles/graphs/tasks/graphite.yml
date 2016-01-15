@@ -12,6 +12,7 @@
     - pycairo
 
 - name: get requirement.txt for graphite-web
+  environment: proxy_env
   get_url:
     url: https://raw.githubusercontent.com/graphite-project/graphite-web/master/requirements.txt
     dest: /tmp/graphite-requirements.txt
@@ -32,25 +33,15 @@
     CFLAGS: '-march=x86-64'
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
 
-- name: set carbon.conf
-  command: cp /opt/graphite/conf/carbon.conf.example /opt/graphite/conf/carbon.conf
-  args:
-    creates: /opt/graphite/conf/carbon.conf
-
-- name: set graphite.wsgi
+- name: copy carbon.conf & graphite.wsgi & storage-schemas.conf & storage-aggregation.conf
   copy:
-    src: opt/graphite/conf/graphite.wsgi
-    dest: /opt/graphite/conf/graphite.wsgi
-
-- name: setup carbon storage
-  copy:
-    src: opt/graphite/conf/storage-schemas.conf
-    dest: /opt/graphite/conf/storage-schemas.conf
-
-- name: setup carbon storage aggregation
-  copy:
-    src: opt/graphite/conf/storage-aggregation.conf
-    dest: /opt/graphite/conf/storage-aggregation.conf
+    src: "opt/graphite/conf/{{ item }}"
+    dest: "/opt/graphite/conf/{{ item }}"
+  with_items:
+    - carbon.conf
+    - graphite.wsgi
+    - storage-schemas.conf
+    - storage-aggregation.conf
 
 - name: add graphite user
   user: name=graphite
