@@ -1,0 +1,12 @@
+---
+
+- name: Start and enable iptables service
+  service:
+    name: iptables
+    state: started
+    enabled: yes
+  register: result
+
+- name: Need to pause here, otherwise the iptables service starting can sometimes cause ssh to fail
+  pause: seconds=10
+  when: result | changed
