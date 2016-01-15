@@ -4,6 +4,8 @@
 - include: crontab.yml
   tags: crontab
 - include: service_accounts.yml
+  when: "'monitoring' in group_names"
 - include: sensu.yml
+  when: "'monitoring' in group_names"
 - include: bashrc.yml
   tags: bashrc
