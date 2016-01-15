@@ -1,7 +1,11 @@
 {
   "mailer": {
     "admin_gui": "https://mon.{{ customer_domain }}/#/events",
+{% if postfix_myorigin is defined %}
     "mail_from": "sensu@{{ postfix_myorigin }}",
+{% else %}
+    "mail_from": "sensu@{{ ansible_fqdn }}",
+{% endif %}
     "mail_to": "{{ sensu_mail_to }}"
   }
 }
