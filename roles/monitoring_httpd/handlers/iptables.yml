@@ -1,4 +1,5 @@
 ---
+# TODO FIX: ensure this is run at least once
 - name: httpd security rules
   command: "{{ item }}"
   with_items:

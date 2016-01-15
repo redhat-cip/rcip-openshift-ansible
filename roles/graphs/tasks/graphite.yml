@@ -129,5 +129,6 @@
     - localhost
   when: mysql_host in ['localhost', '127.0.0.1']
 
+# TODO: run setup only once
 - name: Setup graphite db
   command: /usr/bin/python manage.py migrate --noinput chdir=/opt/graphite/webapp/graphite
