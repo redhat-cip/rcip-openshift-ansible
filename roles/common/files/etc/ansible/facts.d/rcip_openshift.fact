@@ -86,14 +86,20 @@ class Rcip_openshift_fact(object):
 
     def get_json(self, url):
 
-        headers = {"Authorization": 'Bearer %s' % self.token}
-        r = requests.get('%s%s' % (self.url, url),
-                         headers=headers,
-                         verify=False)  # don't check ssl
+        
+        try:
+          headers = {"Authorization": 'Bearer %s' % self.token}
+          r = requests.get('%s%s' % (self.url, url),
+                           headers=headers,
+                           verify=False)  # don't check ssl
+        except:
+            print "{\"default\": {\"services\": {\"fail\": \"error-requests-get\"}}}"
+            exit(1)
+
         try:
             return r.json()
         except ValueError:
-            print "{'error': 'could not evaluate %s'}" % url
+            print "{\"default\": {\"services\": {\"error\": \"could not evaluate %s\"}}}" % url
             exit(1)
 
 
