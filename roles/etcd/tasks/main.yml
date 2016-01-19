@@ -1,3 +1,2 @@
 ---
 - include: checks.yml
-  when: "'monitoring' in group_names"

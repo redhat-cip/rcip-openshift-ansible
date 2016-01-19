@@ -10,4 +10,3 @@
   tags: ntp
 - include: sensu.yml
   tags: sensu-client
-  when: "'monitoring' in group_names"
