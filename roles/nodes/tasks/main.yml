@@ -9,4 +9,6 @@
 - include: collectd.yml
   tags:
     - collectd
+  when: "'monitoring' in groups"
 - include: logstash.yml
+  when: "'monitoring' in groups"

@@ -1,2 +1,3 @@
 ---
 - include: checks.yml
+  when: "'monitoring' in groups"
