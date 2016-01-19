@@ -26,12 +26,17 @@
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
 
 - name: install graphite-web
-  pip: name=graphite-web state=present
+  pip:
+    name: "{{ item }}"
+    state: present
   environment:
     http_proxy: "{{ proxy_env['http_proxy'] }}"
     https_proxy: "{{ proxy_env['https_proxy'] }}"
     CFLAGS: '-march=x86-64'
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
+  with_items:
+    - graphite-web
+    - carbon
 
 - name: copy carbon.conf & graphite.wsgi & storage-schemas.conf & storage-aggregation.conf
   copy:
@@ -72,6 +77,7 @@
     recurse: yes
   with_items:
     - { dir: "storage", owner: "graphite" }
+    - { dir: "storage/log", owner: "graphite" }
     - { dir: "storage/log/webapp", owner: "apache" }
 
 - name: check if SELinux fcontext is present
