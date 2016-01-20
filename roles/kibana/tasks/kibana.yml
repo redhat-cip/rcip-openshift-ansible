@@ -7,7 +7,7 @@
   get_url:
     url: https://download.elastic.co/kibana/kibana/kibana-{{ kibana_kibana_version }}-linux-x64.tar.gz
     dest: /usr/src/
-    validate_certs: no
+    validate_certs: False
 
 - name: Extract kibana source to /opt/
   unarchive: src=/usr/src/kibana-{{ kibana_kibana_version }}-linux-x64.tar.gz dest=/opt/ copy=no creates=/opt/kibana-{{ kibana_kibana_version }}-linux-x64

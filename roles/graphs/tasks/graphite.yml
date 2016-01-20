@@ -16,7 +16,7 @@
   get_url:
     url: https://raw.githubusercontent.com/graphite-project/graphite-web/master/requirements.txt
     dest: /tmp/graphite-requirements.txt
-  validate_certs: False
+    validate_certs: False
 
 - name: install pip packages requirements for graphite-web
   pip: requirements=/tmp/graphite-requirements.txt
