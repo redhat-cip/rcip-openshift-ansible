@@ -109,6 +109,7 @@
   ignore_errors: yes
   changed_when: False
   always_run: yes
+  validate_certs: False
   register: connectdb_present
 
 - name: set in SELinux so httpd can network connect to db
