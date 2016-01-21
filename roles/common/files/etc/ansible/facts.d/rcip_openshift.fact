@@ -115,13 +115,13 @@ if __name__ == "__main__":
 
     try:
         master_config = yaml.load(file(config_file, 'r'))
-    except IOError:
+    except (IOError, yaml.scanner.ScannerError):
         print '{"error": "unable to load config file %s"}' % config_file
         exit(1)
 
     try:
         myosfact = Rcip_openshift_fact(url=master_config['oauthConfig']['masterURL'])
-    except KeyError:
+    except (KeyError, TypeError):
         print '{"error": "could not find masterURL"}'
         exit(1)
 
