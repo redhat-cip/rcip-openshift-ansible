@@ -30,6 +30,8 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 VERSION = '1.2'
 
+def print_error(msg):
+    print(json.dumps({"default": {"services": {"error": msg}}}))
 
 class Rcip_openshift_fact(object):
     """
@@ -54,7 +56,7 @@ class Rcip_openshift_fact(object):
             f = open(tokenfile, 'r')
             return f.readline().strip()
         except IOError:
-            print "{\"default\": {\"services\": {\"fail\": \"tokenfile-inaccessible\"}}}"
+            print_error('tokenfile-inaccessible')
             sys.exit(0)
 
     def get_svc(self, namespace=None):
@@ -85,21 +87,19 @@ class Rcip_openshift_fact(object):
         return ansible_fact
 
     def get_json(self, url):
-
-        
         try:
-          headers = {"Authorization": 'Bearer %s' % self.token}
-          r = requests.get('%s%s' % (self.url, url),
-                           headers=headers,
-                           verify=False)  # don't check ssl
+            headers = {"Authorization": 'Bearer %s' % self.token}
+            r = requests.get('%s%s' % (self.url, url),
+                             headers=headers,
+                             verify=False)  # don't check ssl
         except:
-            print "{\"default\": {\"services\": {\"fail\": \"error-requests-get\"}}}"
+            print_error('error-requests-get')
             exit(1)
 
         try:
             return r.json()
         except ValueError:
-            print "{\"default\": {\"services\": {\"error\": \"could not evaluate %s\"}}}" % url
+            print_error('could not evaluate %s' % url)
             exit(1)
 
 
@@ -116,14 +116,18 @@ if __name__ == "__main__":
     try:
         master_config = yaml.load(file(config_file, 'r'))
     except (IOError, yaml.scanner.ScannerError):
-        print '{"error": "unable to load config file %s"}' % config_file
+        print_error('unable to load config file %s' % config_file)
         exit(1)
 
     try:
         myosfact = Rcip_openshift_fact(url=master_config['oauthConfig']['masterURL'])
-    except (KeyError, TypeError):
-        print '{"error": "could not find masterURL"}'
+    except:
+        print_error('could not find masterURL')
         exit(1)
 
-    datas = myosfact.gathers_datas()
-    print json.dumps(datas)
+    try:
+        datas = myosfact.gathers_datas()
+        print(json.dumps(datas))
+    except:
+        print_error('could not fetch datas')
+        exit(1)
