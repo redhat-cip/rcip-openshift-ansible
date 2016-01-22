@@ -51,7 +51,11 @@ openshift_wildcard_dns="*.{{ customer_domain }}"
 
 customer_docker_storage_dev=xvdf
 customer_collectd_disk_rootfs=xvda2
-customer_collectd_disk_ose_registry=xvdg
+
+# In case you want to use local storage for registry
+# customer_openshift_registry_mount_host='/mnt/ose-registry'
+# customer_collectd_disk_ose_registry=xvdg
+
 customer_http_proxy=http://openshiftproxy.com:8080
 customer_https_proxy=http://openshiftproxy.com:8080
 customer_append_no_proxy=",.intranet.customer"

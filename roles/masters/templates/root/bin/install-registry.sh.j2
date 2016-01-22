@@ -21,8 +21,8 @@ set -e
 #
 
 # Sample to create a local lvm storage for registry
-#   pvcreate /dev/{{ collectd_disk_ose_registry }}
-#   vgcreate vg_ose /dev/{{ collectd_disk_ose_registry }}
+#   pvcreate /dev/{{ collectd_disk_ose_registry | default('vdc', True) }}
+#   vgcreate vg_ose /dev/{{ collectd_disk_ose_registry | default('vdc', True) }}
 #   lvcreate -l 100%FREE --name ose-registry vg_ose
 #   mkdir /mnt/ose-registry
 #   mkfs.ext4 -m0 /dev/mapper/vg_ose-ose--registry
@@ -31,7 +31,7 @@ set -e
 oadm registry --create --service-account=registry \
   --config=/etc/{{ masters_etc_config }}/master/admin.kubeconfig \
   --credentials=/etc/{{ masters_etc_config }}/master/openshift-registry.kubeconfig \
-  --mount-host={{openshift_registry_mount_host}} --selector="region=infra"
+  --mount-host={{openshift_registry_mount_host | default('/mnt/ose-registry', True)}} --selector="region=infra"
 #  --images='registry.access.redhat.com/openshift3/ose-${component}:${version}' \
 
 #
