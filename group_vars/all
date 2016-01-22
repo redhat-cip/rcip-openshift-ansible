@@ -1,7 +1,7 @@
 ---
 openshift_health_url: https://{{ openshift_master_cluster_hostname }}:8443/healthz/ping
 
-openshift_registry_mount_host: '/mnt/ose-registry'
+openshift_registry_mount_host: "{{ customer_openshift_registry_mount_host | default(None) }}"
 
 monitoring_elasticsearch_version: '1.7'
 monitoring_logstash_version: '1.5'

@@ -31,7 +31,7 @@ set -e
 oadm registry --create --service-account=registry \
   --config=/etc/{{ masters_etc_config }}/master/admin.kubeconfig \
   --credentials=/etc/{{ masters_etc_config }}/master/openshift-registry.kubeconfig \
-  --mount-host={{openshift_registry_mount_host}} --selector="region=infra"
+  --mount-host={{openshift_registry_mount_host | default('/mnt/ose-registry', True)}} --selector="region=infra"
 #  --images='registry.access.redhat.com/openshift3/ose-${component}:${version}' \
 
 #
