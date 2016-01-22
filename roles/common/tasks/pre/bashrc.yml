@@ -1,0 +1,12 @@
+---
+- name: Add http_proxy https_proxy no_proxy in /etc/bashrc
+  lineinfile:
+    dest: /etc/bashrc
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^export http_proxy=.*', line: "export http_proxy='{{ proxy_env[\'http_proxy\'] }}'" }
+    - { regexp: '^export https_proxy=.*', line: "export https_proxy='{{ proxy_env[\'https_proxy\'] }}'" }
+    - { regexp: '^export no_proxy=.*', line: "export no_proxy='{{ no_proxy }},{{ openshift_vip_fqdn_internal }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %}'" }
+  when: proxy_env['http_proxy']
+  tags: proxyenv
