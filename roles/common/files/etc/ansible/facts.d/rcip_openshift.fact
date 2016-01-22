@@ -31,7 +31,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 VERSION = '1.2'
 
 def print_error(msg):
-    print('{"default": {"services": {"error": "%s"}}}' % msg)
+    print(json.dumps({"default": {"services": {"error": msg}}}))
 
 class Rcip_openshift_fact(object):
     """
