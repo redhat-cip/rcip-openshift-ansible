@@ -17,5 +17,7 @@ if ! oc get serviceaccount monitoring; then
 EOF
 
   oadm policy add-cluster-role-to-user basic-user system:serviceaccount:default:monitoring
+	oadm policy add-cluster-role-to-user cluster-reader system:serviceaccount:default:monitoring
+
   echo 'CHANGED'
 fi
