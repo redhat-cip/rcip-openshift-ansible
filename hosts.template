@@ -27,10 +27,6 @@ monitoring.openshift.com
 #setup nfs server
 master1.openshift.com
 
-[common-openshift:children]
-masters
-nodes
-
 [all:vars]
 openshift_master_cluster_hostname="master.enoshift.com"
 monitoring_vip="1.2.3.4"
