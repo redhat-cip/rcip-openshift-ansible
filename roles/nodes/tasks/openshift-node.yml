@@ -23,29 +23,6 @@
   tags: proxyenv
 
 
-
-#Update max-pods in node-config.yaml max-pods 100
-- name: Add kubeletArguments section in node-config.yaml
-  lineinfile:
-    dest: "/etc/{{ nodes_etc_config }}/node/node-config.yaml"
-    line: 'kubeletArguments:'
-  tags:
-         - openshift-node
-
-- name: Add max-pods in node-config.yaml
-  lineinfile:
-    dest: "/etc/{{ nodes_etc_config }}/node/node-config.yaml"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    insertafter: "{{ item.insertafter }}"
-  with_items:
-       - { line: "  max-pods:",    regexp: '^  max-pods:$',   insertafter: "^kubeletArguments:$"}
-       - { line: "     - \"100\"", regexp: '     - "[0-9]+"', insertafter: "^  max-pods:$"}
-  tags:
-         - openshift-node
-  notify:
-        - restart openshift-node
-
 - name: "ensure service {{ nodes_deamon_name }} started"
   service:
        name: "{{ nodes_deamon_name }}"
