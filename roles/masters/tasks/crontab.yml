@@ -15,8 +15,8 @@
     line: "{{ item.line }}"
     create: yes
   with_items:
-    - { regexp: '.* /opt/rcip-openshift-scripts/backup/etcd/backup_etcd.sh >> /var/log/backup_etcd.log$', line: "{{ crontab_etcd_backup_time }} BACKUPDIR=/opt/backups/${HOSTNAME}/etcd MASTER_CONF='/etc/{{ masters_etc_config}}/master' /opt/rcip-openshift-scripts/backup/etcd/backup_etcd.sh >> /var/log/backup_etcd.log" }
-    - { regexp: '.* /opt/rcip-openshift-scripts/backup/etcd/purge.sh >> /var/log/purge_backup_etcd.log$', line: "{{ crontab_etcd_prune_time }} BACKUPDIR=/opt/backups/${HOSTNAME}/etcd /opt/rcip-openshift-scripts/backup/etcd/purge.sh >> /var/log/purge_backup_etcd.log" }
+    - { regexp: '.* /opt/rcip-openshift-scripts/backup/etcd/backup_etcd.sh >> /var/log/backup_etcd.log$', line: "{{ crontab_etcd_backup_time }} BACKUPDIR=\"/opt/backups/$(hostname)/etcd\" MASTER_CONF='/etc/{{ masters_etc_config}}/master' /opt/rcip-openshift-scripts/backup/etcd/backup_etcd.sh >> /var/log/backup_etcd.log" }
+    - { regexp: '.* /opt/rcip-openshift-scripts/backup/etcd/purge.sh >> /var/log/purge_backup_etcd.log$', line: "{{ crontab_etcd_prune_time }} BACKUPDIR=\"/opt/backups/$(hostname)/etcd\" /opt/rcip-openshift-scripts/backup/etcd/purge.sh >> /var/log/purge_backup_etcd.log" }
 
 
 - name: config crontab backup etc configs
@@ -26,4 +26,4 @@
     line: "{{ item.line }}"
     create: yes
   with_items:
-    - { regexp: '.* /opt/rcip-openshift-scripts/backup/configs/backup_configs.sh --go >> /var/log/backup_configs.log 2>&1$', line: "{{ crontab_configs_backup_time }} BACKUPDIR=/opt/backups/${HOSTNAME}/configs FILE_TO_BACKUP='/etc/{{ masters_etc_config}}/master /etc/ansible' /opt/rcip-openshift-scripts/backup/configs/backup_configs.sh --go >> /var/log/backup_configs.log 2>&1" }
+    - { regexp: '.* /opt/rcip-openshift-scripts/backup/configs/backup_configs.sh --go >> /var/log/backup_configs.log 2>&1$', line: "{{ crontab_configs_backup_time }} BACKUPDIR=\"/opt/backups/$(hostname)/configs\" FILE_TO_BACKUP='/etc/{{ masters_etc_config}}/master /etc/ansible' /opt/rcip-openshift-scripts/backup/configs/backup_configs.sh --go >> /var/log/backup_configs.log 2>&1" }
