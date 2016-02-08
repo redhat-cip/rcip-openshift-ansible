@@ -11,3 +11,4 @@
     - { regexp: '^DEVS=.*$', line: "DEVS=/dev/{{ docker_storage_dev }}" }
     - { regexp: '^VG=.*$', line: "VG={{ docker_vg }}" }
     - { regexp: '^SETUP_LVM_THIN_POOL=.*$', line: 'SETUP_LVM_THIN_POOL=yes' }
+  tags: docker-storage

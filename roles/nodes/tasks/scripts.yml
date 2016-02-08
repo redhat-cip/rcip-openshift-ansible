@@ -11,6 +11,7 @@
       mode: 0755
       owner: root
       group: root
+  tags: docker-storage
 
 
 - name: push cleanup-lvm.sh
@@ -20,3 +21,4 @@
        owner: root
        group: root
        mode: 0755
+  tags: docker-storage
