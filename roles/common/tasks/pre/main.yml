@@ -6,3 +6,4 @@
   when: subscription_pool is defined and subscription_pool
 
 - include: package.yml
+  when: not ansible_local.system.is_atomic | bool
