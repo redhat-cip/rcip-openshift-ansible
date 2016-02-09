@@ -1,5 +1,6 @@
 ---
 - include: fact.yml
+  tags: fact
 - include: bashrc.yml
 - include: subscription.yml
   when: subscription_pool is defined and subscription_pool
