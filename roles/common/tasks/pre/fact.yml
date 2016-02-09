@@ -8,7 +8,7 @@
 - name: set fact ansible_local.system.is_atomic
   copy:
     dest: /etc/ansible/facts.d/system.fact
-    content: "{ \"is_atomic\": {{ ostree_output.rc == 0 }}"
+    content: "{ \"is_atomic\": {{ ostree_output.rc == 0 }}}"
 
 - name: re-read facts after adding custom fact
   setup: filter=ansible_local
