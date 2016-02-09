@@ -2,6 +2,12 @@
 
 - include: server.yml
   when: groups['dns'] is defined and inventory_hostname in groups['dns']
+  tags: 
+    - dns-server
+    - dns
 
 - include: client.yml
   when: groups['dns'] is defined
+  tags:
+    - dns-client
+    - dns
