@@ -1,13 +1,19 @@
 ---
 - include: facts.yml
 - include: mail.yml
+  when: not ansible_local.system.is_atomic | bool
   tags: mail
+
 - include: logrotate.yml
 - include: jq.yml
+
 - include: gem.yml
+  when: not ansible_local.system.is_atomic | bool
+
 - include: bashrc.yml
 - include: ntp.yml
   tags: ntp
+
 - include: sensu.yml
   tags: sensu-client
   when: "'monitoring' in groups"
