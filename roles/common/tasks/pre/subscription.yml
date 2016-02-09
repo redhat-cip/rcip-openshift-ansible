@@ -11,5 +11,10 @@
        pool: "{{ subscription_pool }}"
        #pool: '^Employee SKU$'
 
+#Disable all the repository
   - shell: subscription-manager repos --disable='*'
-  - shell: subscription-manager repos --enable='rhel-7-server-rpms' --enable='rhel-7-server-extras-rpms' --enable='rhel-7-server-ose-3.1-rpms' --enable='rhel-7-server-optional-rpms'
+
+#Enable opensift repo
+  - name: enable repo rhel-7 and ose 3.1
+    shell: subscription-manager repos --enable='rhel-7-server-rpms' --enable='rhel-7-server-extras-rpms' --enable='rhel-7-server-ose-3.1-rpms' --enable='rhel-7-server-optional-rpms'
+    when: not ansible_local.system.is_atomic | bool
