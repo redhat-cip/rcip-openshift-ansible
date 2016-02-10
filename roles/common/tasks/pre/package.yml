@@ -1,14 +1,6 @@
 ---
-
-#debug packages
-
-
 - name: upgrade all packages
   yum: name=* state=latest
-
-- name: install docker
-  yum: name=docker state=installed
-  when: deployment_type is defined and ( deployment_type in ['origin'] )
 
 - name: install common packages
   yum:
@@ -20,7 +12,6 @@
        - vim
        - wget
        - httpd-tools
-       - docker-python
        - iptables-services
        - git
        - screen

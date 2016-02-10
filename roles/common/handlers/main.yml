@@ -1,3 +1,4 @@
 ---
 - include: postfix.yml
 - include: sensu.yml
+- include: docker.yml

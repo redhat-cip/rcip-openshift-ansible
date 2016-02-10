@@ -3,22 +3,3 @@
   git:
      repo: https://github.com/redhat-cip/rcip-openshift-scripts.git
      dest: /opt/rcip-openshift-scripts
-
-- name: directory to push script
-  file:
-      path: '/root/bin'
-      state: directory
-      mode: 0755
-      owner: root
-      group: root
-  tags: docker-storage
-
-
-- name: push cleanup-lvm.sh
-  template:
-       src: root/bin/cleanup-lvm.sh.j2
-       dest: /root/bin/cleanup-lvm.sh
-       owner: root
-       group: root
-       mode: 0755
-  tags: docker-storage

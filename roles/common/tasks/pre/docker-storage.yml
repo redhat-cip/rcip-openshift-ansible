@@ -1,4 +1,26 @@
 ---
+- name: install docker
+  yum: "name={{ item }} state=installed"
+  with_items:
+    - docker
+    - docker-python
+
+- name: directory to push script
+  file:
+    path: '/root/bin'
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: push cleanup-lvm.sh
+  template:
+    src: ../../templates/root/bin/cleanup-lvm.sh.j2
+    dest: /root/bin/cleanup-lvm.sh
+    owner: root
+    group: root
+    mode: 0755
+
 - name: config /etc/sysconfig/docker-storage-setup
   lineinfile:
     dest: /etc/sysconfig/docker-storage-setup
@@ -11,4 +33,3 @@
     - { regexp: '^DEVS=.*$', line: "DEVS=/dev/{{ docker_storage_dev }}" }
     - { regexp: '^VG=.*$', line: "VG={{ docker_vg }}" }
     - { regexp: '^SETUP_LVM_THIN_POOL=.*$', line: 'SETUP_LVM_THIN_POOL=yes' }
-  tags: docker-storage

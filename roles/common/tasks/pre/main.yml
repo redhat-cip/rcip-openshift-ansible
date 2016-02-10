@@ -7,3 +7,7 @@
 
 - include: package.yml
   when: not ansible_local.system.is_atomic | bool
+
+- include: docker-storage.yml
+  when: nodes_manage_docker_storage and inventory_hostname in groups['nodes']
+  tags: docker-storage
