@@ -1,6 +1,5 @@
 ---
 - name: restart docker
-  service: name=docker state=stopped
-  notify: restart openshift-node
+  service: name=docker state=restarted
 - name: docker-storage-setup
   command: docker-storage-setup
