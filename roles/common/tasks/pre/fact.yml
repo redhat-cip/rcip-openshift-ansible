@@ -5,6 +5,14 @@
   failed_when: false
   register: ostree_output
 
+- name: ensure facts.d dir is present
+  file:
+    dest: "{{ item }}"
+    state: directory
+  with_items:
+    - /etc/ansible
+    - /etc/ansible/facts.d
+
 - name: set fact ansible_local.system.is_atomic
   copy:
     dest: /etc/ansible/facts.d/system.fact
