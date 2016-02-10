@@ -7,7 +7,6 @@
        state: present
        username: "{{ subscription_name }}"
        password: "{{ subscription_pass }}"
-       autosubscribe: true
        pool: "{{ subscription_pool }}"
        #pool: '^Employee SKU$'
 
