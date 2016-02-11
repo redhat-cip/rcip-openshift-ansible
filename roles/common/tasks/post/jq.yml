@@ -2,6 +2,7 @@
 - name: create /opt/bin
   file: path=/opt/bin state=directory mode=0755
 - name: add jq
+  environment: proxy_env
   get_url:
     url: https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
     dest: /opt/bin/jq
