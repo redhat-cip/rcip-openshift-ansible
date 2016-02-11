@@ -1,16 +1,28 @@
 ---
 
+- set_fact:
+    sensu_owner: sensu
+    sensu_group: sensu
+  when: not ansible_local.system.is_atomic | bool 
+
+- set_fact:
+    sensu_owner: root
+    sensu_group: root
+  when: ansible_local.system.is_atomic | bool 
+
 - name: directory /etc/sensu
   file:
     path: '/etc/sensu'
     state: directory
+    owner: "{{ sensu_owner }}"
+    group: "{{ sensu_group }}"
     mode: 0755
 
 - name: add token file
   copy:
     content: "{{ hostvars[groups['masters'][0]]['ansible_local'].openshift_data.tokens.metrics }}"
     dest: /etc/sensu/openshift_token
-    owner: sensu
-    group: sensu
+    owner: "{{ sensu_owner }}"
+    group: "{{ sensu_group }}"
     mode: 0600
   when: hostvars[groups['masters'][0]]['ansible_local'].openshift_data.tokens.metrics is defined
