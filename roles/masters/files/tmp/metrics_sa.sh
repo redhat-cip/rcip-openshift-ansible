@@ -2,11 +2,14 @@
 # creates the metrics service account if needed and display token.
 set -x
 set -e
+OC=$(whereis oc)
+OADM=$(whereis oadm)
+
 
 [ "root" = "$(whoami)" ]
 
-if ! oc get serviceaccount metrics; then
-  oc create -f - <<EOF
+if ! $OC get serviceaccount metrics; then
+  $OC create -f - <<EOF
 {
   "apiVersion": "v1",
   "kind": "ServiceAccount",
@@ -16,6 +19,6 @@ if ! oc get serviceaccount metrics; then
 }
 EOF
 
-  oadm policy add-cluster-role-to-user cluster-reader system:serviceaccount:default:metrics
+  $OADM policy add-cluster-role-to-user cluster-reader system:serviceaccount:default:metrics
   echo 'CHANGED'
 fi

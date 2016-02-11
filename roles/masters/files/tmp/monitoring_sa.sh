@@ -5,8 +5,11 @@ set -e
 
 [ "root" = "$(whoami)" ]
 
-if ! oc get serviceaccount monitoring; then
-  oc create -f - <<EOF
+OC=$(whereis oc)
+OADM=$(whereis oadm)
+
+if ! $OC get serviceaccount monitoring; then
+  $OC create -f - <<EOF
 {
   "apiVersion": "v1",
   "kind": "ServiceAccount",
@@ -16,8 +19,7 @@ if ! oc get serviceaccount monitoring; then
 }
 EOF
 
-  oadm policy add-cluster-role-to-user basic-user system:serviceaccount:default:monitoring
-	oadm policy add-cluster-role-to-user cluster-reader system:serviceaccount:default:monitoring
+  $OADM policy add-cluster-role-to-user cluster-reader system:serviceaccount:default:monitoring
 
   echo 'CHANGED'
 fi
