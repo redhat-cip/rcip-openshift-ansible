@@ -5,8 +5,8 @@ set -e
 
 [ "root" = "$(whoami)" ]
 
-OC=$(whereis oc)
-OADM=$(whereis oadm)
+OC=$(which oc)
+OADM=$(which oadm)
 
 if ! $OC get serviceaccount monitoring; then
   $OC create -f - <<EOF
