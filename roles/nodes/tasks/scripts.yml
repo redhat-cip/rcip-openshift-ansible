@@ -3,3 +3,4 @@
   git:
      repo: https://github.com/redhat-cip/rcip-openshift-scripts.git
      dest: /opt/rcip-openshift-scripts
+  when: not ansible_local.system.is_atomic | bool
