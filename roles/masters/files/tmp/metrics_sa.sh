@@ -2,8 +2,10 @@
 # creates the metrics service account if needed and display token.
 set -x
 set -e
-OC=$(which oc)
-OADM=$(which oadm)
+OC_TMP=$(whereis oc)
+OC=${OC_TMP#* }
+OADM_TMP=$(whereis oadm)
+OADM=${OADM_TMP#* }
 
 
 [ "root" = "$(whoami)" ]
