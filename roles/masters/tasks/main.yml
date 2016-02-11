@@ -7,6 +7,6 @@
   tags: service_ips
   when: "'monitoring' in groups"
 - include: sensu.yml
-  when: "'monitoring' in groups"
+  when: "'monitoring' in groups and not ansible_local.system.is_atomic | bool"
 - include: bashrc.yml
   tags: bashrc

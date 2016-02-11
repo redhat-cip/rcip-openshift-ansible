@@ -9,6 +9,6 @@
 - include: collectd.yml
   tags:
     - collectd
-  when: "'monitoring' in groups"
+  when: "'monitoring' in groups and not ansible_local.system.is_atomic | bool"
 - include: logstash.yml
-  when: "'monitoring' in groups"
+  when: "'monitoring' in groups and not ansible_local.system.is_atomic | bool"
