@@ -22,6 +22,7 @@ import sys
 import json
 import yaml
 import requests
+import os
 from os.path import isfile
 
 # Disable warning for insecure https
