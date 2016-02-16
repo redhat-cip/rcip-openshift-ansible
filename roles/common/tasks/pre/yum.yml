@@ -3,6 +3,6 @@
   lineinfile:
     dest: /etc/yum.conf
     regexp: "^proxy=.*"
-    line: "proxy={{ proxy_env[\'http_proxy\'] }}"
+    line: "proxy={{ proxy_env['http_proxy'] }}"
   when: proxy_env['http_proxy']
   tags: proxyenv
