@@ -4,6 +4,13 @@
     dest: /root/.etcd.bashrc
     src: root/etcd.bashrc.j2
 
+- name: add .bashrc if missing
+  file:
+    dest: /root/.bashrc
+    owner: root
+    state: touch
+  when: ansible_local.system.is_atomic | bool
+
 - name: source .etcd.bashrc from .bashrc
   lineinfile:
     dest: /root/.bashrc
