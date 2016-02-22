@@ -3,6 +3,7 @@
   shell: ls /run/ostree-booted
   ignore_errors: yes
   failed_when: false
+  changed_when: False
   register: ostree_output
 
 - name: ensure facts.d dir is present
