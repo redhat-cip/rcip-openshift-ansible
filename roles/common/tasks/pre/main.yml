@@ -15,5 +15,5 @@
   when: inventory_hostname in groups['nodes']
   tags: docker
 - include: docker-storage.yml
-  when: nodes_manage_docker_storage and inventory_hostname in groups['nodes']
+  when: common_manage_docker_storage | bool and inventory_hostname in groups['nodes']
   tags: docker-storage

@@ -6,5 +6,5 @@ ntp_servers:
   - 3.rhel.pool.ntp.org
 timezone: 'America/New_York'
 postfix_myorigin: "{{ customer_domain }}"
-nodes_manage_docker_storage: "{{ manage_docker_storage | default('true') }}"
+common_manage_docker_storage: "{{ manage_docker_storage | default('true') }}"
 docker_vg: "{{ customer_docker_vg | default('docker-vg') }}"
