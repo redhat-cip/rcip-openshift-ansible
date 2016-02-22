@@ -16,5 +16,7 @@
   tags: ntp
 
 - include: sensu.yml
-  tags: sensu-client
+  tags: 
+    - sensu-client
+    - monitoring-client
   when: "'monitoring' in groups and not ansible_local.system.is_atomic | bool"
