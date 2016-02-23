@@ -1,8 +1,9 @@
 <VirtualHost *:{{ sensu_httpd_port }}>
   ServerName {{ httpd_mon_fqdn }}
-  {% if sensu_httpd_aliases %}
+{% if sensu_httpd_aliases %}
   ServerAlias{% for alias in sensu_httpd_aliases %} {{ alias }}{% endfor %}
-  {% endif %}
+{% endif %}
+
   #
   # Proxy
   #
