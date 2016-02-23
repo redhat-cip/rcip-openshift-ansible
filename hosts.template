@@ -28,6 +28,9 @@ monitoring.openshift.com
 master1.openshift.com
 
 [all:vars]
+#Vip ip used into dnsmasq to match to the openshift api fqdn (only needed if you use dns role)
+customer_api_public_vip="1.2.3.4"
+
 monitoring_vip="1.2.3.4"
 rabbitmq_sensu_password="password"
 customer="openshift_test"

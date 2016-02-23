@@ -22,8 +22,8 @@
   lineinfile:
      dest: /etc/hosts
      state: present
-     line: "{{ openshift_master_cluster_vip }}    {{ openshift_master_cluster_hostname }}"
-  when: openshift_master_cluster_vip is defined and openshift_master_cluster_vip
+     line: "{{ customer_api_public_vip }}    {{ openshift_master_cluster_hostname }}"
+  when: customer_api_public_vip is defined and customer_api_public_vip
 
 - name: ensure start dnsmasq
   service: name=dnsmasq state=started enabled=yes
