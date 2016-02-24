@@ -1,0 +1,24 @@
+---
+# this little playbook is used to change masterCount in master-config.yaml after a scale down masters for example.
+# requires this library : https://github.com/openshift/openshift-ansible/blob/master/playbooks/common/openshift-master/library/modify_yaml.py
+# it can be used like this if you have the openshift/openshift-ansible repository in /root/ for example:
+# ansible-playbook -M /root/openshift-ansible/playbooks/common/openshift-master/library/  change_masterCount.yml -e count=2
+- hosts: masters
+  handlers:
+  - name: restart api
+    service:
+      name: atomic-openshift-master-api
+      state: restarted
+  - name: restart controllers
+    service:
+      name: atomic-openshift-master-controllers
+      state: restarted
+  tasks:
+  - name: change masterCount value
+    modify_yaml:
+      dest: /etc/origin/master/master-config.yaml
+      yaml_key: 'kubernetesMasterConfig.masterCount'
+      yaml_value: "{{ count }}"
+    notify:
+    - restart api
+    - restart controllers
