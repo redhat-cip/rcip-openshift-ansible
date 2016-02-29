@@ -15,21 +15,6 @@
 - name: install sensu
   yum: name=sensu state=installed
 
-- name: sensu-client config
-  template:
-       src: "../../templates/{{ item.src }}"
-       dest: "{{ item.dest }}"
-       owner: root
-       group: root
-       mode: 0644
-  notify:
-       - restart sensu-client
-  with_items:
-       - src: 'etc/sensu/conf.d/client.json.j2'
-         dest: '/etc/sensu/conf.d/client.json'
-       - src: 'etc/sensu/config.json.j2'
-         dest: '/etc/sensu/config.json'
-
 # Checks prerequisites
 - name: install common packages sensu
   yum:
@@ -82,28 +67,9 @@
         state=link
         force=yes
 
-- name: Add /etc/sudoers.d/sensu
-  lineinfile:
-    dest: /etc/sudoers.d/sensu
-    line: "{{ item.line }}"
-    create: yes
-  with_items:
-    - {line: "Defaults:sensu !requiretty" }
-    - {line: 'sensu ALL=(root) NOPASSWD: /opt/rcip-openshift-scripts/monitoring-plugins/wrapper_check_docker.sh' }
-    - {line: 'sensu ALL=(root) NOPASSWD: /opt/rcip-openshift-scripts/monitoring-plugins/check_arp_incomplete.sh' }
-
 - name: ensure service sensu-client started
   service:
     name: sensu-client
     state: started
     enabled: yes
   when: dockerbuild is undefined
-
-- name: loglevel sensu present
-  lineinfile:
-    dest: /etc/default/sensu
-    regexp: '^LOG_LEVEL=.*$'
-    line: 'LOG_LEVEL={{ loglevel_sensuclient }}'
-    state: present
-  notify:
-    - restart sensu-client
