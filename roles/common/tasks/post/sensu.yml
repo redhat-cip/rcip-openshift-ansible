@@ -67,18 +67,6 @@
         state=link
         force=yes
 
-<<<<<<< HEAD
-=======
-- name: Add /etc/sudoers.d/sensu
-  lineinfile:
-    dest: /etc/sudoers.d/sensu
-    line: "{{ item.line }}"
-    create: yes
-  with_items:
-    - {line: "Defaults:sensu !requiretty" }
-    - {line: 'sensu ALL=(root) NOPASSWD: /opt/rcip-openshift-scripts/monitoring-plugins/wrapper_check_docker.sh' }
-
->>>>>>> 52a065c... monitoring: removing check for ARC incomplete
 - name: ensure service sensu-client started
   service:
     name: sensu-client
