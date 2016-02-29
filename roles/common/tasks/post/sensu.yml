@@ -97,6 +97,7 @@
     name: sensu-client
     state: started
     enabled: yes
+  when: dockerbuild is undefined
 
 - name: loglevel sensu present
   lineinfile:
