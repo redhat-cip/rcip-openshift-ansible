@@ -40,7 +40,12 @@
   when: dockerbuild is undefined
 
 - name: Allow logstash on messages
-  file: path=/var/log/messages owner=root group=logstash mode=0640
+  file:
+    path: /var/log/messages
+    owner: root
+    group: logstash
+    mode: 0640
+    state: touch
 
 - name: Add logstash /etc/logstash/conf.d/openshift.conf
   template:
