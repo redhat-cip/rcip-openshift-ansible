@@ -1,7 +1,7 @@
 {
   "client": {
     "name": "{{ inventory_hostname }}",
-    "address": "{{ ansible_default_ipv4['address'] }}",
+    "address": "{% if ansible_default_ipv4 is defined %}{{ ansible_default_ipv4['address'] }}{% else %}127.0.0.1{% endif %}",
     "subscriptions": [
 {% if inventory_hostname in groups['masters'] %}
       "openshift-master",
