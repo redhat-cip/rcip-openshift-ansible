@@ -9,6 +9,11 @@
 - include: collectd.yml
   tags:
     - collectd
+    - graph-client
   when: "'monitoring' in groups and not ansible_local.system.is_atomic | bool"
+
 - include: logstash.yml
+  tags:
+    - logstash
+    - log-client
   when: "'monitoring' in groups and not ansible_local.system.is_atomic | bool"
