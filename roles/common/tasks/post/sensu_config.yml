@@ -2,11 +2,38 @@
 
 - name: sensu-client config directory
   file:
-       path: '/etc/sensu/conf.d'
+       path: "{{ item }}"
        owner: root
        group: root
        mode: 0644
        state: directory
+  with_items:
+       - /etc/sensu/conf.d
+       - /etc/sensu/plugins
+       - /opt/rcip-openshift-scripts/monitoring-plugins
+
+
+- name: copy /etc/sensu/plugins/check_disk
+  copy:
+    src: ../../files/etc/sensu/plugins/check_disk
+    dest: /etc/sensu/plugins/check_disk
+
+- name: chmod /etc/sensu/plugins/check_disk
+  file: path=/etc/sensu/plugins/check_disk state=file mode=0755
+
+#git clone https://github.com/newrelic/check_docker.git
+- name: copy /etc/sensu/plugins/check_docker
+  copy:
+    src: ../../files/etc/sensu/plugins/check_docker
+    dest: /etc/sensu/plugins/check_docker
+- name: chmod /etc/sensu/plugins/check_docker
+  file: path=/etc/sensu/plugins/check_docker state=file mode=0755
+
+- name: symlink /opt/rcip-openshift-scripts/monitoring-plugins /etc/sensu/plugins/monitoring-plugins
+  file: src=/opt/rcip-openshift-scripts/monitoring-plugins
+        path=/etc/sensu/plugins/monitoring-plugins
+        state=link
+        force=yes
 
 - name: sensu-client config
   template:
