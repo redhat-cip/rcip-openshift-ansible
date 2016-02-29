@@ -11,6 +11,7 @@
        name: collectd
        state: started
        enabled: yes
+  when: dockerbuild is undefined
 
 - name: ensure package libsemanage-python is installed
   yum: name=libsemanage-python state=installed

@@ -1,3 +1,4 @@
 ---
 - name: restart collectd
   service: name=collectd state=restarted
+  when: dockerbuild is undefined

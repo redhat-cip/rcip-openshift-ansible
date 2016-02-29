@@ -37,6 +37,7 @@
        name: logstash
        state: started
        enabled: yes
+  when: dockerbuild is undefined
 
 - name: Allow logstash on messages
   file: path=/var/log/messages owner=root group=logstash mode=0640
