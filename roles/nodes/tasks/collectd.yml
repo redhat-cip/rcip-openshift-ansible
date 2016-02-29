@@ -18,6 +18,7 @@
 
 - name: collectd_tcp_network_connect allowed
   seboolean: name=collectd_tcp_network_connect state=yes persistent=yes
+  when: dockerbuild is undefined
 
 - name: install the collectd-lvm plugin rpm from a remote repo
   yum:
