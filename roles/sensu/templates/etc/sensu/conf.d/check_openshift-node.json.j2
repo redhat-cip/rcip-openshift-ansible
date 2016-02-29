@@ -1,15 +1,4 @@
 {
-  "checks": {
-    "arp_incomplete": {
-      "command": "sudo /opt/rcip-openshift-scripts/monitoring-plugins/check_arp_incomplete.sh -i",
-      "subscribers": [
-        "openshift-node"
-      ],
-      "handlers": ["mailer", "flowdock"],
-      "occurrences": 3,
-      "refresh": 86400,
-      "interval": 60
-    },
     "openshift-node-proc": {
       "command": "/usr/local/bin/check-process.rb -p 'openshift start node' -C 1",
       "subscribers": [

@@ -90,7 +90,6 @@
   with_items:
     - {line: "Defaults:sensu !requiretty" }
     - {line: 'sensu ALL=(root) NOPASSWD: /opt/rcip-openshift-scripts/monitoring-plugins/wrapper_check_docker.sh' }
-    - {line: 'sensu ALL=(root) NOPASSWD: /opt/rcip-openshift-scripts/monitoring-plugins/check_arp_incomplete.sh' }
 
 - name: ensure service sensu-client started
   service:
