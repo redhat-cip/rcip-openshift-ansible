@@ -25,4 +25,4 @@
   tags: 
     - sensu-client
     - monitoring-client
-  when: 'monitoring' in groups
+  when: "'monitoring' in groups"
