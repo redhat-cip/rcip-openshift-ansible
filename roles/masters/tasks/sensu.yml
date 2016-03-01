@@ -5,6 +5,12 @@
     group: adm
     mode: g+rx
 
+- name: "set permissions to /etc/etcd for sensu"
+  file:
+    path: "/etc/etcd"
+    group: adm
+    mode: g+rx
+
 - name: set permissions to openshift etcd peer certs for sensu check
   file:
     path: "/etc/etcd/peer.{{ item }}"
