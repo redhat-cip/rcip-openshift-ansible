@@ -49,6 +49,7 @@
          dest: '/etc/sensu/conf.d/client.json'
        - src: 'etc/sensu/config.json.j2'
          dest: '/etc/sensu/config.json'
+  when: dockerbuild is undefined
 
 - name: Add /etc/sudoers.d/sensu
   lineinfile:
@@ -58,6 +59,8 @@
   with_items:
     - {line: "Defaults:sensu !requiretty" }
     - {line: 'sensu ALL=(root) NOPASSWD: /opt/rcip-openshift-scripts/monitoring-plugins/wrapper_check_docker.sh' }
+  when: dockerbuild is undefined
+
 
 - name: loglevel sensu present
   lineinfile:
@@ -68,3 +71,4 @@
     state: present
   notify:
     - restart sensu-client
+  when: dockerbuild is undefined
