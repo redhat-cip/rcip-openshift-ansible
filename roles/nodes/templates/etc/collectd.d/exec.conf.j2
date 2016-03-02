@@ -1,4 +1,6 @@
 LoadPlugin exec
 <Plugin exec>
+{% if inventory_hostname in groups['masters'] %}
   Exec "sensu" "/opt/rcip-openshift-scripts/collectd-plugins/openshift-pods.sh" "/etc/sensu/openshift_token"
+{% endif %}
 </Plugin>
