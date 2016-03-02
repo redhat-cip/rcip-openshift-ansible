@@ -8,6 +8,7 @@
     path: /etc/etcd
     group: adm
     mode: g+rx
+  when: dockerbuild is undefined
 
 - name: set permissions to etcd cert for sensu checks
   file:
@@ -18,6 +19,7 @@
   with_items:
     - key
     - crt
+  when: dockerbuild is undefined
 
 - name: add user sensu to group adm
   user:
