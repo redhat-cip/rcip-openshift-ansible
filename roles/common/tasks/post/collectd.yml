@@ -47,12 +47,12 @@
   notify:
        - restart collectd
   with_items:
-       - { src: 'etc/collectd.d/write_graphite.conf.j2', dest: '/etc/collectd.d/write_graphite.conf' }
-       - { src: 'etc/collectd.d/cpu.conf.j2', dest: '/etc/collectd.d/cpu.conf' }
-       - { src: 'etc/collectd.d/df.conf.j2', dest: '/etc/collectd.d/df.conf' }
-       - { src: 'etc/collectd.d/disk.conf.j2', dest: '/etc/collectd.d/disk.conf' }
-       - { src: 'etc/collectd.d/exec.conf.j2', dest: '/etc/collectd.d/exec.conf' }
-       - { src: 'etc/collectd.d/interface.conf.j2', dest: '/etc/collectd.d/interface.conf' }
-       - { src: 'etc/collectd.d/load.conf.j2', dest: '/etc/collectd.d/load.conf' }
-       - { src: 'etc/collectd.d/lvm.conf.j2', dest: '/etc/collectd.d/lvm.conf' }
-       - { src: 'etc/collectd.d/memory.conf.j2', dest: '/etc/collectd.d/memory.conf' }
+       - { src: '../../templates/etc/collectd.d/write_graphite.conf.j2', dest: '/etc/collectd.d/write_graphite.conf' }
+       - { src: '../../templates/etc/collectd.d/cpu.conf.j2', dest: '/etc/collectd.d/cpu.conf' }
+       - { src: '../../templates/etc/collectd.d/df.conf.j2', dest: '/etc/collectd.d/df.conf' }
+       - { src: '../../templates/etc/collectd.d/disk.conf.j2', dest: '/etc/collectd.d/disk.conf' }
+       - { src: '../../templates/etc/collectd.d/exec.conf.j2', dest: '/etc/collectd.d/exec.conf' }
+       - { src: '../../templates/etc/collectd.d/interface.conf.j2', dest: '/etc/collectd.d/interface.conf' }
+       - { src: '../../templates/etc/collectd.d/load.conf.j2', dest: '/etc/collectd.d/load.conf' }
+       - { src: '../../templates/etc/collectd.d/lvm.conf.j2', dest: '/etc/collectd.d/lvm.conf' }
+       - { src: '../../templates/etc/collectd.d/memory.conf.j2', dest: '/etc/collectd.d/memory.conf' }

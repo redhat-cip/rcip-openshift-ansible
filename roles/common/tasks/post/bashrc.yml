@@ -9,5 +9,5 @@
     - { regexp: '^export https_proxy=.*', line: "export https_proxy='{{ proxy_env[\'https_proxy\'] }}'" }
     - { regexp: '^export no_proxy=.*', line: "export no_proxy='{{ no_proxy }},{{ openshift_master_cluster_hostname }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %}{% for ns in hostvars[groups[\"masters\"][0]].ansible_local.rcip_openshift.values() %}{% for ip in ns.services.values() %},{{ip}}{% endfor %}{% endfor %}'" }
   when: proxy_env['http_proxy']
-  tags: 
+  tags:
     - proxyenv

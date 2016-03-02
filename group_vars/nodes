@@ -5,9 +5,4 @@ crontab_prune_dockerimage_time: '5 0-23/3 * * *'
 
 docker_options: '--insecure-registry=172.30.0.0/16 --selinux-enabled --log-level="fatal"'
 
-#device name without /dev/
-docker_storage_dev: "{{ customer_docker_storage_dev | default('vdb') }}"
-collectd_disk_rootfs: "{{ customer_collectd_disk_rootfs | default('vda1') }}"
-collectd_disk_ose_registry: "{{ customer_collectd_disk_ose_registry | default(None) }}"
-
 hostname: "{{ openshift_hostname | default(None) }}"

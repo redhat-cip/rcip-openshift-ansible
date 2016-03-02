@@ -3,6 +3,5 @@
 - include: docker.yml
 - include: openshift-node.yml
 - include: nfs.yml
-- include: collectd.yml
 - include: logstash.yml
 - include: sysctl.yml
