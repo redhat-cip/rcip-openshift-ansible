@@ -27,6 +27,7 @@
        - gcc-c++
        - ruby-devel
        - make
+       - python-requests
        #- http://rpmfind.net/linux/centos/7.1.1503/updates/x86_64/Packages/ruby-devel-2.0.0.598-25.el7_1.x86_64.rpm
 
 # Checks
