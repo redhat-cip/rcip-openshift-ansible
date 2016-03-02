@@ -5,7 +5,7 @@
        path: "{{ item }}"
        owner: root
        group: root
-       mode: 0644
+       mode: 0655
        state: directory
   with_items:
        - /etc/sensu/conf.d
