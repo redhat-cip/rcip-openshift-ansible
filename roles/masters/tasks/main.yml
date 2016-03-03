@@ -8,7 +8,7 @@
   when: "'monitoring' in groups"
 - include: sensu_config.yml
   tags: monitoring-client
-  when: "'monitoring' in groups and not ansible_local.system.is_atomic | bool and dockerbuild is undefined"
+  when: "'monitoring' in groups and dockerbuild is undefined"
 - include: sensu.yml
   tags: monitoring-client
   when: "'monitoring' in groups and not ansible_local.system.is_atomic | bool"
