@@ -6,7 +6,11 @@
 - include: service_accounts.yml
   tags: service_ips
   when: "'monitoring' in groups"
+- include: sensu_config.yml
+  tags: monitoring-client
+  when: "'monitoring' in groups and not ansible_local.system.is_atomic | bool and dockerbuild is undefined"
 - include: sensu.yml
+  tags: monitoring-client
   when: "'monitoring' in groups and not ansible_local.system.is_atomic | bool"
 - include: bashrc.yml
   tags: bashrc
