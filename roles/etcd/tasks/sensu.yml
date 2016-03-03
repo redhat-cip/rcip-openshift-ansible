@@ -1,0 +1,11 @@
+---
+- name: gem install sensu-plugins-etcd
+  environment: proxy_env
+  gem: name=sensu-plugins-etcd state=present user_install=no
+
+- name: add user sensu to group adm
+  user:
+    name: sensu
+    groups: adm
+    append: yes
+  notify: restart sensu-client

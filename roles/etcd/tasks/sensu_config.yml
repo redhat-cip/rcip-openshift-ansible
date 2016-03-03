@@ -1,8 +1,4 @@
 ---
-- name: gem install sensu-plugins-etcd
-  environment: proxy_env
-  gem: name=sensu-plugins-etcd state=present user_install=no
-
 - name: set permission to /etc/etcd for sensu
   file:
     path: /etc/etcd
@@ -20,10 +16,3 @@
     - key
     - crt
   when: dockerbuild is undefined
-
-- name: add user sensu to group adm
-  user:
-    name: sensu
-    groups: adm
-    append: yes
-  notify: restart sensu-client
