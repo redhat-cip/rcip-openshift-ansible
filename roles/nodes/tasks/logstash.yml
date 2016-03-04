@@ -28,15 +28,6 @@
 - name: install logstash
   yum: name=logstash state=installed
 
-- name: logstash config deamon
-  lineinfile:
-    dest: /etc/sysconfig/logstash
-    regexp: '^START=.*$'
-    line: 'START=true'
-    state: present
-  notify:
-          - restart logstash
-
 - name: ensure service logstash started
   service:
        name: logstash
@@ -51,13 +42,3 @@
     group: logstash
     mode: 0640
     state: touch
-
-- name: Add logstash /etc/logstash/conf.d/openshift.conf
-  template:
-       src: "etc/logstash/conf.d/openshift.conf.j2"
-       dest: "/etc/logstash/conf.d/openshift.conf"
-       owner: root
-       group: root
-       mode: 0644
-  notify:
-          - restart logstash

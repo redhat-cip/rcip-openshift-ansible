@@ -1,0 +1,27 @@
+---
+- name: logstash config deamon
+  lineinfile:
+    dest: /etc/sysconfig/logstash
+    regexp: '^START=.*$'
+    line: 'START=true'
+    state: present
+  notify:
+          - restart logstash
+
+- name: logstash config directory
+  file:
+       path: /etc/sensu/conf.d
+       owner: root
+       group: root
+       mode: 0755
+       state: directory
+
+- name: Add logstash /etc/logstash/conf.d/openshift.conf
+  template:
+       src: "etc/logstash/conf.d/openshift.conf.j2"
+       dest: "/etc/logstash/conf.d/openshift.conf"
+       owner: root
+       group: root
+       mode: 0644
+  notify:
+          - restart logstash
