@@ -4,4 +4,5 @@
 - include: openshift-node.yml
 - include: nfs.yml
 - include: logstash.yml
+  when: not ansible_local.system.is_atomic | bool
 - include: sysctl.yml
