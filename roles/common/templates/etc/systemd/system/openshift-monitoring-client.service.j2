@@ -17,6 +17,7 @@ ExecStart=/usr/bin/docker run --name openshift-monitoring-client --rm --privileg
 -v /etc/sensu/openshift_token:/etc/sensu/openshift_token \
 {% if inventory_hostname in groups['masters'] or inventory_hostname in groups['nodes'] %}
 -v /etc/origin:/etc/origin \
+-v /etc/logstash/conf.d:/etc/logstash/conf.d \
 {% endif %}
 {% if inventory_hostname in groups['etcd'] %}
 -v /etc/etcd:/etc/etcd \
