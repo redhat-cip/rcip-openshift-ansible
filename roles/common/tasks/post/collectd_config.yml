@@ -1,0 +1,42 @@
+- name: collectd config directory
+  file:
+       path: /etc/collectd.d
+       owner: root
+       group: root
+       mode: 0755
+       state: directory
+
+- name: config /etc/collectd.conf
+  lineinfile:
+    dest: /etc/collectd.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    create: yes
+  notify:
+      - restart collectd
+  with_items:
+    - { regexp: '^FQDNLookup', line: 'FQDNLookup false' }
+    - { regexp: '^Hostname .*$', line: "Hostname {{ inventory_hostname }}" }
+    - { regexp: '^Include "/etc/collectd.d"$', line: 'Include "/etc/collectd.d"' }
+  when: dockerbuild is undefined
+
+- name: collectd plugins configurations
+  template:
+       src: "{{ item.src }}"
+       dest: "{{ item.dest }}"
+       owner: root
+       group: root
+       mode: 0644
+  notify:
+       - restart collectd
+  with_items:
+       - { src: '../../templates/etc/collectd.d/write_graphite.conf.j2', dest: '/etc/collectd.d/write_graphite.conf' }
+       - { src: '../../templates/etc/collectd.d/cpu.conf.j2', dest: '/etc/collectd.d/cpu.conf' }
+       - { src: '../../templates/etc/collectd.d/df.conf.j2', dest: '/etc/collectd.d/df.conf' }
+       - { src: '../../templates/etc/collectd.d/disk.conf.j2', dest: '/etc/collectd.d/disk.conf' }
+       - { src: '../../templates/etc/collectd.d/exec.conf.j2', dest: '/etc/collectd.d/exec.conf' }
+       - { src: '../../templates/etc/collectd.d/interface.conf.j2', dest: '/etc/collectd.d/interface.conf' }
+       - { src: '../../templates/etc/collectd.d/load.conf.j2', dest: '/etc/collectd.d/load.conf' }
+       - { src: '../../templates/etc/collectd.d/lvm.conf.j2', dest: '/etc/collectd.d/lvm.conf' }
+       - { src: '../../templates/etc/collectd.d/memory.conf.j2', dest: '/etc/collectd.d/memory.conf' }
+  when: dockerbuild is undefined
