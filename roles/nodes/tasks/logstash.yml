@@ -17,8 +17,13 @@
            gpgkey: 'http://packages.elasticsearch.org/GPG-KEY-elasticsearch',
            enabled: 1 }
 
-- name: install java-1.8.0-openjdk
-  yum: name=java-1.8.0-openjdk state=installed
+- name: install logstash dependances
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+      - java-1.8.0-openjdk
+      - which
 
 - name: install logstash
   yum: name=logstash state=installed
