@@ -27,6 +27,10 @@
     - monitoring-client
   when: "'monitoring' in groups"
 
+- include: systemd.yml
+  tags:
+    - monitoring-client
+
 - include: collectd.yml
   tags:
     - collectd
