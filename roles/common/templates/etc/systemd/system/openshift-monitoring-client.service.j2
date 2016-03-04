@@ -15,6 +15,8 @@ ExecStart=/usr/bin/docker run --name openshift-monitoring-client --rm --privileg
 -v /etc/sudoers.d/sensu:/etc/sudoers.d/sensu \
 -v /opt/rcip-openshift-scripts:/opt/rcip-openshift-scripts \
 -v /etc/sensu/openshift_token:/etc/sensu/openshift_token \
+-v /etc/collectd.conf:/etc/collectd.conf \
+-v /etc/collectd.d:/etc/collectd.d \
 {% if inventory_hostname in groups['masters'] or inventory_hostname in groups['nodes'] %}
 -v /etc/origin:/etc/origin \
 -v /etc/logstash/conf.d:/etc/logstash/conf.d \
