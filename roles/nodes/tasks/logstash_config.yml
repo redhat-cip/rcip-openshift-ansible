@@ -4,7 +4,8 @@
     dest: /etc/sysconfig/logstash
     regexp: '^START=.*$'
     line: 'START=true'
-    state: touch
+    state: present
+    create: yes
   notify:
           - restart logstash
   when: dockerbuild is undefined
