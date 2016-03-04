@@ -45,6 +45,7 @@
 
 - name: Setup additionnal plugins for logstash
   shell: "/opt/logstash/bin/plugin install {{ item }} > /opt/logstash/{{ item }}.log"
+  args:
     creates: "/opt/logstash/{{ item }}.log"
   with_items:
      - logstash-input-journald
