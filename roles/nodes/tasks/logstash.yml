@@ -42,3 +42,11 @@
     group: logstash
     mode: 0640
     state: touch
+
+- name: Setup additionnal plugins for logstash
+  shell: "/opt/logstash/bin/plugin install {{ item }} > /opt/logstash/{{ item }}.log"
+  changed_when: False
+  creates: "/opt/logstash/{{ item }}.log"
+  with_items:
+     - logstash-input-journald
+     - logstash-filter-kubernetes
