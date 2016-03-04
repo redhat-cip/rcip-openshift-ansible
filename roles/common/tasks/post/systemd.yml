@@ -6,3 +6,4 @@
     dest: /etc/systemd/system/openshift-monitoring-client.service
     mode: 0644
   when: "ansible_local.system.is_atomic | bool and 'monitoring' in groups"
+  notify: systemctl daemon-reload

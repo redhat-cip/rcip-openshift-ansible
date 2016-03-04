@@ -5,3 +5,5 @@
 - include: docker.yml
 - include: collectd.yml
   when: not ansible_local.system.is_atomic | bool
+
+- include: systemd.yml
