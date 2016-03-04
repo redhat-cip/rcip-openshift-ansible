@@ -3,3 +3,4 @@
   service:
      name: sensu-client
      state: restarted
+  when: dockerbuild is undefined

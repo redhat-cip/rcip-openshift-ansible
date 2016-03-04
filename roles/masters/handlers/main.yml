@@ -1,3 +1,4 @@
 ---
 - include: openshift-master.yml
 - include: sensu.yml
+  when: not ansible_local.system.is_atomic | bool
