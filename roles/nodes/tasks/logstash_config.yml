@@ -12,7 +12,7 @@
 
 - name: logstash config directory
   file:
-       path: /etc/sensu/conf.d
+       path: /etc/logstash/conf.d
        owner: root
        group: root
        mode: 0755
