@@ -4,9 +4,10 @@
     dest: /etc/sysconfig/logstash
     regexp: '^START=.*$'
     line: 'START=true'
-    state: present
+    state: touch
   notify:
           - restart logstash
+  when: dockerbuild is undefined
 
 - name: logstash config directory
   file:
@@ -25,3 +26,4 @@
        mode: 0644
   notify:
           - restart logstash
+  when: dockerbuild is undefined
