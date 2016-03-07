@@ -29,13 +29,16 @@
           - restart logstash
   when: ansible_local.system.is_atomic | bool and dockerbuild is undefined
 
-- name: Add logstash /etc/logstash/conf.d/openshift.conf
+- name: Add logstash conf.d files
   template:
-       src: "etc/logstash/conf.d/openshift.conf.j2"
-       dest: "/etc/logstash/conf.d/openshift.conf"
+       src: "etc/logstash/conf.d/{{ item.template }}"
+       dest: "/etc/logstash/conf.d/{{ item.dest }}"
        owner: root
        group: root
        mode: 0644
+  with_items:
+       - { template: 'openshift.conf.j2', dest: 'openshift.conf'}
+       - { template: 'containers.conf.j2', dest: 'containers.conf'}
   notify:
           - restart logstash
   when: not ansible_local.system.is_atomic | bool and dockerbuild is undefined

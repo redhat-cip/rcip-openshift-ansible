@@ -1,0 +1,14 @@
+input {
+  file {
+    type => "kubernetes"
+    # Path to kubelet created symlinks to docker logs, by default, symlinks look like
+    # /var/log/containers/*.log --> /var/lib/docker/containers/*/*-json.log
+    path => "/var/log/containers/*.log"
+  }
+}
+
+filter {
+  if [type] == "kubernetes" {
+    kubernetes {}
+  }
+}
