@@ -1,0 +1,22 @@
+input {
+     journald {
+       lowercase => true
+       seekto => "head"
+       thisboot => true
+       type => "systemd"
+       tags => [ "journald" ]
+     }
+}
+
+filter {
+     grok {
+       match => { "message" => "%{SYSLOGBASE}" }
+     }
+}
+    
+output {
+    elasticsearch {
+        protocol => "http"
+        host => "{{ elastisearch_host }}"
+    }
+}
