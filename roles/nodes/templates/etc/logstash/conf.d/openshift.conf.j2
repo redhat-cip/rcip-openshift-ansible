@@ -5,10 +5,11 @@ input {
     }
 }
 filter {
-
-     grok {
-       match => { "message" => "%{SYSLOGBASE}" }
-     }
+    if [type] == "syslog" {
+      grok {
+        match => { "message" => "%{SYSLOGBASE}" }
+      }
+    }
 }
     
 output {

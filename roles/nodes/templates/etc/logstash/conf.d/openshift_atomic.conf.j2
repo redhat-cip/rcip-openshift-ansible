@@ -9,9 +9,11 @@ input {
 }
 
 filter {
-     grok {
-       match => { "message" => "%{SYSLOGBASE}" }
-     }
+    if [type] == "journald" {
+      grok {
+        match => { "message" => "%{SYSLOGBASE}" }
+      }
+    }
 }
     
 output {
