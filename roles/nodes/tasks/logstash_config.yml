@@ -18,6 +18,17 @@
        mode: 0755
        state: directory
 
+- name: Add logstash /etc/logstash/conf.d/openshift_atomic.conf
+  template:
+       src: "etc/logstash/conf.d/openshift_atomic.conf.j2"
+       dest: "/etc/logstash/conf.d/openshift_atomic.conf"
+       owner: root
+       group: root
+       mode: 0644
+  notify:
+          - restart logstash
+  when: ansible_local.system.is_atomic | bool and dockerbuild is undefined
+
 - name: Add logstash /etc/logstash/conf.d/openshift.conf
   template:
        src: "etc/logstash/conf.d/openshift.conf.j2"
@@ -27,4 +38,4 @@
        mode: 0644
   notify:
           - restart logstash
-  when: dockerbuild is undefined
+  when: not ansible_local.system.is_atomic | bool and dockerbuild is undefined
