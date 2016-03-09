@@ -90,6 +90,9 @@ manage_docker_storage=true
 # if it's different of '127.0.0.1' or 'localhost',
 # playbook will then not install mysql and create user/db on monitoring host.
 
+# logstash
+# If you want to log /var/log/containers/* (default false)
+# logstash_container=true
 ntp_servers=["ntp1.customer", "ntp2.customer"]
 dns_servers=["10.0.0.1", "10.0.0.2"]
 postfix_relayhost="smtp.mycustomer.intranet"
