@@ -16,16 +16,6 @@
 {% endif %}
 
 //Proc
-    "openshift-router-proc": {
-      "command": "/usr/local/bin/check-process.rb -p 'openshift-router' -C 1",
-      "subscribers": [
-        "openshift-master"
-      ],
-      "handlers": ["mailer", "flowdock"],
-      "occurrences": 3,
-      "refresh": 86400,
-      "interval": 60
-    },
 
 {% if sensu_openshift_master_cluster_method == 'native' %}
     "openshift-master-api": {
