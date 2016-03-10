@@ -1,48 +1,41 @@
 #!/bin/bash
+# This script is an example on how to deploy or redeploy registry on a standard installation.
+
 set -e
+set -x
 
-#delete registry to create new one
-#   oc delete dc docker-registry
-#   oc delete svc docker-registry
-#   for i in $(oc get pods --no-headers | awk '/registry/{print $1}'); do oc delete pod $i; done
+delete() {
+    oc delete -n default dc docker-registry
+    oc delete -n default svc docker-registry
+    oc get rc -n default --no-headers -l 'docker-registry=default'|awk '/^docker-registry-/{print $1}'|xargs -r -n1 oc delete rc -n default
+    oc get pods -n default --no-headers -l 'deploymentconfig=docker-registry' | awk '/^docker-registry-/{print $1}' | xargs -r -n1 oc delete pod -n default
+}
 
-# Legacy <=3.0.1, need to create ServiceAccount
-#   echo \
-#       '{"kind":"ServiceAccount","apiVersion":"v1","metadata":{"name":"registry"}}' \
-#       | oc create -f -
-#   oc edit scc privileged
-# Add a line under users with the user name system:serviceaccount:default:registry.
+verify() {
+    nb=$(oc get pods -n default --no-headers -l 'deploymentconfig=docker-registry' | wc -l)
 
-# Ensure nodes for the registry are schedulable
-#   oadm manage-node {{ inventory_hostname }} --schedulable=true
+    if [ $nb -ge 1 ]; then
+        echo "ERROR: there are already a registry pod running"
+        echo "Please delete current dc/svc/pods for registry or use the '-f' option"
+        exit 1
+    fi
+}
 
-#
-# Create the registry with local volume
-#
+create_simple_registry() {
+    oadm registry --create --service-account=registry \
+         --config=/etc/{{ masters_etc_config }}/master/admin.kubeconfig \
+         --credentials=/etc/{{ masters_etc_config }}/master/openshift-registry.kubeconfig \
+         --selector="{{ openshift_registry_selector | default('region=infra')}}"
+}
 
-# Sample to create a local lvm storage for registry
-#   pvcreate /dev/{{ collectd_disk_ose_registry | default('vdc', True) }}
-#   vgcreate vg_ose /dev/{{ collectd_disk_ose_registry | default('vdc', True) }}
-#   lvcreate -l 100%FREE --name ose-registry vg_ose
-#   mkdir /mnt/ose-registry
-#   mkfs.ext4 -m0 /dev/mapper/vg_ose-ose--registry
-#   echo '/dev/mapper/vg_ose-ose--registry /mnt/ose-registry ext4 rw,noatime,data=ordered 0 0' >> /etc/fstab
-#   mount -a
-oadm registry --create --service-account=registry \
-  --config=/etc/{{ masters_etc_config }}/master/admin.kubeconfig \
-  --credentials=/etc/{{ masters_etc_config }}/master/openshift-registry.kubeconfig \
-  --mount-host={{openshift_registry_mount_host | default('/mnt/ose-registry', True)}} --selector="region=infra"
-#  --images='registry.access.redhat.com/openshift3/ose-${component}:${version}' \
+if [ "$1" = "-f" ]; then
+    delete
+fi
+verify
+create_simple_registry
 
-#
-# Create the registry with nfs shared volume
-# https://docs.openshift.com/enterprise/3.0/install_config/install/docker_registry.html#storage-for-the-registry
-#
-
-# With a shared storage, you can add replicas
-#   oadm registry --config=/etc/origin/master/admin.kubeconfig \
-#       --credentials=/etc/origin/master/openshift-registry.kubeconfig \
-#       --selector="region=infra" --replicas=3
-#   oc volume deploymentconfigs/docker-registry \
-#       --add --overwrite --name=registry-storage --mount-path=/registry \
-#       --source='{"nfs": { "server": "nfs.server.com", "path": "/export_path"}}'
+echo "You can then add the persistent storage of your choice, see:"
+echo "https://docs.openshift.com/enterprise/latest/install_config/install/docker_registry.html#storage-for-the-registry"
+echo
+echo "for example:"
+echo "oc volume deploymentconfigs/docker-registry --add --name=docker-storage -t pvc --claim-name=<pvc_name> --overwrite"
