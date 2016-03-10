@@ -1,22 +1,47 @@
-# !/bin/bash
+#!/bin/bash
+# This script is an example on how to deploy or redeploy routers on a standard installation.
+
 set -e
 set -x
-
-#delete router
-#oc delete rc router-1; oc delete svc router; oc delete dc router
-
 CA=/etc/{{ masters_etc_config }}/master
 
-if [[ ! -e $CA/cloudapps.router.pem ]];then
-  oadm ca create-server-cert --signer-cert=$CA/ca.crt \
-            --signer-key=$CA/ca.key --signer-serial=$CA/ca.serial.txt \
-            --hostnames='{{openshift_wildcard_dns}}' \
-            --cert=$CA/cloudapps.crt --key=$CA/cloudapps.key
-  cat $CA/cloudapps.crt $CA/cloudapps.key $CA/ca.crt > $CA/cloudapps.router.pem
+delete() {
+    oc delete -n default dc router
+    oc delete -n default svc router
+    oc get rc -n default --no-headers -l 'router=router'|awk '/^router-/{print $1}'|xargs -r -n1 oc delete rc -n default
+    oc get pods -n default --no-headers -l 'deploymentconfig=router' | awk '/^router-/{print $1}' | xargs -r -n1 oc delete pod -n default
+}
+
+verify() {
+    nb=$(oc get pods -n default --no-headers -l 'deploymentconfig=router' | wc -l)
+
+    if [ $nb -ge 1 ]; then
+        echo "ERROR: there are some router pods running"
+        echo "Please delete current dc/svc/pods for router or use the '-f' option"
+        exit 1
+    fi
+}
+
+create_cert() {
+    if [[ ! -e ${CA}/cloudapps.router.pem ]]; then
+        oadm ca create-server-cert --signer-cert=${CA}/ca.crt \
+             --signer-key=${CA}/ca.key --signer-serial=${CA}/ca.serial.txt \
+             --hostnames='{{openshift_wildcard_dns}}' \
+             --cert=${CA}/cloudapps.crt --key=${CA}/cloudapps.key
+        cat ${CA}/cloudapps.crt ${CA}/cloudapps.key ${CA}/ca.crt > ${CA}/cloudapps.router.pem
+    fi
+}
+
+create_router() {
+    oadm router --default-cert=${CA}/cloudapps.router.pem \
+         --credentials=${CA}/openshift-router.kubeconfig \
+         --selector="{{ openshift_router_selector | default('region=infra')}}"  --service-account=router \
+         --replicas=2
+}
+
+if [ "$1" = "-f" ]; then
+    delete
 fi
-
-
-oadm router --default-cert=$CA/cloudapps.router.pem \
-  --credentials=$CA/openshift-router.kubeconfig \
-  --selector='region=infra'  --service-account=router
-#  --images='openshift3/ose-${component}:${version}' \
+verify
+create_cert
+create_router
