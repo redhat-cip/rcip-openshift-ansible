@@ -1,5 +1,5 @@
 ---
-- name: sensu handler config
+- name: sensu flowdock handler config
   template:
        src: "{{ item.src }}"
        dest: "{{ item.dest }}"
@@ -12,18 +12,6 @@
   with_items:
        - { src: 'etc/sensu/conf.d/flowdock.json.j2', dest: '/etc/sensu/conf.d/flowdock.json' }
        - { src: 'etc/sensu/conf.d/handler_flowdock.json.j2', dest: '/etc/sensu/conf.d/handler_flowdock.json' }
-       - { src: 'etc/sensu/conf.d/handler_mailer.json.j2', dest: '/etc/sensu/conf.d/handler_mailer.json' }
-       - { src: 'etc/sensu/conf.d/mailer.json.j2', dest: '/etc/sensu/conf.d/mailer.json' }
-
-- name: gem install mail
-  environment: proxy_env
-  gem: name=mail state=present user_install=no
-
-  #/usr/local/bin/handler-mailer.rb
-- name: gem install sensu-plugins-mailer
-  environment: proxy_env
-  gem: name=sensu-plugins-mailer state=present user_install=no
-
 
 #TODO /usr/local/bin/handler-flowdock.rb
 - name: gem install sensu-plugins-flowdock

@@ -1,0 +1,6 @@
+---
+- include: handler_mailer.yml
+  when: "'mailer' in sensu_handlers"
+
+- include: handler_flowdock.yml
+  when: "'flowdock' in sensu_handlers"

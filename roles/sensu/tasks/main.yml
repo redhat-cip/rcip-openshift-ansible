@@ -1,5 +1,5 @@
 ---
 - include: sensu.yml
-- include: handler.yml
+- include: handlers.yml
 - include: checks.yml
 - include: uchiwa.yml

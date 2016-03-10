@@ -6,7 +6,9 @@
   notify:
     - restart sensu-server
     - restart sensu-api
-  tags: sensu monitoring
+  tags: 
+    - sensu
+    - monitoring
 
 
 - name: install uchiwa

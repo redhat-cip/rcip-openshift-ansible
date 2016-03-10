@@ -5,7 +5,7 @@
       "subscribers": [
         "etcd"
       ],
-      "handlers": ["mailer", "flowdock"],
+      "handlers": ["{{ sensu_handlers|join('", "') }}"],
       "occurrences": 3,
       "refresh": 86400,
       "interval": 60

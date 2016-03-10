@@ -6,7 +6,9 @@
   with_items:
     - default
     - nfs
-  tags: sensu monitoring
+  tags:
+    - sensu
+    - monitoring
   notify:
     - restart sensu-server
     - restart sensu-api
@@ -21,7 +23,9 @@
   notify:
     - restart sensu-server
     - restart sensu-api
-  tags: sensu monitoring
+  tags:
+    - sensu
+    - monitoring
 
 - name: write Sensu default_etcd.json
   template:
@@ -30,4 +34,6 @@
   notify:
     - restart sensu-server
     - restart sensu-api
-  tags: sensu monitoring
+  tags:
+    - sensu
+    - monitoring

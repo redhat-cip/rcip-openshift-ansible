@@ -5,7 +5,7 @@
       "subscribers": [
         "openshift-node"
       ],
-      "handlers": ["mailer", "flowdock"],
+      "handlers": ["{{ sensu_handlers|join('", "') }}"],
       "occurrences": 3,
       "refresh": 86400,
       "interval": 60
@@ -16,7 +16,7 @@
       "subscribers": [
         "openshift-node"
       ],
-      "handlers": ["mailer", "flowdock"],
+      "handlers": ["{{ sensu_handlers|join('", "') }}"],
       "occurrences": 3,
       "refresh": 86400,
       "interval": 60
@@ -27,7 +27,7 @@
       "subscribers": [
         "openshift-node"
       ],
-      "handlers": ["mailer", "flowdock"],
+      "handlers": ["{{ sensu_handlers|join('", "') }}"],
       "occurrences": 6,
       "refresh": 86400,
       "interval": 60
