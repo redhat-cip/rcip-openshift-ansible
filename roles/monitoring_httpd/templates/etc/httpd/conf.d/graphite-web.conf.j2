@@ -1,8 +1,8 @@
-NameVirtualHost *:{{ graphite_port }}
+NameVirtualHost *:{{ httpd_daemon_graphite_port }}
 
 WSGISocketPrefix /var/run/wsgi
 
-<VirtualHost *:{{ graphite_port }}>
+<VirtualHost *:{{ httpd_daemon_graphite_port }}>
     ServerName {{ httpd_graphs_fqdn }}
 		DocumentRoot "/opt/graphite/webapp"
     ErrorLog /var/log/httpd/graphite-web-error.log

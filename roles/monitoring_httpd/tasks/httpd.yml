@@ -17,9 +17,9 @@
     line: "{{ item.line }}"
     insertbefore: "^-A INPUT -j REJECT"
   with_items:
-    - { regexp: "^-A INPUT -p tcp --dport {{ sensu_httpd_port }} -s 0.0.0.0/0 -j ACCEPT$", line: "-A INPUT -p tcp --dport {{ sensu_httpd_port }} -s 0.0.0.0/0 -j ACCEPT" }
-    - { regexp: "^-A INPUT -p tcp --dport {{ grafana_httpd_port }} -s 0.0.0.0/0 -j ACCEPT$", line: "-A INPUT -p tcp --dport {{ grafana_httpd_port }} -s 0.0.0.0/0 -j ACCEPT" }
-    - { regexp: "^-A INPUT -p tcp --dport {{ kibana_httpd_port }} -s 0.0.0.0/0 -j ACCEPT$", line: "-A INPUT -p tcp --dport {{ kibana_httpd_port }} -s 0.0.0.0/0 -j ACCEPT" }
+    - { regexp: "^-A INPUT -p tcp --dport {{ httpd_sensu_port }} -s 0.0.0.0/0 -j ACCEPT$", line: "-A INPUT -p tcp --dport {{ httpd_sensu_port }} -s 0.0.0.0/0 -j ACCEPT" }
+    - { regexp: "^-A INPUT -p tcp --dport {{ httpd_grafana_port }} -s 0.0.0.0/0 -j ACCEPT$", line: "-A INPUT -p tcp --dport {{ httpd_grafana_port }} -s 0.0.0.0/0 -j ACCEPT" }
+    - { regexp: "^-A INPUT -p tcp --dport {{ httpd_kibana_port }} -s 0.0.0.0/0 -j ACCEPT$", line: "-A INPUT -p tcp --dport {{ httpd_kibana_port }} -s 0.0.0.0/0 -j ACCEPT" }
     - { regexp: "^-A INPUT -p tcp --dport {{ rabbitmq_port }} -s 0.0.0.0/0 -j ACCEPT$", line: "-A INPUT -p tcp --dport {{ rabbitmq_port }} -s 0.0.0.0/0 -j ACCEPT" }
     - { regexp: "^-A INPUT -p tcp --dport {{ carbon_port }} -s 0.0.0.0/0 -j ACCEPT$", line: "-A INPUT -p tcp --dport {{ carbon_port }} -s 0.0.0.0/0 -j ACCEPT" }
   notify:
@@ -33,15 +33,15 @@
     state: yes
     persistent: yes
 
-- name: httpd listen {{ graphite_port }} {{ sensu_httpd_port }} {{ grafana_httpd_port }} {{ kibana_httpd_port }}
+- name: httpd listen {{ httpd_daemon_graphite_port }} {{ httpd_sensu_port }} {{ httpd_grafana_port }} {{ httpd_kibana_port }}
   lineinfile:
     dest: /etc/httpd/conf/httpd.conf
     line: "{{ item.line }}"
   with_items:
-    - { line: "Listen {{ graphite_port }}" }
-    - { line: "Listen {{ sensu_httpd_port }}" }
-    - { line: "Listen {{ grafana_httpd_port }}" }
-    - { line: "Listen {{ kibana_httpd_port }}" }
+    - { line: "Listen {{ httpd_daemon_graphite_port }}" }
+    - { line: "Listen {{ httpd_sensu_port }}" }
+    - { line: "Listen {{ httpd_grafana_port }}" }
+    - { line: "Listen {{ httpd_kibana_port }}" }
   notify:
     - restart httpd
 

@@ -1,16 +1,16 @@
-<VirtualHost *:{{ sensu_httpd_port }}>
+<VirtualHost *:{{ httpd_sensu_port }}>
   ServerName {{ httpd_mon_fqdn }}
-{% if sensu_httpd_aliases %}
-  ServerAlias{% for alias in sensu_httpd_aliases %} {{ alias }}{% endfor %}
+{% if httpd_sensu_aliases %}
+  ServerAlias{% for alias in httpd_sensu_aliases %} {{ alias }}{% endfor %}
 {% endif %}
 
   #
   # Proxy
   #
-{% if sensu_httpd_ssl | bool %}
+{% if httpd_sensu_ssl | bool %}
   SSLEngine on
-  SSLCertificateFile {{ monitoring_cert }}
-  SSLCertificateKeyFile {{ monitoring_key }}
+  SSLCertificateFile {{ httpd_monitoring_cert }}
+  SSLCertificateKeyFile {{ httpd_monitoring_key }}
 {% endif %}
 
   <Proxy *>

@@ -37,6 +37,8 @@ customer="openshift_test"
 customer_domain="enoshift.com"
 # if you want to be able to reach sensu with other domain names than the default mon.{{ customer_domain }} :
 customer_sensu_httpd_aliases=['monitor.enoshift.com', 'sensu.myclient-cloud.com']
+customer_logs_httpd_aliases=['logs.myclient-cloud.com']
+customer_graphs_httpd_aliases=['metrics.enoshift.com', 'graphs.myclient-cloud.com']
 
 # default handler is mailer
 # sensu_handlers=["mailer", "flowdock"]

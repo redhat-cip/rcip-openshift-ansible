@@ -1,14 +1,16 @@
-<VirtualHost *:{{ kibana_httpd_port }}>
+<VirtualHost *:{{ httpd_kibana_port }}>
   ServerName {{ httpd_logs_fqdn }}
-  #ServerAlias logs
+{% if httpd_logs_aliases %}
+  ServerAlias{% for alias in httpd_logs_aliases %} {{ alias }}{% endfor %}
+{% endif %}
   #
   # Proxy
   #
 
 {% if kibana_httpd_ssl | bool %}
   SSLEngine on
-  SSLCertificateFile {{ monitoring_cert }}
-  SSLCertificateKeyFile {{ monitoring_key }}
+  SSLCertificateFile {{ httpd_monitoring_cert }}
+  SSLCertificateKeyFile {{ httpd_monitoring_key }}
 {% endif %}
 
   <Proxy *>
@@ -21,11 +23,11 @@
   </Proxy>
 
   ProxyRequests Off
-  ProxyPass / http://127.0.0.1:{{ kibana_port }}
-  ProxyPassReverse / http://127.0.0.1:{{ kibana_port }}
+  ProxyPass / http://127.0.0.1:{{ httpd_daemon_kibana_port }}
+  ProxyPassReverse / http://127.0.0.1:{{ httpd_daemon_kibana_port }}
   RewriteEngine on
   RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
-  RewriteRule .* http://127.0.0.1:{{ kibana_port }}%{REQUEST_URI} [P,QSA]
+  RewriteRule .* http://127.0.0.1:{{ httpd_daemon_kibana_port }}%{REQUEST_URI} [P,QSA]
 
   ProxyPass        /elasticsearch http://localhost:{{ elasticsearch_port }}
   ProxyPassReverse /elasticsearch http://localhost:{{ elasticsearch_port }}

@@ -1,27 +1,7 @@
 ---
+etcd_port: 2379
+
 sensu_flowdock_tags: "sensu {{ customer }} alerting"
 sensu_flowdock_mail_from: "alerting@{{ customer_domain }}"
 sensu_flowdock_name_from: "Sensu_{{ customer }}"
 sensu_uchiwa_port: 3001
-
-grafana_port: 3000
-graphite_port: 3003
-etcd_port: 2379
-kibana_port: 5601
-
-httpd_graphs_fqdn: "graphs.{{ customer_domain }}"
-httpd_mon_fqdn: "mon.{{ customer_domain }}"
-httpd_logs_fqdn: "logs.{{ customer_domain }}"
-
-monitoring_cert: "/etc/httpd/ssl/{{ customer }}.pem"
-monitoring_key: "/etc/httpd/ssl/{{ customer }}.key"
-
-sensu_httpd_port: "{{ customer_sensu_httpd_port | default('443') }}"
-sensu_httpd_ssl: "{{ customer_sensu_httpd_ssl | default('true') }}"
-sensu_httpd_aliases: "{{ customer_sensu_httpd_aliases | default([]) }}" 
-
-grafana_httpd_port: "{{ customer_grafana_httpd_port | default('443') }}"
-grafana_httpd_ssl: "{{ customer_grafana_httpd_ssl | default('true') }}"
-
-kibana_httpd_port: "{{ customer_kibana_httpd_port | default('443') }}"
-kibana_httpd_ssl: "{{ customer_kibana_httpd_ssl | default('true') }}"

@@ -1,14 +1,15 @@
-<VirtualHost *:{{ grafana_httpd_port }}>
+<VirtualHost *:{{ httpd_grafana_port }}>
   ServerName {{ httpd_graphs_fqdn }}
-  #ServerAlias metrics
-
+{% if httpd_graphs_aliases %}
+  ServerAlias{% for alias in httpd_graphs_aliases %} {{ alias }}{% endfor %}
+{% endif %}
   #
   # Proxy
   #
-{% if grafana_httpd_ssl | bool %}
+{% if httpd_grafana_ssl | bool %}
   SSLEngine on
-  SSLCertificateFile {{ monitoring_cert }}
-  SSLCertificateKeyFile {{ monitoring_key }}
+  SSLCertificateFile {{ httpd_monitoring_cert }}
+  SSLCertificateKeyFile {{ httpd_monitoring_key }}
 {% endif %}
 
   <Proxy *>
@@ -21,11 +22,11 @@
   </Proxy>
 
   ProxyRequests Off
-  ProxyPass / http://127.0.0.1:{{ grafana_port }}
-  ProxyPassReverse / http://127.0.0.1:{{ grafana_port }}
+  ProxyPass / http://127.0.0.1:{{ httpd_daemon_grafana_port }}
+  ProxyPassReverse / http://127.0.0.1:{{ httpd_daemon_grafana_port }}
   RewriteEngine on
   RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
-  RewriteRule .* http://127.0.0.1:{{ grafana_port }}%{REQUEST_URI} [P,QSA]
+  RewriteRule .* http://127.0.0.1:{{ httpd_daemon_grafana_port }}%{REQUEST_URI} [P,QSA]
 
   ErrorLog /var/log/httpd/grafana_error.log
   LogLevel warn

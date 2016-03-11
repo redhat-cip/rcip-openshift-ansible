@@ -1,0 +1,24 @@
+---
+httpd_daemon_grafana_port: 3000
+httpd_daemon_graphite_port: 3003
+httpd_daemon_kibana_port: 5601
+
+httpd_graphs_fqdn: "graphs.{{ customer_domain }}"
+httpd_mon_fqdn: "mon.{{ customer_domain }}"
+httpd_logs_fqdn: "logs.{{ customer_domain }}"
+
+
+httpd_monitoring_cert: "/etc/httpd/ssl/{{ customer }}.pem"
+httpd_monitoring_key: "/etc/httpd/ssl/{{ customer }}.key"
+
+httpd_sensu_port: "{{ customer_sensu_httpd_port | default('443') }}"
+httpd_sensu_ssl: "{{ customer_sensu_httpd_ssl | default('true') }}"
+httpd_sensu_aliases: "{{ customer_sensu_httpd_aliases | default([]) }}" 
+
+httpd_grafana_port: "{{ customer_grafana_httpd_port | default('443') }}"
+httpd_grafana_ssl: "{{ customer_grafana_httpd_ssl | default('true') }}"
+httpd_graphs_aliases: "{{ customer_graphs_httpd_aliases | default([]) }}" 
+
+httpd_kibana_port: "{{ customer_kibana_httpd_port | default('443') }}"
+httpd_kibana_httpd_ssl: "{{ customer_kibana_httpd_ssl | default('true') }}"
+httpd_logs_aliases: "{{ customer_logs_httpd_aliases | default([]) }}" 

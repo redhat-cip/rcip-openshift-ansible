@@ -4,11 +4,11 @@
   command: "{{ item }}"
   ignore_errors: yes
   with_items:
-    - /usr/sbin/iptables -I INPUT 1 -p tcp --dport {{ sensu_httpd_port }} -s 0.0.0.0/0 -j ACCEPT
-    - /usr/sbin/iptables -I INPUT 1 -p tcp --dport {{ grafana_httpd_port }} -s 0.0.0.0/0 -j ACCEPT
-    - /usr/sbin/iptables -I INPUT 1 -p tcp --dport {{ kibana_httpd_port }} -s 0.0.0.0/0 -j ACCEPT
+    - /usr/sbin/iptables -I INPUT 1 -p tcp --dport {{ httpd_sensu_port }} -s 0.0.0.0/0 -j ACCEPT
+    - /usr/sbin/iptables -I INPUT 1 -p tcp --dport {{ httpd_grafana_port }} -s 0.0.0.0/0 -j ACCEPT
+    - /usr/sbin/iptables -I INPUT 1 -p tcp --dport {{ httpd_kibana_port }} -s 0.0.0.0/0 -j ACCEPT
     - /usr/sbin/iptables -I INPUT 1 -p tcp --dport {{ rabbitmq_port }} -s 0.0.0.0/0 -j ACCEPT
     - /usr/sbin/iptables -I INPUT 1 -p tcp --dport {{ carbon_port }} -s 0.0.0.0/0 -j ACCEPT
-    - "/usr/sbin/semanage port -a -t http_port_t -p tcp {{ graphite_port }}"
-    - "/usr/sbin/semanage port -a -t http_port_t -p tcp {{ grafana_port }}"
+    - "/usr/sbin/semanage port -a -t http_port_t -p tcp {{ httpd_daemon_graphite_port }}"
+    - "/usr/sbin/semanage port -a -t http_port_t -p tcp {{ httpd_daemon_grafana_port }}"
     - "/usr/sbin/semanage port -a -t http_port_t -p tcp {{ sensu_uchiwa_port }}"
