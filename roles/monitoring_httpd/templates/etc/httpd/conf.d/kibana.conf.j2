@@ -7,7 +7,7 @@
   # Proxy
   #
 
-{% if kibana_httpd_ssl | bool %}
+{% if httpd_kibana_httpd_ssl | bool %}
   SSLEngine on
   SSLCertificateFile {{ httpd_monitoring_cert }}
   SSLCertificateKeyFile {{ httpd_monitoring_key }}
