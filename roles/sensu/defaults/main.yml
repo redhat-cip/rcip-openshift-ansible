@@ -1,4 +1,12 @@
 ---
+
+sensu_default_etcd_port: "{% if 'etcd' in groups %}2379{% else %}4001{% endif %}" 
+sensu_etcd_port: "{{ etcd_port | default(sensu_default_etcd_port) }}"
+
+sensu_flowdock_tags: "sensu {{ customer }} alerting"
+sensu_flowdock_mail_from: "alerting@{{ customer_domain }}" 
+sensu_flowdock_name_from: "Sensu_{{ customer }}"
+
 sensu_manage_docker_storage: "{{ manage_docker_storage | default('true') }}"
 
 sensu_deployment_type: "{{ deployment_type | default('openshift') }}"

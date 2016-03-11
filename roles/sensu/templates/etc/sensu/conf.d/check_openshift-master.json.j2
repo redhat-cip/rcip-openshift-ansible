@@ -87,7 +87,7 @@
       "interval": 60
     },
     "etcd-http-status-with-openshift-cert": {
-      "command": "/usr/local/bin/check-etcd.rb -h $(hostname) -p {{ etcd_port }} --cert /etc/{{ sensu_openshift_etc_config }}/master/master.etcd-client.crt --key /etc/{{ sensu_openshift_etc_config }}/master/master.etcd-client.key  --ssl --insecure",
+      "command": "/usr/local/bin/check-etcd.rb -h $(hostname) -p {{ sensu_etcd_port }} --cert /etc/{{ sensu_openshift_etc_config }}/master/master.etcd-client.crt --key /etc/{{ sensu_openshift_etc_config }}/master/master.etcd-client.key  --ssl --insecure",
       "subscribers": [
         "openshift-master"
       ],

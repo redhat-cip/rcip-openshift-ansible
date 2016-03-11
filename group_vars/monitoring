@@ -1,7 +1,2 @@
 ---
-etcd_port: 2379
-
-sensu_flowdock_tags: "sensu {{ customer }} alerting"
-sensu_flowdock_mail_from: "alerting@{{ customer_domain }}"
-sensu_flowdock_name_from: "Sensu_{{ customer }}"
 sensu_uchiwa_port: 3001
