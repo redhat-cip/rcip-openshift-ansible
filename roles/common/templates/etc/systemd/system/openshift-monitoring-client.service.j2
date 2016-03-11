@@ -18,6 +18,9 @@ ExecStart=/usr/bin/docker run --name openshift-monitoring-client --rm --privileg
 -v /etc/collectd.conf:/etc/collectd.conf \
 -v /etc/collectd.d:/etc/collectd.d \
 -v /var/log/journal:/var/log/journal:ro \
+{% if common_logstash_containers | bool %}
+-v /var/log/containers:/var/log/containers:ro \
+{% endif %}
 {% if inventory_hostname in groups['masters'] or inventory_hostname in groups['nodes'] %}
 -v /etc/origin:/etc/origin \
 -v /etc/logstash/conf.d:/etc/logstash/conf.d \

@@ -12,3 +12,4 @@ collectd_disk_rootfs: "{{ customer_collectd_disk_rootfs | default('vda1') }}"
 collectd_disk_ose_registry: "{{ customer_collectd_disk_ose_registry | default(None) }}"
 #device name without /dev/
 docker_storage_dev: "{{ customer_docker_storage_dev | default('vdb') }}"
+common_logstash_containers: "{{ logstash_containers | default('false') }}"
