@@ -11,5 +11,5 @@
   tags:
       - nodes_sysctl
   with_items:
-    - { regexp: '^net.ipv4.tcp_rmem =(.*)$', line: "net.ipv4.tcp_rmem = 4096 87380 16777216" }
-    - { regexp: '^net.ipv4.tcp_wmem =(.*)$', line: "net.ipv4.tcp_wmem = 4096 65536 16777216" }
+    - { regexp: '^net.ipv4.tcp_rmem =(.*)$', line: "net.ipv4.tcp_rmem = {{ nodes_sysctl_net_ipv4_tcp_rmem }}" }
+    - { regexp: '^net.ipv4.tcp_wmem =(.*)$', line: "net.ipv4.tcp_wmem = {{ nodes_sysctl_net_ipv4_tcp_wmem }}" }

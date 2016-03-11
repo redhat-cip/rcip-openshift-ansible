@@ -3,3 +3,6 @@ nodes_deployment_type: "{{ deployment_type | default('openshift') }}"
 nodes_deamon_name: "{% if deployment_type == 'origin' %}origin-node{% elif deployment_type == 'openshift-enterprise' %}atomic-openshift-node{% else %}openshift-node{% endif %}"
 nodes_etc_config: "{% if deployment_type == 'origin' or deployment_type == 'openshift-enterprise' %}origin{% else %}openshift{% endif %}"
 nodes_logstash_containers: "{{ logstash_containers | default('false') }}"
+
+nodes_sysctl_net_ipv4_tcp_rmem: "4096 87380 16777216"
+nodes_sysctl_net_ipv4_tcp_wmem: "4096 87380 16777216"
