@@ -2,4 +2,4 @@
 nodes_deployment_type: "{{ deployment_type | default('openshift') }}"
 nodes_deamon_name: "{% if deployment_type == 'origin' %}origin-node{% elif deployment_type == 'openshift-enterprise' %}atomic-openshift-node{% else %}openshift-node{% endif %}"
 nodes_etc_config: "{% if deployment_type == 'origin' or deployment_type == 'openshift-enterprise' %}origin{% else %}openshift{% endif %}"
-nodes_logstash_containers: "{{ logstash_container | default('false') }}"
+nodes_logstash_containers: "{{ logstash_containers | default('false') }}"

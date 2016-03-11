@@ -94,7 +94,7 @@ manage_docker_storage=true
 
 # logstash
 # If you want to log /var/log/containers/* (default false)
-# logstash_container=true
+# logstash_containers=true
 ntp_servers=["ntp1.customer", "ntp2.customer"]
 dns_servers=["10.0.0.1", "10.0.0.2"]
 postfix_relayhost="smtp.mycustomer.intranet"
