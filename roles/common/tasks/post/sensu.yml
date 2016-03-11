@@ -22,6 +22,7 @@
     state: installed
   with_items:
        - ruby
+       - sudo
        - bc
        - gem
        - gcc-c++
