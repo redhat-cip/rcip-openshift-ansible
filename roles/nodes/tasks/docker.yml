@@ -18,5 +18,5 @@
     - { regexp: '^NO_PROXY=.*', line: "NO_PROXY='{{ no_proxy }},{{ openshift_master_cluster_hostname }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %}{% for ns in hostvars[groups[\"masters\"][0]].ansible_local.rcip_openshift.values() %}{% for ip in ns.services.values() %},{{ip}}{% endfor %}{% endfor %}'" }
   notify:
       - restart docker
-  when: proxy_env['http_proxy']
+  when: proxy_env['http_proxy'] and update_no_proxy | bool
   tags: proxyenv
