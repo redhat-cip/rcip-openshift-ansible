@@ -6,7 +6,6 @@
     - mod_wsgi
     - python-pip
     - python-devel
-    - python-cffi
     - libffi
     - libffi-devel
     - pycairo

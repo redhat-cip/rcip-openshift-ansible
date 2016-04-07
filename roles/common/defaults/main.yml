@@ -13,3 +13,4 @@ collectd_disk_ose_registry: "{{ customer_collectd_disk_ose_registry | default(No
 #device name without /dev/
 docker_storage_dev: "{{ customer_docker_storage_dev | default('vdb') }}"
 common_logstash_containers: "{{ logstash_containers | default('false') }}"
+rcip_openshift_scripts_version: HEAD

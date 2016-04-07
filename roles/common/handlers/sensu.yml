@@ -1,4 +1,4 @@
 ---
 - name: restart sensu-client
   service: name=sensu-client state=restarted
-  when: dockerbuild is undefined 
+  when: dockerbuild is undefined

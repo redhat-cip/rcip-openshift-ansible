@@ -1,4 +1,4 @@
 ---
 - name: systemctl daemon-reload
   shell: systemctl daemon-reload
-  when: dockerbuild is undefined 
+  when: dockerbuild is undefined

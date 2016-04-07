@@ -4,4 +4,6 @@
   command: systemctl daemon-reload
 
 - name: iptables-reload
-  command: service iptables reload
+  service:
+    name: iptables
+    state: reloaded

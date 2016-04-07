@@ -19,8 +19,8 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
-    - { regexp: '^HTTP_PROXY=.*', line: "HTTP_PROXY='{{ proxy_env[\'http_proxy\'] }}'" }
-    - { regexp: '^HTTPS_PROXY=.*', line: "HTTPS_PROXY='{{ proxy_env[\'https_proxy\'] }}'" }
+    - { regexp: '^HTTP_PROXY=.*', line: "HTTP_PROXY='{{ proxy_env['http_proxy'] }}'" }
+    - { regexp: '^HTTPS_PROXY=.*', line: "HTTPS_PROXY='{{ proxy_env['https_proxy'] }}'" }
     - { regexp: '^NO_PROXY=.*', line: "NO_PROXY='{{ no_proxy }},{{ openshift_master_cluster_hostname }}{% for host in groups['all'] %},{{ hostvars[host].get(\"inventory_hostname\") }}{% endfor %}'" }
   notify:
       - restart docker

@@ -7,7 +7,7 @@
 #      - fix udev timeout
 #      - restart docker
 
-#More information on fix : 
+#More information on fix :
 #  * https://access.redhat.com/support/cases/#/case/01526825
 #  * https://access.redhat.com/solutions/1986893
 

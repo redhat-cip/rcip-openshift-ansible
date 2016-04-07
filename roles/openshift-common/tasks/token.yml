@@ -3,12 +3,12 @@
 - set_fact:
     sensu_owner: sensu
     sensu_group: sensu
-  when: not ansible_local.system.is_atomic | bool 
+  when: not ansible_local.system.is_atomic | bool
 
 - set_fact:
     sensu_owner: root
     sensu_group: adm
-  when: ansible_local.system.is_atomic | bool 
+  when: ansible_local.system.is_atomic | bool
 
 - name: directory /etc/sensu
   file:

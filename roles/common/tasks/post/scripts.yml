@@ -3,6 +3,7 @@
   git:
      repo: https://github.com/redhat-cip/rcip-openshift-scripts.git
      dest: /opt/rcip-openshift-scripts
+     version: "{{ rcip_openshift_scripts_version }}"
   when: not ansible_local.system.is_atomic | bool
 
 - name: clone rcip-openshift-scripts in local to copy on atomic host
@@ -10,6 +11,7 @@
   git:
      repo: https://github.com/redhat-cip/rcip-openshift-scripts.git
      dest: /tmp/rcip-openshift-scripts
+     version: "{{ rcip_openshift_scripts_version }}"
   delegate_to: 127.0.0.1
   ignore_errors: yes
   when: ansible_local.system.is_atomic | bool

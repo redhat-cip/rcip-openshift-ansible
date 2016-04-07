@@ -1,5 +1,6 @@
 #can use your /etc/ansible/hosts
 
+
 [OSEv3:children]
 masters
 nodes
@@ -9,48 +10,57 @@ dns
 monitoring
 
 [masters]
-master1.openshift.com
-master2.openshift.com
-master3.openshift.com
+master1  openshift_hostname=master1
+master2  openshift_hostname=master2
 
 [etcd]
-master1.openshift.com
-master2.openshift.com
-master3.openshift.com
+master1  openshift_hostname=master1
+master2  openshift_hostname=master2
+node1    openshift_hostname=node1
 
 [nodes]
-master1.openshift.com
-master2.openshift.com
-master3.openshift.com
-node1.openshift.com
+master1  openshift_hostname=master1
+master2  openshift_hostname=master2
+node1    openshift_hostname=node1
 
 [monitoring]
-monitoring.openshift.com
+node1
 
 [dns]
 #setup dnsmasq
-monitoring.openshift.com
-
-# Add a host in the ntp group if you want to setup a ntp server. If not, all ntp clients will be configured to contact {{ ntp_servers }}
-#[ntp]
-#monitoring.axa-poc.com
+node1
 
 [nfs]
 #setup nfs server
-master1.openshift.com
+master1
+
+[OSEv3:vars]
+ansible_sudo=true
+debug_level=2
+deployment_type=origin
+ansible_become=true
+ansible_ssh_user=centos
 
 [all:vars]
-#Vip ip used into dnsmasq to match to the openshift api fqdn (only needed if you use dns role)
-customer_api_public_vip="1.2.3.4"
+#CI
+ci_image=centos7
+ci_user=centos
+ci_flavor=m1.small
 
-monitoring_vip="1.2.3.4"
+openshift_master_cluster_hostname="master1"
+openshift_master_cluster_method=native
+
+#Vip ip used into dnsmasq to match to the openshift api fqdn (only needed if you use dns role)
+#customer_api_public_vip="1.2.3.4"
+monitoring_vip="node1"
+
 rabbitmq_sensu_password="password"
 customer="openshift_test"
-customer_domain="enoshift.com"
+customer_domain="lan"
 # if you want to be able to reach sensu with other domain names than the default mon.{{ customer_domain }} :
-customer_sensu_httpd_aliases=['monitor.enoshift.com', 'sensu.myclient-cloud.com']
-customer_logs_httpd_aliases=['logs.myclient-cloud.com']
-customer_graphs_httpd_aliases=['metrics.enoshift.com', 'graphs.myclient-cloud.com']
+customer_sensu_httpd_aliases=['monitor.lan']
+customer_logs_httpd_aliases=['log.lan']
+customer_graphs_httpd_aliases=['metrics.lan']
 
 # default handler is mailer
 # sensu_handlers=["mailer", "flowdock"]
@@ -70,15 +80,15 @@ customer_collectd_disk_rootfs=xvda2
 # customer_openshift_registry_mount_host='/mnt/ose-registry'
 # customer_collectd_disk_ose_registry=xvdg
 
-customer_http_proxy=http://openshiftproxy.com:8080
-customer_https_proxy=http://openshiftproxy.com:8080
-customer_append_no_proxy=",.intranet.customer"
+#customer_http_proxy=http://openshiftproxy.com:8080
+#customer_https_proxy=http://openshiftproxy.com:8080
+#customer_append_no_proxy=",.intranet.customer"
 # or if you want to overwrite default no_proxy instead:
 # customer_no_proxy="localhost,.svc.cluster.local,.intranet.customer"
 customer_update_no_proxy=false
 
 # manage docker storage true/false
-manage_docker_storage=true
+manage_docker_storage=false
 
 # for monitoring check using api rest
 #openshift_base_api='/api/v1/'
@@ -88,12 +98,12 @@ manage_docker_storage=true
 # subscription_pass='password'
 # subscription_pool='^Openshift Standard.*$'
 
-# customer_sensu_httpd_port='443'
-# customer_sensu_httpd_ssl='true'
-# customer_grafana_httpd_port='443'
-# customer_grafana_httpd_ssl='true'
-# customer_kibana_httpd_port='443'
-# customer_kibana_httpd_ssl='true'
+customer_sensu_httpd_port='80'
+customer_sensu_httpd_ssl='false'
+customer_grafana_httpd_port='80'
+customer_grafana_httpd_ssl='false'
+customer_kibana_httpd_port='80'
+customer_kibana_httpd_ssl='false'
 # if you don't want to use the default volume group docker-vg for docker:
 # customer_docker_vg=rhel
 
@@ -111,12 +121,8 @@ manage_docker_storage=true
 # logstash
 # If you want to log /var/log/containers/* (default false)
 # logstash_containers=true
-
-# External ntp server to use for chrony client or server if defined
-ntp_servers=["0.rhel.pool.ntp.org", "1.rhel.pool.ntp.org", "2.rhel.pool.ntp.org", "3.rhel.pool.ntp.org"]
-# Allowed network allowed by the ntp server : ex "192.168/16"
-#ntp_allowed_network = "0/0"
-dns_servers=["10.0.0.1", "10.0.0.2"]
+ntp_servers=["ntp1.customer", "ntp2.customer"]
+dns_servers=["8.8.8.8", "8.8.4.4"]
 postfix_relayhost="smtp.mycustomer.intranet"
 postfix_myorigin="smtp.mycustomer.com"
 timezone="Europe/Paris"

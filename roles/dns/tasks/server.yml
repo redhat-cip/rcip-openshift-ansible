@@ -29,7 +29,7 @@
   service: name=dnsmasq state=started enabled=yes
   tags: dns
 
-- name: allow port 53 iptables                                                                                                                                                     
+- name: allow port 53 iptables
   lineinfile:
     dest: /etc/sysconfig/iptables
     regexp: "{{ item.regexp }}"

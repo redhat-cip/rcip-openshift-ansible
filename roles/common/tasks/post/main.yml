@@ -6,7 +6,7 @@
 
 - include: logrotate.yml
 - include: jq.yml
-  tags: 
+  tags:
     - service_ips
     - graph-client
 

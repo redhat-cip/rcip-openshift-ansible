@@ -1,0 +1,17 @@
+StrictHostKeyChecking no
+
+{% if openstack_servers %}
+{% for host in openstack_servers %}
+
+###
+
+Host {{ host.name }} 
+User {{ user }}
+{% if host.name != groups['monitoring'][0] %}
+Hostname {{ host.private_v4 }}
+ProxyCommand ssh -W %h:%p {{ groups['monitoring'][0] }} %h
+{% else %}
+Hostname {{ host.public_v4 }}
+{% endif %}
+{% endfor %}
+{% endif %}

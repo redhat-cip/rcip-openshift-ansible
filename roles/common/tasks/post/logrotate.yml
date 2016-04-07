@@ -5,6 +5,6 @@
 
 - name: logrotate compress enable
   lineinfile:
-    regexp: '^#?compress$' 
+    regexp: '^#?compress$'
     dest: /etc/logrotate.conf
     line: 'compress'
