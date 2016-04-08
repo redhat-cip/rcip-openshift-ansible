@@ -45,6 +45,9 @@
 
 - name: Setup additionnal plugins for logstash
   shell: "/opt/logstash/bin/plugin install {{ item }} > /opt/logstash/{{ item }}.log"
+  environment:
+    http_proxy: "{{ proxy_env['http_proxy'] }}"
+    https_proxy: "{{ proxy_env['https_proxy'] }}"
   args:
     creates: "/opt/logstash/{{ item }}.log"
   with_items:
