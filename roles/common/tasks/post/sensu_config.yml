@@ -72,3 +72,10 @@
   notify:
     - restart sensu-client
   when: dockerbuild is undefined
+
+- name: ensure service sensu-client started
+  service:
+    name: sensu-client
+    state: started
+    enabled: yes
+  when: dockerbuild is undefined
