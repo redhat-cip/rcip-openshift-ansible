@@ -18,6 +18,13 @@
     dest: /tmp/graphite-requirements.txt
     validate_certs: False
 
+#to fit with the proxy restriction
+- name: change requirements git proto in https
+  replace:
+    dest: /tmp/graphite-requirements.txt
+    regexp: '^git+git'
+    replace: 'git+https'
+
 - name: install pip packages requirements for graphite-web
   pip: requirements=/tmp/graphite-requirements.txt
   environment:
