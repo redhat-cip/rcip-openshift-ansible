@@ -4,7 +4,6 @@
 - include: udev_fix.yml
 - include: docker.yml
 - include: nfs.yml
-- include: scripts.yml
 - include: crontab.sh
 - include: logstash.yml
   tags:
