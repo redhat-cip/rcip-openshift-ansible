@@ -16,6 +16,10 @@
   tags: ntp
 
 - include: scripts.yml
+  when: not ansible_local.system.is_atomic | bool
+
+- include: scripts_atomic.yml
+  when: ansible_local.system.is_atomic | bool
 
 - include: sensu.yml
   tags:
