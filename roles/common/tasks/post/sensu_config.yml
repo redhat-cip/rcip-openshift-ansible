@@ -78,4 +78,4 @@
     name: sensu-client
     state: started
     enabled: yes
-  when: dockerbuild is undefined
+  when: dockerbuild is undefined and not ansible_local.system.is_atomic | bool
