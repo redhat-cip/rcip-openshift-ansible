@@ -7,6 +7,7 @@
     backrefs: yes
   notify:
       - restart openshift-master-api
+  tags: loglevel
 
 - name: loglevel openshift-master controllers
   lineinfile:
@@ -17,6 +18,7 @@
   notify:
       - restart openshift-master-api
   when: masters_openshift_master_cluster_method == 'native'
+  tags: loglevel
 
 - name: http_proxy openshift-master
   lineinfile:
