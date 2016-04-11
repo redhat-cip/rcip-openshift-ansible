@@ -18,5 +18,6 @@
   copy:
     src: /tmp/rcip-openshift-scripts
     dest: /opt/
+    force: no
   when: ansible_local.system.is_atomic | bool
 
