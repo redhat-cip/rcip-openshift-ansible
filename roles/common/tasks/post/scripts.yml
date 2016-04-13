@@ -21,3 +21,7 @@
     force: no
   when: ansible_local.system.is_atomic | bool
 
+- name: Set exec permission on monitoring script
+  file:
+    path: /opt/rcip-openshift-scripts/monitoring-plugins/wrapper_check_docker.sh
+    mode: 0755
