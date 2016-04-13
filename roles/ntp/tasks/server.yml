@@ -1,0 +1,24 @@
+---
+
+- name: yum install installed
+  yum: name=chrony state=installed
+  tags: ntp
+
+- name: allow port 123 iptables
+  lineinfile:
+    dest: /etc/sysconfig/iptables
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    insertbefore: "^-A INPUT -j REJECT"
+  with_items:
+    - { regexp: '^-A INPUT -p udp --dport 123 -s 0.0.0.0/0 -j ACCEPT$', line: '-A INPUT -p udp --dport 123 -s 0.0.0.0/0 -j ACCEPT' }
+  notify:
+        - allow ntp query
+
+- template: src=chrony-server.conf.j2 dest=/etc/chrony.conf owner=root group=root mode=0644
+  notify: "restart chronyd"
+
+- name: ensure start chronyd
+  service: name=chronyd state=started enabled=yes
+  tags: ntp
+

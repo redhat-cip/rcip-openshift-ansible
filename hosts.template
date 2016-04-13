@@ -23,6 +23,10 @@ monitoring.openshift.com
 #setup dnsmasq
 monitoring.openshift.com
 
+# Add a host in the ntp group if you want to setup a ntp server. If not, all ntp clients will be configured to contact {{ ntp_servers }}
+#[ntp]
+#monitoring.axa-poc.com
+
 [nfs]
 #setup nfs server
 master1.openshift.com
@@ -99,7 +103,11 @@ manage_docker_storage=true
 # logstash
 # If you want to log /var/log/containers/* (default false)
 # logstash_containers=true
-ntp_servers=["ntp1.customer", "ntp2.customer"]
+
+# External ntp server to use for chrony client or server if defined
+ntp_servers=["0.rhel.pool.ntp.org", "1.rhel.pool.ntp.org", "2.rhel.pool.ntp.org", "3.rhel.pool.ntp.org"]
+# Allowed network allowed by the ntp server : ex "192.168/16"
+#ntp_allowed_network = "0/0"
 dns_servers=["10.0.0.1", "10.0.0.2"]
 postfix_relayhost="smtp.mycustomer.intranet"
 postfix_myorigin="smtp.mycustomer.com"

@@ -4,5 +4,6 @@
   roles:
     - common
     - dns
+    - ntp
   vars:
     rcip_step_pre_only: true
