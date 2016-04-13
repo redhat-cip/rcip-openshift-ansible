@@ -12,8 +12,6 @@
   when: not ansible_local.system.is_atomic | bool
 
 - include: bashrc.yml
-- include: ntp.yml
-  tags: ntp
 
 - include: scripts.yml
 

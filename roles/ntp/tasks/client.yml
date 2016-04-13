@@ -1,0 +1,13 @@
+---
+
+- name: yum install installed
+  yum: name=chrony state=installed
+  tags: ntp
+  when: not ansible_local.system.is_atomic | bool
+
+- template: src=chrony-client.conf.j2 dest=/etc/chrony.conf owner=root group=root mode=0644
+  notify: "restart chronyd"
+
+- name: ensure start chronyd
+  service: name=chronyd state=started enabled=yes
+  tags: ntp

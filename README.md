@@ -21,6 +21,7 @@ This ansible playbook can setup several additionnal tools and configuration to a
   * cleanup scripts (prune.sh) for docker
 * setup *Kubelet/max-pod* limit (max number of pods per node)
 * setup HTTP\_PROXY, HTTPS\_PROXY and NO\_PROXY env variables if needed (.bashrc, /etc/sysconfig/*, ... )
+* NTP server
 * DNS server (dnsmasq) and client
 * NTP client configuration
 * NFS server (for docker-registry)

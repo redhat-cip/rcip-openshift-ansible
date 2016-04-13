@@ -1,0 +1,20 @@
+---
+
+- include: server.yml
+  when: groups['ntp'] is defined and inventory_hostname in groups['ntp']
+  tags:
+    - ntp-server
+    - ntp
+
+- include: client.yml
+  when: (groups['ntp'] is defined and inventory_hostname not in groups['ntp']) or groups['ntp'] is undefined
+  tags:
+    - ntp-client
+    - ntp
+
+# In anycase, configure the timezone
+- name: set timezone
+  file:
+    state: link
+    dest: /etc/localtime
+    src: "/usr/share/zoneinfo/{{ timezone }}"
