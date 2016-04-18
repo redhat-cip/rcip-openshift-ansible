@@ -6,7 +6,9 @@
 
 - include: logrotate.yml
 - include: jq.yml
-  tags: service_ips
+  tags: 
+    - service_ips
+    - graph-client
 
 - include: gem.yml
   when: not ansible_local.system.is_atomic | bool
