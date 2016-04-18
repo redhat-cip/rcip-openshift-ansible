@@ -16,6 +16,9 @@
 - include: bashrc.yml
 
 - include: scripts.yml
+  tags:
+    - sensu-client
+    - monitoring-client
 
 - include: sensu.yml
   tags:
