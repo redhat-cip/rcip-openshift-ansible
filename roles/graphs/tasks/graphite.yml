@@ -13,7 +13,7 @@
 - name: get requirement.txt for graphite-web
   environment: proxy_env
   get_url:
-    url: https://raw.githubusercontent.com/graphite-project/graphite-web/master/requirements.txt
+    url: "https://raw.githubusercontent.com/graphite-project/graphite-web/{{ graphite_version }}/requirements.txt"
     dest: /tmp/graphite-requirements.txt
     validate_certs: False
 
@@ -23,6 +23,12 @@
     dest: /tmp/graphite-requirements.txt
     regexp: '^git+git'
     replace: 'git+https'
+
+- name: upgrade pip to latest version
+  environment: proxy_env
+  pip:
+    name: pip
+    state: latest
 
 - name: install pip packages requirements for graphite-web
   pip: requirements=/tmp/graphite-requirements.txt
@@ -34,16 +40,22 @@
 
 - name: install graphite-web
   pip:
-    name: "{{ item }}"
-    state: present
+    name: graphite-web
+    version: "{{ graphite_version }}"
   environment:
     http_proxy: "{{ proxy_env['http_proxy'] }}"
     https_proxy: "{{ proxy_env['https_proxy'] }}"
     CFLAGS: '-march=x86-64'
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
-  with_items:
-    - graphite-web
-    - carbon
+
+- name: install carbon
+  pip:
+    name: "carbon"
+  environment:
+    http_proxy: "{{ proxy_env['http_proxy'] }}"
+    https_proxy: "{{ proxy_env['https_proxy'] }}"
+    CFLAGS: '-march=x86-64'
+    PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
 
 - name: copy carbon.conf & graphite.wsgi & storage-schemas.conf & storage-aggregation.conf
   copy:
@@ -144,4 +156,4 @@
 
 # TODO: run setup only once
 - name: Setup graphite db
-  command: /usr/bin/python manage.py migrate --noinput chdir=/opt/graphite/webapp/graphite
+  command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite
