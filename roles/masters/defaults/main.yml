@@ -8,3 +8,5 @@ masters_deamon_name: "{% if deployment_type == 'origin' %}origin-master{% elif d
 masters_deamon_name_controllers: "{% if deployment_type == 'origin' %}origin-master{% elif deployment_type == 'openshift-enterprise' %}atomic-openshift-master{% else %}openshift-master{% endif %}{% if masters_openshift_master_cluster_method == 'native' %}-controllers{% endif %}"
 
 masters_etc_config: "{% if deployment_type == 'origin' or deployment_type == 'openshift-enterprise' %}origin{% else %}openshift{% endif %}"
+
+loglevel_openshift_master: "{{ debug_level | default('0') }}"

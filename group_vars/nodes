@@ -1,5 +1,3 @@
-loglevel_openshift_node: 0
-
 crontab_prune_docker_time: '*/30 * * * *'
 crontab_prune_dockerimage_time: '5 0-23/3 * * *'
 

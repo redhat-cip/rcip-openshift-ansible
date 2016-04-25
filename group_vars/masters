@@ -1,4 +1,3 @@
-loglevel_openshift_master: 0
 crontab_prune_openshift_time: '*/30 * * * *'
 crontab_etcd_backup_time: '0 */12 * * *'
 crontab_configs_backup_time: '0 */2 * * *'
