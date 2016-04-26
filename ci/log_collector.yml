@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+  - name: "get {{ loglines }} last lines"
+    shell: "journalctl -lxan {{ loglines }} | gzip - > /tmp/lastlog.gz"
+
+  - name: "get /etc"
+    command: "tar --exclude=udev --exclude=selinux --exclude=pki -czf /tmp/etc.gz etc/"
+    args:
+      chdir: /
+
+  - name: fetch files
+    fetch:
+      src: "/tmp/{{ item }}"
+      dest: "../../artifacts/system_logs/{{ ansible_hostname }}"
+    with_items:
+      - lastlog.gz
+      - etc.gz
