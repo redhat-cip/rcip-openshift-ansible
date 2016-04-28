@@ -9,9 +9,14 @@
     pool: "{{ subscription_pool }}"
   when: subscription_pool is defined
 
+- name: verify consumed pools
+  command: subscription-manager list --pool-only --consumed
+  register: pools
+  changed_when: False
+
 - name: subscription-manager attach pool (pool ID)
   command: "subscription-manager attach --pool={{ subscription_pool_id }}"
-  when: subscription_pool_id is defined
+  when: "subscription_pool_id is defined and not '{{ subscription_pool_id }}' in pools.stdout"
 
 - name: Disable all the repository
   shell: subscription-manager repos --disable='*'
