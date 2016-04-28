@@ -86,7 +86,10 @@ manage_docker_storage=true
 # Subscriptions. If you want to automatically register all your nodes.
 # subscription_name='username'
 # subscription_pass='password'
+# Either use the subscription name:
 # subscription_pool='^Openshift Standard.*$'
+# or the pool id:
+# subscription_pool_id='812812931923fff812828'
 
 # customer_sensu_httpd_port='443'
 # customer_sensu_httpd_ssl='true'

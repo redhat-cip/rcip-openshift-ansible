@@ -1,19 +1,21 @@
 ---
+- name: subscription-manager register
+  redhat_subscription:
+    username: "{{ subscription_name }}"
+    password: "{{ subscription_pass }}"
 
-#debug packages
+- name: subscription-manager attach pool (pool Name)
+  redhat_subscription:
+    pool: "{{ subscription_pool }}"
+  when: subscription_pool is defined
 
-  - name: subscription-manager register and attach pool
-    redhat_subscription:
-       state: present
-       username: "{{ subscription_name }}"
-       password: "{{ subscription_pass }}"
-       pool: "{{ subscription_pool }}"
-       #pool: '^Employee SKU$'
+- name: subscription-manager attach pool (pool ID)
+  command: "subscription-manager attach --pool={{ subscription_pool_id }}"
+  when: subscription_pool_id is defined
 
-#Disable all the repository
-  - shell: subscription-manager repos --disable='*'
+- name: Disable all the repository
+  shell: subscription-manager repos --disable='*'
 
-#Enable opensift repo
-  - name: enable repo rhel-7 and ose 3.1
-    shell: subscription-manager repos --enable='rhel-7-server-rpms' --enable='rhel-7-server-extras-rpms' --enable='rhel-7-server-ose-3.1-rpms' --enable='rhel-7-server-optional-rpms'
-    when: not ansible_local.system.is_atomic | bool
+- name: enable repo rhel-7 and ose 3.1
+  shell: subscription-manager repos --enable='rhel-7-server-rpms' --enable='rhel-7-server-extras-rpms' --enable='rhel-7-server-ose-3.1-rpms' --enable='rhel-7-server-optional-rpms'
+  when: not ansible_local.system.is_atomic | bool
