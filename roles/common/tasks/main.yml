@@ -1,4 +1,7 @@
 ---
+- include: fact.yml
+  tags: fact
+
 - include: pre/main.yml
   when: rcip_step_pre_only | bool
 
