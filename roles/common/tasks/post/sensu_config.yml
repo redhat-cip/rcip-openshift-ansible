@@ -37,19 +37,26 @@
 
 - name: sensu-client config
   template:
-       src: "../../templates/{{ item.src }}"
-       dest: "{{ item.dest }}"
+       src: "../../templates/etc/sensu/conf.d/client.json.j2"
+       dest: "/etc/sensu/conf.d/client.json"
        owner: root
        group: root
        mode: 0644
   notify:
        - restart sensu-client
-  with_items:
-       - src: 'etc/sensu/conf.d/client.json.j2'
-         dest: '/etc/sensu/conf.d/client.json'
-       - src: 'etc/sensu/config.json.j2'
-         dest: '/etc/sensu/config.json'
   when: dockerbuild is undefined
+
+- name: sensu config.json
+  template:
+       src: "../../templates/etc/sensu/config.json.j2"
+       dest: "/etc/sensu/config.json"
+       owner: root
+       group: root
+       mode: 0644
+  notify:
+       - restart sensu-client
+  when: "dockerbuild is undefined and inventory_hostname not in groups['monitoring']"
+
 
 - name: Add /etc/sudoers.d/sensu
   lineinfile:
