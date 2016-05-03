@@ -5,13 +5,14 @@
     - docker
     - docker-python
 
-- name: loglevel docker
+- name: docker options
   lineinfile:
     dest: /etc/sysconfig/docker
     regexp: '^OPTIONS=.*'
     line: "OPTIONS='{{ docker_options }}'"
   notify:
       - restart docker
+  when: docker_options is defined
 
 - name: http_proxy docker
   lineinfile:

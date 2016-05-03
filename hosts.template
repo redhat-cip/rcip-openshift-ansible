@@ -79,6 +79,7 @@ customer_update_no_proxy=false
 
 # manage docker storage true/false
 manage_docker_storage=true
+# docker_options: '--insecure-registry=172.30.0.0/16 --selinux-enabled --log-level="fatal"'
 
 # for monitoring check using api rest
 #openshift_base_api='/api/v1/'
