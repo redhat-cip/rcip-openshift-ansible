@@ -1,5 +1,12 @@
-crontab_prune_docker_time: '*/30 * * * *'
-crontab_prune_dockerimage_time: '5 0-23/3 * * *'
+---
+crontab_nodes:
+  - name: crontab_prune_docker
+    job: "bash /opt/rcip-openshift-scripts/maintenance/prune.sh docker"
+    minute: '*/30'
+  - name: crontab_prune_dockerimage
+    job: "bash /opt/rcip-openshift-scripts/maintenance/prune.sh docker-images"
+    minute: 5
+    hour: '0-23/3'
 
 docker_options: '--insecure-registry=172.30.0.0/16 --selinux-enabled --log-level="fatal"'
 

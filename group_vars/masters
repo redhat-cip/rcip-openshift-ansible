@@ -1,5 +1,17 @@
-crontab_prune_openshift_time: '*/30 * * * *'
-crontab_etcd_backup_time: '0 */12 * * *'
-crontab_configs_backup_time: '0 */2 * * *'
-crontab_etcd_backup_cold_time: '5 0 * * *'
-crontab_etcd_prune_time: '1 */12 * * *'
+---
+crontab_masters:
+  - name: crontab_prune_openshift
+    job: "bash /opt/rcip-openshift-scripts/maintenance/prune.sh openshift"
+    minute: '*/30'
+  - name: crontab_etcd_backup
+    job: "export BACKUPDIR=\"/opt/backups/$(hostname)/etcd\" MASTER_CONF='/etc/{{ masters_etc_config}}/master'; /opt/rcip-openshift-scripts/backup/etcd/backup_etcd.sh >> /var/log/backup_etcd.log"
+    minute: 0
+    hour: '*/12'
+  - name: crontab_etcd_prune
+    job: "export BACKUPDIR=\"/opt/backups/$(hostname)/etcd\"; /opt/rcip-openshift-scripts/backup/etcd/purge.sh >> /var/log/purge_backup_etcd.log"
+    minute: 1
+    hour: '*/12'
+  - name: crontab_configs_backup
+    job: "export BACKUPDIR=\"/opt/backups/$(hostname)/configs\" FILE_TO_BACKUP='/etc/{{ masters_etc_config}}/master /etc/ansible'; /opt/rcip-openshift-scripts/backup/configs/backup_configs.sh --go >> /var/log/backup_configs.log 2>&1"
+    minute: 0
+    hour: '*/2'

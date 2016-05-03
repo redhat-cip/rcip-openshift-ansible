@@ -1,5 +1,5 @@
 ---
-- name: add cronjobs for masters
+- name: add cronjobs for nodes
   cron:
   args:
     name: "{{ item.name }}"
@@ -9,4 +9,4 @@
     day: "{{ item.day | default('*') }}"
     month: "{{ item.month | default('*') }}"
     weekday: "{{ item.weeday | default('*') }}"
-  with_items: "{{ crontab_masters }}"
+  with_items: "{{ crontab_nodes }}"
