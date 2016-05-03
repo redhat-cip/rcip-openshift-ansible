@@ -13,8 +13,10 @@ echo "==== free -m ===="
 free -m
 
 echo "==== ansible ====="
-sudo pip install ansible --upgrade
-sudo pip install ansible-lint --upgrade
+
+sudo pip install --upgrade pip
+sudo pip install ansible --upgrade "paramiko<2"
+sudo pip install ansible-lint --upgrade "paramiko<2"
 
 RET=0
 
