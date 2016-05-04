@@ -1,4 +1,15 @@
 ---
+- name: configure proxy for RH subscription-manager
+  ini_file:
+    dest: /etc/rhsm/rhsm.conf
+    section: server
+    option: "{{ item.name }}"
+    value: "{{ item.value }}"
+  with_items:
+    - { name: "proxy_hostname", value: "{{ proxy_env['http_proxy'] | replace('http://', '') | regex_replace(':.+$', '') }}" }
+    - { name: "proxy_port", value: "{{ proxy_env['http_proxy'] | regex_replace('^http:[^:]+:', '') }}" }
+  when: proxy_env['http_proxy']
+
 - name: subscription-manager register
   redhat_subscription:
     username: "{{ subscription_name }}"
