@@ -10,7 +10,7 @@ _loglines=10000
 # number of time to retry ansible-playbook run before failing
 _retry=3
 # version (tag) of the openshift/openshift-ansible repository
-_openshift_ansible_version=3.0.78-1
+_openshift_ansible_version=3.0.88-1
 
 # trap function to collect log if needed
 _on_exit() {
@@ -97,7 +97,6 @@ done
 
 echo "byo/config.yml: ${i} tries"
 [ $RET = 0 ] || exit $RET
-
 
 # RCIP post
 for j in $(seq ${_retry}); do

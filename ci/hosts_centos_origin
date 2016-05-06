@@ -41,6 +41,8 @@ deployment_type=origin
 ansible_become=true
 ansible_ssh_user=centos
 
+openshift_use_dnsmasq=False
+
 [all:vars]
 #CI
 ci_image=centos7
