@@ -156,4 +156,6 @@
 
 # TODO: run setup only once
 - name: Setup graphite db
-  command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite
+  command: /usr/bin/python manage.py syncdb --noinput
+  args:
+    chdir: /opt/graphite/webapp/graphite
