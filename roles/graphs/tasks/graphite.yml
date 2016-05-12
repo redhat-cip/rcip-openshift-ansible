@@ -16,6 +16,7 @@
     url: "https://raw.githubusercontent.com/graphite-project/graphite-web/{{ graphite_version }}/requirements.txt"
     dest: /tmp/graphite-requirements.txt
     validate_certs: False
+    force: yes
 
 #to fit with the proxy restriction
 - name: change requirements git proto in https
