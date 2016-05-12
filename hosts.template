@@ -124,3 +124,12 @@ dns_servers=["10.0.0.1", "10.0.0.2"]
 postfix_relayhost="smtp.mycustomer.intranet"
 postfix_myorigin="smtp.mycustomer.com"
 timezone="Europe/Paris"
+
+
+### Cloud ###
+
+## Should cloud settings be managed. Default: false
+# customer_cloud_init_manage=true
+
+## Should hostname should be preserve. Default: true
+# customer_cloud_init_preserve_hostname=false

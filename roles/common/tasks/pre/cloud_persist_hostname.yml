@@ -1,0 +1,11 @@
+---
+- stat: path=/etc/cloud/cloud.cfg
+  register: etc_cloud_cloud_cfg
+
+- name: Persist hostname in cloud
+  lineinfile:
+    dest: /etc/cloud/cloud.cfg
+    regexp: '^preserve_hostname:.*$'
+    line: "preserve_hostname: {{ cloud_init_preserve_hostname }}"
+  when: etc_cloud_cloud_cfg.stat.exists is defined and etc_cloud_cloud_cfg.stat.exists
+

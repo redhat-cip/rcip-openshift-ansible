@@ -14,3 +14,5 @@ collectd_disk_ose_registry: "{{ customer_collectd_disk_ose_registry | default(No
 docker_storage_dev: "{{ customer_docker_storage_dev | default('vdb') }}"
 common_logstash_containers: "{{ logstash_containers | default('false') }}"
 rcip_openshift_scripts_version: HEAD
+cloud_init_manage: "{{ customer_cloud_init_manage | default('false') }}"
+cloud_init_preserve_hostname: "{{ customer_cloud_init_preserve_hostname | default('true') }}"
