@@ -8,5 +8,5 @@
     hour: "{{ item.hour | default('*') }}"
     day: "{{ item.day | default('*') }}"
     month: "{{ item.month | default('*') }}"
-    weekday: "{{ item.weeday | default('*') }}"
+    weekday: "{{ item.weekday | default('*') }}"
   with_items: "{{ crontab_masters }}"
