@@ -1,27 +1,27 @@
 ---
-  id: 4
-  title: "monitoring"
-  originalTitle: "monitoring"
+  id: 3
+  title: "tools"
+  originalTitle: "tools"
   tags: []
   style: "dark"
   timezone: "browser"
   editable: true
   hideControls: false
   sharedCrosshair: false
-  rows: 
-    - 
+  rows:
+    -
       collapse: false
       editable: true
       height: "250px"
-      panels: 
-        - 
+      panels:
+        -
           aliasColors: {}
           bars: false
           datasource: null
           editable: true
           error: false
           fill: 1
-          grid: 
+          grid:
             leftLogBase: 1
             leftMax: null
             leftMin: null
@@ -33,7 +33,7 @@
             threshold2: null
             threshold2Color: "rgba(234, 112, 112, 0.22)"
           id: 20
-          legend: 
+          legend:
             avg: false
             current: false
             hideEmpty: false
@@ -54,36 +54,38 @@
           span: 12
           stack: false
           steppedLine: true
-          targets: 
-            - 
-              refId: "A"
-              target: "collectdmon-node{{ domain }}collectd.load.load.midterm"
+          targets:
+{% for tool in tools %}
+            - refId: "A-{{ tool }}"
+              target: "collectd{{ tool }}{{ domain }}collectd.load.load.midterm"
+{% endfor %}
           timeFrom: null
           timeShift: null
-          title: "Load"
-          tooltip: 
+          title: "Load (all nodes)"
+          tooltip:
             shared: true
             value_type: "cumulative"
           type: "graph"
           x-axis: true
           y-axis: true
-          y_formats: 
+          y_formats:
             - "short"
             - "short"
       title: "New row"
-    - 
+    -
       collapse: false
       editable: true
       height: "350px"
-      panels: 
-        - 
+      panels:
+{% for tool in tools %}
+        -
           aliasColors: {}
           bars: false
           datasource: null
           editable: true
           error: false
           fill: 1
-          grid: 
+          grid:
             leftLogBase: 1
             leftMax: null
             leftMin: null
@@ -94,8 +96,8 @@
             threshold1Color: "rgba(216, 200, 27, 0.27)"
             threshold2: null
             threshold2Color: "rgba(234, 112, 112, 0.22)"
-          id: 21
-          legend: 
+          id: {{ index.pop() }}
+          legend:
             avg: false
             current: false
             max: false
@@ -112,39 +114,47 @@
           points: false
           renderer: "flot"
           seriesOverrides: []
-          span: 6
+          span: 4
           stack: false
           steppedLine: false
-          targets: 
-            - 
+          targets:
+            -
               refId: "A"
-              target: "aliasByNode(sumSeries(collectdmon-node{{ domain }}collectd.cpu-*.cpu-system, *), 2)"
-            - 
+              target: "aliasByNode(sumSeries(collectd{{ tool }}{{ domain }}collectd.cpu-*.cpu-system, *), 2)"
+            -
               refId: "B"
-              target: "aliasByNode(sumSeries(collectdmon-node{{ domain }}collectd.cpu-*.cpu-user, *), 2)"
-            - 
+              target: "aliasByNode(sumSeries(collectd{{ tool }}{{ domain }}collectd.cpu-*.cpu-user, *), 2)"
+            -
               refId: "C"
-              target: "aliasByNode(sumSeries(collectdmon-node{{ domain }}collectd.cpu-*.cpu-wait, *), 2)"
+              target: "aliasByNode(sumSeries(collectd{{ tool }}{{ domain }}collectd.cpu-*.cpu-wait, *), 2)"
           timeFrom: null
           timeShift: null
-          title: "CPU"
-          tooltip: 
+          title: "CPU {{ tool }}"
+          tooltip:
             shared: true
             value_type: "cumulative"
           type: "graph"
           x-axis: true
           y-axis: true
-          y_formats: 
+          y_formats:
             - "short"
             - "short"
-        - 
+{% endfor %}
+      title: "Row"
+    -
+      collapse: false
+      editable: true
+      height: "250px"
+      panels:
+{% for tool in tools %}
+        -
           aliasColors: {}
           bars: false
           datasource: null
           editable: true
           error: false
           fill: 4
-          grid: 
+          grid:
             leftLogBase: 1
             leftMax: null
             leftMin: null
@@ -155,8 +165,8 @@
             threshold1Color: "rgba(216, 200, 27, 0.27)"
             threshold2: null
             threshold2Color: "rgba(234, 112, 112, 0.22)"
-          id: 5
-          legend: 
+          id: {{ index.pop() }}
+          legend:
             avg: false
             current: false
             max: false
@@ -172,48 +182,50 @@
           pointradius: 5
           points: false
           renderer: "flot"
-          seriesOverrides: 
-            - 
-              alias: "collectdmon-node{{ domain }}collectd.memory.memory-free"
+          seriesOverrides:
+            -
+              alias: "collectd{{ tool }}{{ domain }}collectd.memory.memory-free"
               color: "#9AC48A"
               zindex: 3
-            - 
-              alias: "collectdmon-node{{ domain }}collectd.memory.memory-used"
+            -
+              alias: "collectd{{ tool }}{{ domain }}collectd.memory.memory-used"
               color: "#890F02"
               zindex: -3
-          span: 6
+          span: 4
           stack: true
           steppedLine: false
-          targets: 
-            - 
+          targets:
+            -
               refId: "A"
-              target: "collectdmon-node{{ domain }}collectd.memory.*"
+              target: "collectd{{ tool }}{{ domain }}collectd.memory.*"
           timeFrom: null
           timeShift: null
-          title: "Memory"
-          tooltip: 
+          title: "Memory {{ tool }}"
+          tooltip:
             shared: true
             value_type: "cumulative"
           type: "graph"
           x-axis: true
           y-axis: true
-          y_formats: 
+          y_formats:
             - "bytes"
             - "short"
-      title: "Row"
-    - 
+{% endfor %}
+      title: "New row"
+    -
       collapse: false
       editable: true
       height: "250px"
-      panels: 
-        - 
+      panels:
+{% for tool in tools %}
+        -
           aliasColors: {}
           bars: false
           datasource: null
           editable: true
           error: false
           fill: 8
-          grid: 
+          grid:
             leftLogBase: 1
             leftMax: null
             leftMin: 0
@@ -224,8 +236,8 @@
             threshold1Color: "rgba(216, 200, 27, 0.27)"
             threshold2: null
             threshold2Color: "rgba(234, 112, 112, 0.22)"
-          id: 23
-          legend: 
+          id: {{ index.pop() }}
+          legend:
             avg: false
             current: false
             max: false
@@ -241,47 +253,55 @@
           pointradius: 5
           points: false
           renderer: "flot"
-          seriesOverrides: 
-            - 
+          seriesOverrides:
+            -
               alias: "TOTAL"
               color: "#7EB26D"
-            - 
-              alias: "collectdmon-node{{ domain }}collectd.df-root.df_complex-used"
+            -
+              alias: "collectd{{ tool }}{{ domain }}collectd.df-root.df_complex-used"
               color: "#BF1B00"
           span: 4
           stack: false
           steppedLine: false
-          targets: 
-            - 
+          targets:
+            -
               hide: false
               refId: "B"
-              target: "alias(sumSeries(collectdmon-node{{ domain }}collectd.df-root.*, *), 'TOTAL')"
-            - 
+              target: "alias(sumSeries(collectd{{ tool }}{{ domain }}collectd.df-root.*, *), 'TOTAL')"
+            -
               refId: "A"
-              target: "collectdmon-node{{ domain }}collectd.df-root.df_complex-used"
-            - 
+              target: "collectd{{ tool }}{{ domain }}collectd.df-root.df_complex-used"
+            -
               refId: "C"
-              target: "collectdmon-node{{ domain }}collectd.df-root.df_complex-reserved"
+              target: "collectd{{ tool }}{{ domain }}collectd.df-root.df_complex-reserved"
           timeFrom: null
           timeShift: null
-          title: "Disk root"
-          tooltip: 
+          title: "Disk root {{ tool }}"
+          tooltip:
             shared: true
             value_type: "cumulative"
           type: "graph"
           x-axis: true
           y-axis: true
-          y_formats: 
+          y_formats:
             - "bytes"
             - "none"
-        - 
+{% endfor %}
+      title: "New row"
+    -
+      collapse: false
+      editable: true
+      height: "250px"
+      panels:
+{% for tool in tools %}
+        -
           aliasColors: {}
           bars: false
           datasource: null
           editable: true
           error: false
           fill: 1
-          grid: 
+          grid:
             leftLogBase: 1
             leftMax: null
             leftMin: null
@@ -292,8 +312,8 @@
             threshold1Color: "rgba(216, 200, 27, 0.27)"
             threshold2: null
             threshold2Color: "rgba(234, 112, 112, 0.22)"
-          id: 11
-          legend: 
+          id: {{ index.pop() }}
+          legend:
             avg: false
             current: false
             hideEmpty: true
@@ -311,39 +331,41 @@
           points: false
           renderer: "flot"
           seriesOverrides: []
-          span: 8
+          span: 4
           stack: false
           steppedLine: false
-          targets: 
-            - 
+          targets:
+            -
               refId: "A"
-              target: "collectdmon-node{{ domain }}collectd.disk-xvda*.*.*"
+              target: "collectd{{ tool }}{{ domain }}collectd.disk-xvda*.*.*"
           timeFrom: null
           timeShift: null
-          title: "xvda2"
-          tooltip: 
+          title: "xvda2 {{ tool }}"
+          tooltip:
             shared: true
             value_type: "cumulative"
           type: "graph"
           x-axis: true
           y-axis: true
-          y_formats: 
+          y_formats:
             - "short"
             - "short"
+{% endfor %}
       title: "New row"
-    - 
+    -
       collapse: false
       editable: true
       height: "250px"
-      panels: 
-        - 
+      panels:
+{% for tool in tools %}
+        -
           aliasColors: {}
           bars: false
           datasource: null
           editable: true
           error: false
           fill: 1
-          grid: 
+          grid:
             leftLogBase: 1
             leftMax: null
             leftMin: null
@@ -354,8 +376,8 @@
             threshold1Color: "rgba(216, 200, 27, 0.27)"
             threshold2: null
             threshold2Color: "rgba(234, 112, 112, 0.22)"
-          id: 17
-          legend: 
+          id: {{ index.pop() }}
+          legend:
             avg: false
             current: false
             hideEmpty: true
@@ -373,39 +395,40 @@
           points: false
           renderer: "flot"
           seriesOverrides: []
-          span: 12
+          span: 4
           stack: false
           steppedLine: false
-          targets: 
-            - 
+          targets:
+            -
               refId: "A"
-              target: "collectdmon-node{{ domain }}collectd.interface-*.if_octets.*"
+              target: "collectd{{ tool }}{{ domain }}collectd.interface-*.if_octets.*"
           timeFrom: null
           timeShift: null
-          title: "if_octets RX TX"
-          tooltip: 
+          title: "if_octets RX TX {{ tool }}"
+          tooltip:
             shared: true
             value_type: "cumulative"
           type: "graph"
           x-axis: true
           y-axis: true
-          y_formats: 
+          y_formats:
             - "short"
             - "short"
+{% endfor %}
       title: "New row"
-    - 
+    -
       collapse: false
       editable: true
       height: "250px"
-      panels: 
-        - 
+      panels:
+        -
           aliasColors: {}
           bars: false
           datasource: null
           editable: true
           error: false
           fill: 1
-          grid: 
+          grid:
             leftLogBase: 1
             leftMax: null
             leftMin: null
@@ -417,7 +440,7 @@
             threshold2: null
             threshold2Color: "rgba(234, 112, 112, 0.22)"
           id: 19
-          legend: 
+          legend:
             avg: false
             current: false
             hideEmpty: true
@@ -438,35 +461,36 @@
           span: 12
           stack: false
           steppedLine: false
-          targets: 
-            - 
-              refId: "A"
-              target: "collectdnode*{{ domain }}collectd.interface-*.if_errors.*"
+          targets:
+{% for tool in tools %}
+            - refId: "B-{{ tool }}"
+              target: "collectd{{ tool }}{{ domain }}collectd.interface-*.if_errors.*"
+{% endfor %}
           timeFrom: null
           timeShift: null
           title: "if_errors (should be 0)"
-          tooltip: 
+          tooltip:
             shared: true
             value_type: "cumulative"
           type: "graph"
           x-axis: true
           y-axis: true
-          y_formats: 
+          y_formats:
             - "short"
             - "short"
       title: "New row"
-    - 
+    -
       collapse: false
       editable: true
       height: "250px"
       panels: []
       title: "New row"
-  time: 
+  time:
     from: "now-6h"
     to: "now"
-  timepicker: 
+  timepicker:
     now: true
-    refresh_intervals: 
+    refresh_intervals:
       - "5s"
       - "10s"
       - "30s"
@@ -477,7 +501,7 @@
       - "1h"
       - "2h"
       - "1d"
-    time_options: 
+    time_options:
       - "5m"
       - "15m"
       - "1h"
@@ -487,12 +511,12 @@
       - "2d"
       - "7d"
       - "30d"
-  templating: 
+  templating:
     list: []
-  annotations: 
+  annotations:
     list: []
   refresh: false
   schemaVersion: 7
-  version: 0
+  version: 5
   links: []
 

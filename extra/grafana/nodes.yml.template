@@ -55,9 +55,10 @@
           stack: false
           steppedLine: true
           targets: 
-            - 
-              refId: "A"
-              target: "collectdnode*{{ domain }}collectd.load.load.midterm"
+{% for node in nodes %}
+            - refId: "A-{{ node }}"
+              target: "collectd{{ node }}{{ domain }}collectd.load.load.midterm"
+{% endfor %}
           timeFrom: null
           timeShift: null
           title: "Load (all nodes)"
@@ -524,10 +525,11 @@
           span: 12
           stack: false
           steppedLine: false
-          targets: 
-            - 
-              refId: "A"
-              target: "collectdnode*{{ domain }}collectd.interface-*.if_errors.*"
+          targets:
+{% for node in nodes %}
+            - refId: "B-{{ node }}"
+              target: "collectd{{ node }}{{ domain }}collectd.interface-*.if_errors.*"
+{% endfor %}
           timeFrom: null
           timeShift: null
           title: "if_errors (should be 0)"

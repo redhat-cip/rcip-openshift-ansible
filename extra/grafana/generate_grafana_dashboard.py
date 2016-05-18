@@ -24,25 +24,58 @@ def init_argparse():
     parser.add_argument("-d", "--domain",
                         help="domain name of nodes in graphite format : _my_example_com",
                         type=str,
-                        required=True)
+                        required=False, default="")
+    parser.add_argument("-M", "--master-names",
+                        help="master host names: master01 master02 something",
+                        type=str,
+                        required=False,
+                        nargs='+',
+                        default=[])
+    parser.add_argument("-N", "--node-names",
+                        help="node host names: node01 node02 tom",
+                        type=str,
+                        required=False,
+                        nargs='+',
+                        default=[])
+    parser.add_argument("-T", "--tool-names",
+                        help="tools host names: monitoring backup",
+                        type=str,
+                        required=True,
+                        nargs='+',
+                        default=[]),
     parser.add_argument("-m", "--master-number",
                         help="Number of master",
                         type=int,
-                        required=True)
+                        required=False,
+                        default=0)
     parser.add_argument("-n", "--node-number",
                         help="Number of node",
                         type=int,
-                        required=True)
-    return parser.parse_args()
-
+                        required=False,
+                        default=0)
+    return parser.parse_args(), parser
 
 if __name__ == "__main__":
+    args, parser = init_argparse()
 
-    args = init_argparse()
+    _master_names = args.master_names + ["master%02d" % x for x in range(1, args.master_number + 1)]
+    _node_names = args.node_names + ["node%02d" % x for x in range(1, args.node_number + 1)]
+
+    if not _master_names:
+        parser.print_help()
+        print "You should specify at least --master-names or --master-number"
+        exit()
+
+    if not _node_names:
+        parser.print_help()
+        print "You should specify at least --node-names or --node-number"
+        exit()
 
     env_var = {"domain": args.domain,
-               "masters": ["master%02d" % x for x in range(1, args.master_number + 1)],
-               "nodes": ["node%02d" % x for x in range(1, args.node_number + 1)]}
+               "masters": _master_names,
+               "nodes": _node_names,
+               "tools": args.tool_names
+               }
     render(name='masters', env_var=env_var)
     render(name='nodes', env_var=env_var)
-    render(name='monitoring', env_var=env_var)
+    render(name='tools', env_var=env_var)

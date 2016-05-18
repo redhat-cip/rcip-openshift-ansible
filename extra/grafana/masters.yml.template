@@ -55,9 +55,10 @@
           stack: false
           steppedLine: true
           targets: 
-            - 
-              refId: "A"
-              target: "collectdmaster*{{ domain }}collectd.load.load.midterm"
+{% for master in masters %}
+            - refId: "A-{{ master }}"
+              target: "collectd{{ master }}{{ domain }}collectd.load.load.midterm"
+{% endfor %}
           timeFrom: null
           timeShift: null
           title: "Load (3 masters)"
@@ -578,9 +579,10 @@
           stack: false
           steppedLine: false
           targets: 
-            - 
-              refId: "A"
-              target: "collectdmaster*{{ domain }}collectd.interface-*.if_errors.*"
+{% for master in masters %}
+            - refId: "B-{{ master }}"
+              target: "collectd{{ master }}{{ domain }}collectd.interface-*.if_errors.*"
+{% endfor %}
           timeFrom: null
           timeShift: null
           title: "if_errors (should be 0)"
