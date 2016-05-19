@@ -10,17 +10,6 @@
       "refresh": 86400,
       "interval": 60
     },
-
-    "ovs-vswitchd-proc": {
-      "command": "/usr/local/bin/check-process.rb -p 'ovs-vswitchd' -C 1",
-      "subscribers": [
-        "openshift-node"
-      ],
-      "handlers": ["{{ sensu_handlers|join('", "') }}"],
-      "occurrences": 3,
-      "refresh": 86400,
-      "interval": 60
-    },
 {% if sensu_manage_docker_storage %}
     "docker": {
       "command": "sudo /opt/rcip-openshift-scripts/monitoring-plugins/wrapper_check_docker.sh /etc/sensu/plugins/check_docker --base-url='unix:///var/run/docker.sock' --crit-data-space=:::docker_data_space.critical|90::: --warn-data-space=:::docker_data_space.warning|85::: --crit-meta-space=:::docker_meta_space.critical|90::: --warn-meta-space=:::docker_meta_space.warning|85:::",
@@ -31,7 +20,17 @@
       "occurrences": 6,
       "refresh": 86400,
       "interval": 60
-    }
+    },
 {% endif %}
+    "ovs-vswitchd-proc": {
+      "command": "/usr/local/bin/check-process.rb -p 'ovs-vswitchd' -C 1",
+      "subscribers": [
+        "openshift-node"
+      ],
+      "handlers": ["{{ sensu_handlers|join('", "') }}"],
+      "occurrences": 3,
+      "refresh": 86400,
+      "interval": 60
+    }
   }
 }
