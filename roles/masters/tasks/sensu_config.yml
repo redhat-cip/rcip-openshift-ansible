@@ -5,22 +5,6 @@
     group: adm
     mode: g+rx
 
-- name: "set permissions to /etc/etcd for sensu"
-  file:
-    path: "/etc/etcd"
-    group: adm
-    mode: g+rx
-
-- name: set permissions to openshift etcd peer certs for sensu check
-  file:
-    path: "/etc/etcd/peer.{{ item }}"
-    owner: root
-    group: adm
-    mode: 0640
-  with_items:
-    - key
-    - crt
-
 - name: set permissions to openshift etcd certs for sensu check
   file:
     path: "/etc/{{ masters_etc_config }}/master/master.etcd-client.{{ item }}"
