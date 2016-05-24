@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-# number of fork in ansible run, level of parallelism.
-_fork=3
 # size in M of swap to create on the slave node
 _swap=10240
 # number of lines to collect on nodes/masters/.. if one of the playbooks fails.
@@ -10,7 +7,7 @@ _loglines=10000
 # number of time to retry ansible-playbook run before failing
 _retry=3
 # version (tag) of the openshift/openshift-ansible repository
-_openshift_ansible_version=3.0.88-1
+_openshift_ansible_version=3.0.90-1
 
 # trap function to collect log if needed
 _on_exit() {
@@ -24,8 +21,13 @@ _on_exit() {
   exit $exit_status
 }
 
-trap "_on_exit" EXIT
 
+# commented because of https://github.com/jlafon/ansible-profile/issues/14
+# ansible 1.9+  does not include ansible-profile
+#mkdir callback_plugins
+#curl -s -o callback_plugins/profile_tasks.py https://raw.githubusercontent.com/jlafon/ansible-profile/master/callback_plugins/profile_tasks.py
+
+trap "_on_exit" EXIT
 
 echo "==== env ===="
 env
@@ -74,10 +76,14 @@ if [ ! -e /swapfile ]; then
     sudo swapon /swapfile
 fi
 
-ansible-playbook -f ${_fork} -i ci/hosts_centos_origin ci/create_vm.yml
+ansible-playbook -f 1 -i ci/hosts_centos_origin ci/create_vm.yml
+
+# use ci/ansible.cfg tuned config file for the other playbooks
+cp ci/ansible.cfg ansible.cfg
+
 
 # RCIP pre
-ansible-playbook -f ${_fork} -i ci/hosts_centos_origin pre.yml
+ansible-playbook -i ci/hosts_centos_origin pre.yml
 
 # need ansible v1.9 for official playbook, see:
 # https://github.com/openshift/openshift-ansible/issues/1339
@@ -93,7 +99,7 @@ set +e
 
 # openshift-ansible
 for i in $(seq ${_retry}); do
-  ansible-playbook -f ${_fork} -i ci/hosts_centos_origin openshift-ansible/playbooks/byo/config.yml
+  ansible-playbook -i ci/hosts_centos_origin openshift-ansible/playbooks/byo/config.yml
   RET=$?
   [ $RET = 0 ] && break;
 done
@@ -103,7 +109,7 @@ echo "byo/config.yml: ${i} tries"
 
 # RCIP post
 for j in $(seq ${_retry}); do
-  ansible-playbook -f ${_fork} -i ci/hosts_centos_origin post.yml
+  ansible-playbook -i ci/hosts_centos_origin post.yml
   RET=$?
   [ $RET = 0 ] && break;
 done
@@ -112,6 +118,6 @@ echo "post.yml: ${j} tries"
 
 set -e
 
-ansible-playbook -f ${_fork} -i ci/hosts_centos_origin ci/tests.yml
+ansible-playbook -i ci/hosts_centos_origin ci/tests.yml
 
 [ $RET = 0 ] || exit $RET
