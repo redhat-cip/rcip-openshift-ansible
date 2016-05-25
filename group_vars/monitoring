@@ -1,2 +1,16 @@
 ---
 sensu_uchiwa_port: 3001
+
+# Additionnal sensu check for monitoring nodes
+monitoring_sensu_check: {}
+
+# Example with the rsh check
+#monitoring_sensu_check:
+#    pod-cassendra-disk:
+#      command: "/usr/bin/python /etc/sensu/plugins/monitoring-plugins/check_openshift_rsh.py -tf /etc/sensu/openshift_token --check_df --namespace openshift-infra --podname cassandra -w 85 -c 95"
+#      subscribers:
+#        - "monitoring"
+#      handlers: ["mailer", "flowdock"]
+#      occurrences: 3
+#      refresh: 86400
+#      interval: 60

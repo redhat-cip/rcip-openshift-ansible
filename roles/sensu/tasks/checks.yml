@@ -8,6 +8,7 @@
     - nfs
     - openshift-master
     - openshift-node
+    - monitoring
   notify:
     - restart sensu-server
     - restart sensu-api

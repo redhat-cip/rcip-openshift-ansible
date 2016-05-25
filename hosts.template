@@ -126,6 +126,10 @@ postfix_myorigin="smtp.mycustomer.com"
 timezone="Europe/Paris"
 
 
+### Additionnal sensu checks:
+# For example to add a custom check for monitoring nodes, you can edit the group_vars/monitoring file
+# and add new check in monitoring_sensu_check variable
+
 ### Cloud ###
 
 ## Should cloud settings be managed. Default: false
