@@ -1,0 +1,17 @@
+---
+- hosts: etcd
+  tasks:
+  - name: try backup
+    command: "/opt/rcip-openshift-scripts/backup/etcd/backup_etcd.sh"
+
+- hosts: masters
+  tasks:
+  - name: make sure etcd is installed to test etcdctl
+    yum:
+      name: etcd
+    when: not ansible_local.system.is_atomic | bool
+
+  - name: check if etcdctl alias is working
+    shell: ". /root/.bashrc && $ETCDCTL ls"
+    args:
+      executable: /bin/bash

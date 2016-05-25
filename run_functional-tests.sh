@@ -109,4 +109,9 @@ for j in $(seq ${_retry}); do
 done
 
 echo "post.yml: ${j} tries"
+
+set -e
+
+ansible-playbook -f ${_fork} -i ci/hosts_centos_origin ci/tests.yml
+
 [ $RET = 0 ] || exit $RET

@@ -1,0 +1,10 @@
+---
+crontab_etcd:
+  - name: crontab_etcd_backup
+    job: "export BACKUPDIR=\"/opt/backups/$(hostname)/etcd\"; /opt/rcip-openshift-scripts/backup/etcd/backup_etcd.sh >> /var/log/backup_etcd.log"
+    minute: 0
+    hour: '*/12'
+  - name: crontab_etcd_prune
+    job: "export BACKUPDIR=\"/opt/backups/$(hostname)/etcd\"; /opt/rcip-openshift-scripts/backup/etcd/purge.sh >> /var/log/purge_backup_etcd.log"
+    minute: 1
+    hour: '*/12'

@@ -1,0 +1,12 @@
+---
+- name: add cronjobs for etcd
+  cron:
+  args:
+    name: "{{ item.name }}"
+    job: "{{ item.job }}"
+    minute: "{{ item.minute | default('*') }}"
+    hour: "{{ item.hour | default('*') }}"
+    day: "{{ item.day | default('*') }}"
+    month: "{{ item.month | default('*') }}"
+    weekday: "{{ item.weekday | default('*') }}"
+  with_items: "{{ crontab_etcd }}"

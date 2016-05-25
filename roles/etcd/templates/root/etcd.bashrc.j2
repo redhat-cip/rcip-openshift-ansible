@@ -1,0 +1,4 @@
+. /etc/etcd/etcd.conf
+
+export ETCDCTL="etcdctl --cert-file ${ETCD_PEER_CERT_FILE} --key-file ${ETCD_PEER_KEY_FILE} --ca-file ${ETCD_CA_FILE} --no-sync --peers ${ETCD_ADVERTISE_CLIENT_URLS}"
+alias etcdctl="${ETCDCTL}"

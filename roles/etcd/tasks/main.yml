@@ -6,3 +6,9 @@
 - include: sensu.yml
   tags: monitoring-client
   when: "'monitoring' in groups and not ansible_local.system.is_atomic | bool"
+
+- include: bashrc.yml
+  tags: bashrc
+
+- include: crontab.yml
+  tags: crontab
