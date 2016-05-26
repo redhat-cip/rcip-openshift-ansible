@@ -52,7 +52,8 @@ neutron net-list
 nova list
 
 # need ansible v2
-sudo pip install ansible --upgrade
+sudo pip install --upgrade pip
+sudo pip install ansible --upgrade "paramiko<2"
 # required for some os_* ansible module
 sudo pip install shade
 sudo pip install --upgrade cryptography
@@ -78,7 +79,7 @@ ansible-playbook -f ${_fork} -i ci/hosts_centos_origin pre.yml
 
 # need ansible v1.9 for official playbook, see:
 # https://github.com/openshift/openshift-ansible/issues/1339
-sudo pip install "ansible<2"
+sudo pip install "ansible<2" "paramiko<2"
 sudo yum install -y pyOpenSSL
 
 
