@@ -11,18 +11,19 @@ OADM_TMP=$(whereis oadm)
 OADM=${OADM_TMP#* }
 
 
-if ! $OC get serviceaccount monitoring; then
+if ! $OC -n default get serviceaccount monitoring; then
   $OC create -f - <<EOF
 {
   "apiVersion": "v1",
   "kind": "ServiceAccount",
   "metadata": {
-    "name": "monitoring"
+    "name": "monitoring",
+    "namespace": "default"
   }
 }
 EOF
 
-  $OADM policy add-cluster-role-to-user cluster-reader system:serviceaccount:default:monitoring
+  $OADM -n default policy add-cluster-role-to-user cluster-reader system:serviceaccount:default:monitoring
 
   echo 'CHANGED'
 fi
