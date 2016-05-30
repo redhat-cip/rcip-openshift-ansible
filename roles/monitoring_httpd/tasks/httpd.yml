@@ -60,8 +60,7 @@
        - { src: 'etc/httpd/conf.d/sensu.conf.j2', dest: '/etc/httpd/conf.d/sensu.conf' }
        - { src: 'etc/httpd/conf.d/kibana.conf.j2', dest: '/etc/httpd/conf.d/kibana.conf' }
 
-- name: ensure service httpd started
+- name: ensure service httpd enabled
   service:
        name: httpd
-       state: started
        enabled: yes
