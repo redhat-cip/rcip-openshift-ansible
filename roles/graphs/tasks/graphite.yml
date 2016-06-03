@@ -22,7 +22,7 @@
 - name: change requirements git proto in https
   replace:
     dest: /tmp/graphite-requirements.txt
-    regexp: '^git+git'
+    regexp: '^git\+git'
     replace: 'git+https'
 
 - name: upgrade pip to latest version
