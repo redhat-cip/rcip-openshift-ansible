@@ -51,6 +51,8 @@ neutron net-list
 
 nova list
 
+sudo yum install -y openssl openssl-devel
+
 # need ansible v2
 sudo pip install --upgrade pip
 sudo pip install ansible --upgrade "paramiko<2"
