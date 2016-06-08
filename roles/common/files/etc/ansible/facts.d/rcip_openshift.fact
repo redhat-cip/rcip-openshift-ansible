@@ -28,7 +28,7 @@ from os.path import isfile
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-VERSION = '1.2'
+VERSION = '1.3'
 
 
 def print_error_and_exit(msg):
@@ -63,7 +63,7 @@ class Rcip_openshift_fact(object):
 
     def get_svc(self, namespace=None):
         "Return service ip for a namespace"
-        api_svc = self.get_json(url='%s/namespaces/%s/services' % (self.base_api, self.namespace)).get('items')
+        api_svc = self.get_json(url='%s/namespaces/%s/services' % (self.base_api, namespace)).get('items')
         return {x['metadata']['name']: x["spec"]["portalIP"] for x in api_svc}
 
     def get_namespaces(self):
