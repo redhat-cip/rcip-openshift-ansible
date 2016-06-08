@@ -9,6 +9,7 @@ ExecStart=/usr/bin/docker run --name openshift-monitoring-client --rm --privileg
 -v /lib/modules:/lib/modules \
 -v /run:/run \
 -v /sys:/sys:ro \
+-v /etc/localtime:/etc/localtime \
 -v /etc/sensu/config.json:/etc/sensu/config.json \
 -v /etc/sensu/conf.d:/etc/sensu/conf.d \
 -v /etc/default/sensu:/etc/default/sensu \
@@ -29,6 +30,7 @@ ExecStart=/usr/bin/docker run --name openshift-monitoring-client --rm --privileg
 {% if inventory_hostname in groups['etcd'] %}
 -v /etc/etcd:/etc/etcd \
 {% endif %}
+-v /:/host:ro \
 rcip/openshift-monitoring-client
 
 ExecStartPost=/usr/bin/sleep 5
