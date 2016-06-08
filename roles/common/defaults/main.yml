@@ -16,3 +16,4 @@ common_logstash_containers: "{{ logstash_containers | default('false') }}"
 rcip_openshift_scripts_version: HEAD
 cloud_init_manage: "{{ customer_cloud_init_manage | default('false') }}"
 cloud_init_preserve_hostname: "{{ customer_cloud_init_preserve_hostname | default('true') }}"
+deactivate_sudo_requiretty: false

@@ -137,3 +137,6 @@ timezone="Europe/Paris"
 
 ## Should hostname should be preserve. Default: true
 # customer_cloud_init_preserve_hostname=false
+
+# to comment Defaults requiretty  in /etc/sudoers on all hosts. Default false
+# deactivate_sudo_requiretty=false

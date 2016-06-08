@@ -1,0 +1,8 @@
+---
+- name: disable requiretty in sudoers
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^Defaults +requiretty'
+    line: '#Defaults requiretty'
+  when: deactivate_sudo_requiretty | bool
+
