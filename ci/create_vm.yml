@@ -70,7 +70,7 @@
       command: "ssh -o ConnectTimeout=5 {{ item }} echo '1'"
       register: log_output
       until: log_output.stdout.find("1") > -1
-      retries: 30
+      retries: 50
       delay: 5
       with_items: "{{groups['all']}}"
       when: not item == 'localhost'
