@@ -18,6 +18,11 @@
 {% if groups['nfs'] is defined and inventory_hostname in groups['nfs'] %}
       "nfs",
 {% endif %}
+{% if ansible_local.system.is_atomic | bool %}
+      "default_atomic",
+{% else %}
+      "default_rhel",
+{% endif %}
       "default"
     ],
     "load": {

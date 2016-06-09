@@ -1,25 +1,12 @@
 {
   "checks": {
-
-//Disk
-    "disk_slash": {
-      "command": "/etc/sensu/plugins/check_disk -w :::disk_slash.warning|20%::: -c :::disk_slash.critical|10%::: -W :::disk_slash.warning|20%::: -K :::disk_slash.critical|10%::: -p /",
-      "subscribers": [
-        "default"
-      ],
-      "handlers": ["mailer", "flowdock"],
-      "occurrences": 3,
-      "interval": 60
-    },
-
-
 //load Divide load average results by cpu/core count
     "load": {
       "command": "/usr/local/bin/check-load.rb -p -c :::load.critical|3,3,3::: -w :::load.warning|2,2,2:::",
       "subscribers": [
         "default"
       ],
-      "handlers": ["mailer", "flowdock"],
+      "handlers": ["{{ sensu_handlers|join('", "') }}"],
       "occurrences": 3,
       "interval": 60
     },
@@ -30,7 +17,7 @@
       "subscribers": [
         "default"
       ],
-      "handlers": ["mailer", "flowdock"],
+      "handlers": ["{{ sensu_handlers|join('", "') }}"],
       "occurrences": 3,
       "refresh": 86400,
       "interval": 60
@@ -42,7 +29,7 @@
       "subscribers": [
         "default"
       ],
-      "handlers": ["mailer", "flowdock"],
+      "handlers": ["{{ sensu_handlers|join('", "') }}"],
       "occurrences": 3,
       "refresh": 86400,
       "interval": 60

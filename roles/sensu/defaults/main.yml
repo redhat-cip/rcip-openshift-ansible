@@ -19,5 +19,9 @@ sensu_openshift_master_cluster_method: "{{ openshift_master_cluster_method | def
 
 sensu_handlers: ["mailer"]
 
+sensu_check_disk_all_atomic: "-b /host -e /host/var/lib/origin /host/var/lib/docker"
+sensu_check_disk_all_rhel: "-b / -e /var/lib/origin /var/lib/docker"
+
+
 #sensu_openshift_masters_deamon_name: "{% if deployment_type == 'origin' %}origin-master{% elif deployment_type == 'openshift-enterprise' %}atomic-openshift-master{% else %}openshift-master{% endif %}{% if sensu_openshift_master_cluster_method == 'native' %}-api{% endif %}"
 #sensu_openshift_masters_deamon_name_controllers: "{% if deployment_type == 'origin' %}origin-master{% elif deployment_type == 'openshift-enterprise' %}atomic-openshift-master{% else %}openshift-master{% endif %}{% if sensu_openshift_master_cluster_method == 'native' %}-controllers{% endif %}"
