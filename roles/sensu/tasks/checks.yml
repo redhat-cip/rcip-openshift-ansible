@@ -5,6 +5,8 @@
     dest: "/etc/sensu/conf.d/check_{{ item }}.json"
   with_items:
     - default
+    - default_atomic
+    - default_rhel
     - nfs
     - openshift-master
     - openshift-node

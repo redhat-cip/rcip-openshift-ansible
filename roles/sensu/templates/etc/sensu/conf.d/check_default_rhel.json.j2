@@ -1,0 +1,14 @@
+{
+  "checks": {
+//Disk
+    "disk_all_rhel": {
+      "command": "python /etc/sensu/plugins/monitoring-plugins/check_disk.py -w :::disk_slash.warning|85::: -c :::disk_slash.critical|95::: {{ sensu_check_disk_all_rhel }}",
+      "subscribers": [
+        "default_rhel"
+      ],
+      "handlers": ["{{ sensu_handlers|join('", "') }}"],
+      "occurrences": 3,
+      "interval": 60
+    }
+  }
+}
