@@ -12,59 +12,82 @@
   connection: local
   gather_facts: true
   tasks:
-    - name: Create network
-      os_network:
-        name: ci-net
+    - name: Create libvirt network
+      virt_net:
+        command: define
+        name: br_nat
+        xml: '{{ lookup("template", "libvirt-network.xml.j2") }}'
+      become: yes
 
-    - name: Create subnet
-      os_subnet:
-        name: ci-subnet
-        network_name: ci-net
-        cidr: 192.168.1.0/24
-        gateway_ip: 192.168.1.1
-        dns_nameservers:
-          - 8.8.8.8
-          - 8.8.4.4
+    - name: Start libvirt network
+      virt_net:
+        command: create
+        name: br_nat
+      become: yes
 
-    - name: Create router
-      os_router:
-        name: ci-router
-        interfaces:
-          - ci-subnet
-        network: external_network
+    - name: Define libvirt pool
+      virt_pool:
+        command: define
+        name: vms
+        xml: '{{ lookup("template", "libvirt-pool.xml.j2") }}'
+      become: yes
 
-    - name: Create instances
-      os_server:
+    - name: Build libvirt pool
+      virt_pool:
+        command: build
+        name: vms
+      become: yes
+
+    - name: Create libvirt pool
+      virt_pool:
+        command: create
+        name: vms
+      become: yes
+
+    - name: create qcow2 images for instances
+      command: "qemu-img create -f qcow2 -o backing_file={{ ci_image_path }} /var/lib/libvirt/images/{{ item }}.qcow2"
+      with_items: "{{groups['all']}}"
+      when: not item == 'localhost'
+      become: yes
+
+    - name: Define instances
+      virt:
         name: "{{ item }}"
-        flavor: "{{ ci_flavor }}"
-        auto_ip: no
-        network: ci-net
-        image: "{{ ci_image }}"
-        key_name: id_rsa
+        command: define
+        xml: '{{ lookup("template", "libvirt-instance.xml.j2") }}'
+      with_items: "{{groups['all']}}"
+      when: not item == 'localhost'
+      become: yes
+
+    - name: start vm
+      virt:
+        name: '{{ item }}'
+        state: running
+      with_items: "{{groups['all']}}"
+      when: not item == 'localhost'
+      become: yes
+
+    - name: wait for dhcp leases to be present
+      command: "./ci/wait_for_dhcp_leases.sh {{ item }}"
+      register: lease
       with_items: "{{groups['all']}}"
       when: not item == 'localhost'
 
-    - name: assign a floating IP to the monitoring
-      os_floating_ip:
-        reuse: yes
-        server: "{{ groups['monitoring'][0] }}"
-
-    - name: wait a bit for the floating ip to be assigned
-      pause:
-        seconds: 10
-
-    - name: Gather facts of newly created servers
-      os_server_facts:
-      tags: ssh
-
-    - name: generate .ssh/config
-      template:
-        src: ssh_config.j2
+    - name: create .ssh/config
+      copy:
         dest: "{{ lookup('env', 'HOME') }}/.ssh/config"
-        mode: 0600
-      vars:
-        user: "{{ ci_user }}"
+        content: "StrictHostKeyChecking no"
+
+    - name: complete .ssh/config
+      shell: "./ci/generate_ssh_config.sh {{ item }} {{ ci_user }} >> {{ lookup('env', 'HOME') }}/.ssh/config"
+      with_items: "{{groups['all']}}"
+      when: not item == 'localhost'
       tags: ssh
+
+    - name: set permission on .ssh/config
+      file:
+        path: "{{ lookup('env', 'HOME') }}/.ssh/config"
+        mode: 0600
 
     - name: wait for ssh to be ready on servers
       command: "ssh -o ConnectTimeout=5 {{ item }} echo '1'"
@@ -74,7 +97,6 @@
       delay: 5
       with_items: "{{groups['all']}}"
       when: not item == 'localhost'
-      tags: test
 
 - name: prepare servers
   hosts: all
@@ -94,7 +116,7 @@
 
     - name: fix hostname
       hostname:
-        name: "{{ ansible_hostname }}"
+        name: "{{ inventory_hostname }}"
 
     - name: disable requiretty in sudoers
       lineinfile:

@@ -1,0 +1,32 @@
+<domain type='kvm'>
+  <name>{{ item }}</name>
+  <memory unit='MB'>{{ ci_libvirt_mem }}</memory>
+  <os>
+    <type arch='x86_64' machine='pc'>hvm</type>
+    <boot dev='hd' />
+  </os>
+  <cpu mode='host-passthrough'>
+  </cpu>
+  <vcpu>{{ ci_libvirt_vcpu }}</vcpu>
+  <clock offset='utc'/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2' cache='none'/>
+      <source file='/var/lib/libvirt/images/{{ item }}.qcow2'/>
+      <target dev='hda'/>
+    </disk>
+    <interface type='network'>
+      <start mode='onboot'/>
+      <source network='br_nat' />
+      <protocol family='ipv4'>
+        <dhcp/>
+      </protocol>
+      <link state='up'/>
+      <model type='virtio' />
+    </interface>
+    <console type='pty' />
+  </devices>
+</domain>

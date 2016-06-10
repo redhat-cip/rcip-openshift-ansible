@@ -39,15 +39,17 @@ ansible_sudo=true
 debug_level=2
 deployment_type=origin
 ansible_become=true
-ansible_ssh_user=centos
+ansible_ssh_user=root
 
 openshift_use_dnsmasq=False
 
 [all:vars]
 #CI
 ci_image=centos7
-ci_user=centos
-ci_flavor=m1.small
+ci_user=root
+ci_libvirt_mem=2560
+ci_libvirt_vcpu=3
+ci_image_path=/tmp/CentOS-7-x86_64-GenericCloud-1605.raw
 
 openshift_master_cluster_hostname="master1"
 openshift_master_cluster_method=native

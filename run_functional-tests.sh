@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+set -x
 
 # size in M of swap to create on the slave node
 _swap=10240
@@ -21,7 +23,6 @@ _on_exit() {
   exit $exit_status
 }
 
-
 # commented because of https://github.com/jlafon/ansible-profile/issues/14
 # ansible 1.9+  does not include ansible-profile
 #mkdir callback_plugins
@@ -35,52 +36,52 @@ env
 echo "==== ps afx ===="
 ps afx
 
-
 echo "==== df -H ===="
 df -H
 
 echo "==== free -m ===="
 free -m
 
-echo "==== cloud ===="
-keystone token-get
 
-glance image-list
+#TEMPORARY: do not run this test on rcip-openshift-ansible-openstack-functional-tests job
+if [ ! -z "${OS_AUTH_URL}" ]; then
+  exit 0
+fi
 
-heat stack-list
+echo "==== libvirt ===="
+sudo yum install -y libvirt virt-install qemu-kvm libguestfs-tools libvirt-daemon-kvm net-tools libxml2
+sudo modprobe kvm
 
-neutron net-list
+sudo systemctl start libvirtd
 
-nova list
+egrep 'vmx|svm' /proc/cpuinfo
 
-sudo yum install -y openssl openssl-devel
+set +e
+sudo lsmod|grep kvm
+file /dev/kvm
+sudo virsh  capabilities
+sudo virsh  capabilities | virsh cpu-baseline /dev/stdin
+sudo virsh pool-list --all
+sudo virsh net-list --all
+set -e
 
-# need ansible v2
+echo "==== ansible ===="
+sudo yum install -y openssl openssl-devel gcc libffi libffi-devel python-lxml
+
+which pip || sudo easy_install pip
 sudo pip install --upgrade pip
+# need ansible v2
 sudo pip install ansible --upgrade "paramiko<2"
-# required for some os_* ansible module
-sudo pip install shade
-sudo pip install --upgrade cryptography
-
 
 set -e
 . ci/import_centos_image.sh
 
 sudo sync
 
-# add some swap
-if [ ! -e /swapfile ]; then
-    sudo dd if=/dev/zero of=/swapfile bs=1M count=${_swap}
-    sudo chmod 600 /swapfile
-    sudo mkswap /swapfile
-    sudo swapon /swapfile
-fi
-
 ansible-playbook -f 1 -i ci/hosts_centos_origin ci/create_vm.yml
 
 # use ci/ansible.cfg tuned config file for the other playbooks
 cp ci/ansible.cfg ansible.cfg
-
 
 # RCIP pre
 ansible-playbook -i ci/hosts_centos_origin pre.yml
@@ -115,9 +116,8 @@ for j in $(seq ${_retry}); do
 done
 
 echo "post.yml: ${j} tries"
+[ $RET = 0 ] || exit $RET
 
 set -e
 
 ansible-playbook -i ci/hosts_centos_origin ci/tests.yml
-
-[ $RET = 0 ] || exit $RET
