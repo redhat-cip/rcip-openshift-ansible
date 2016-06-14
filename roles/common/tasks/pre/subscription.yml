@@ -32,6 +32,6 @@
 - name: Disable all the repository
   shell: subscription-manager repos --disable='*'
 
-- name: enable repo rhel-7 and ose 3.1
-  shell: subscription-manager repos --enable='rhel-7-server-rpms' --enable='rhel-7-server-extras-rpms' --enable='rhel-7-server-ose-3.1-rpms' --enable='rhel-7-server-optional-rpms'
+- name: enable repo rhel-7 and ose
+  shell: "subscription-manager repos --enable='rhel-7-server-rpms' --enable='rhel-7-server-extras-rpms' --enable='rhel-7-server-ose-{{ common_ose_repo_version }}-rpms' --enable='rhel-7-server-optional-rpms'"
   when: not ansible_local.system.is_atomic | bool

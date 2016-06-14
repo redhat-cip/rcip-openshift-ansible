@@ -17,3 +17,6 @@ rcip_openshift_scripts_version: HEAD
 cloud_init_manage: "{{ customer_cloud_init_manage | default('false') }}"
 cloud_init_preserve_hostname: "{{ customer_cloud_init_preserve_hostname | default('true') }}"
 deactivate_sudo_requiretty: false
+
+# OSE repo version ex 3.2 for rhel-7-server-ose-3.2-rpms
+common_ose_repo_version: "{{ customer_ose_repo_version | default('3.2') }}"

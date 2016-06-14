@@ -63,6 +63,9 @@ openshift_wildcard_dns="*.{{ customer_domain }}"
 #Optional
 #
 
+# OSE repo version to enable. Ex 3.2 for rhel-7-server-ose-3.2-rpms
+customer_ose_repo_version="3.2"
+
 customer_docker_storage_dev=xvdf
 customer_collectd_disk_rootfs=xvda2
 
