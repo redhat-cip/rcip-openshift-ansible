@@ -7,7 +7,7 @@
     - dns
 
 - include: client.yml
-  when: groups['dns'] is defined
+  when: groups['dns'] is defined and groups['dns'] | length >= 1
   tags:
     - dns-client
     - dns
