@@ -2,7 +2,7 @@
 
 host=$1
 
-for i in $(seq 50); do
+for i in $(seq 80); do
     if [ ! -z "$(./ci/virt-addr.sh $1)" ]; then
         echo "${host} got address"
         exit 0

@@ -84,7 +84,18 @@ ansible-playbook -f 1 -i ci/hosts_centos_origin ci/create_vm.yml
 cp ci/ansible.cfg ansible.cfg
 
 # RCIP pre
-ansible-playbook -i ci/hosts_centos_origin pre.yml
+set +e
+# openshift-ansible
+for i in $(seq ${_retry}); do
+	ansible-playbook -i ci/hosts_centos_origin pre.yml
+  RET=$?
+  [ $RET = 0 ] && break;
+done
+
+echo "pre.yml: ${i} tries"
+[ $RET = 0 ] || exit $RET
+
+set -e
 
 # need ansible v1.9 for official playbook, see:
 # https://github.com/openshift/openshift-ansible/issues/1339
