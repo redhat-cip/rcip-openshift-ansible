@@ -16,13 +16,13 @@ fi
 
 sudo sync
 
-virt-customize -a /tmp/${_image} \
-               --root-password 'password:sf4ever' \
-               --run-command 'yum remove -y cloud-init' \
-               --run-command 'mkdir -p /root/.ssh' \
-               --run-command 'chmod 700 /root/.ssh' \
-               --upload ~/.ssh/id_rsa.pub:/root/.ssh/authorized_keys \
-               --run-command 'chmod 600 /root/.ssh/*' \
-               --run-command 'chown root:root /root/.ssh/*' \
-               --run-command 'echo "MTU=1400" >> /etc/sysconfig/network-scripts/ifcfg-eth0' \
-               --firstboot-command 'restorecon -R -v /root/.ssh'
+sudo virt-customize -a /tmp/${_image} \
+     --root-password 'password:sf4ever' \
+     --run-command 'yum remove -y cloud-init' \
+     --run-command 'mkdir -p /root/.ssh' \
+     --run-command 'chmod 700 /root/.ssh' \
+     --upload ~/.ssh/id_rsa.pub:/root/.ssh/authorized_keys \
+     --run-command 'chmod 600 /root/.ssh/*' \
+     --run-command 'chown root:root /root/.ssh/*' \
+     --run-command 'echo "MTU=1400" >> /etc/sysconfig/network-scripts/ifcfg-eth0' \
+     --firstboot-command 'restorecon -R -v /root/.ssh'
