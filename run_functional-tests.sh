@@ -23,10 +23,12 @@ _on_exit() {
   exit $exit_status
 }
 
-# commented because of https://github.com/jlafon/ansible-profile/issues/14
-# ansible 1.9+  does not include ansible-profile
-#mkdir callback_plugins
-#curl -s -o callback_plugins/profile_tasks.py https://raw.githubusercontent.com/jlafon/ansible-profile/master/callback_plugins/profile_tasks.py
+# there is an issue open to add ansible 1.9 support to ansible-profile:
+# https://github.com/jlafon/ansible-profile/issues/14
+# https://github.com/jlafon/ansible-profile/pull/16
+# until it's merged:
+mkdir -p callback_plugins
+cp ci/profile_tasks.py callback_plugins/
 
 trap "_on_exit" EXIT
 
