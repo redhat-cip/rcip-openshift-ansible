@@ -24,7 +24,6 @@ verify() {
 create_simple_registry() {
     oadm registry --create --service-account=registry \
          --config=/etc/{{ masters_etc_config }}/master/admin.kubeconfig \
-         --credentials=/etc/{{ masters_etc_config }}/master/openshift-registry.kubeconfig \
          --selector="{{ openshift_registry_selector | default('region=infra')}}"
 }
 
