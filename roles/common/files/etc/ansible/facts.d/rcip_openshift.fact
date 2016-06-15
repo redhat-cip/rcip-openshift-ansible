@@ -63,6 +63,7 @@ class Rcip_openshift_fact(object):
 
     def get_svc(self, namespace=None):
         "Return service ip for a namespace"
+        namespace = namespace or self.namespace
         api_svc = self.get_json(url='%s/namespaces/%s/services' % (self.base_api, namespace)).get('items')
         return {x['metadata']['name']: x["spec"]["portalIP"] for x in api_svc}
 
