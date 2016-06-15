@@ -34,7 +34,6 @@ create_cert() {
 
 create_router() {
     oadm router --default-cert=${CA}/cloudapps.router.pem \
-         --credentials=${CA}/openshift-router.kubeconfig \
          --selector="{{ openshift_router_selector | default('region=infra')}}"  --service-account=router \
          --replicas=2
 }
