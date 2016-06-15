@@ -56,8 +56,6 @@ customer_graphs_httpd_aliases=['metrics.enoshift.com', 'graphs.myclient-cloud.co
 # sensu_handlers=["mailer", "flowdock"]
 # sensu_flowdock_auth_token="mytoken"
 sensu_mail_to="mail1@domain.com, mail2@domain"
-#wildcard to generate router certificat
-openshift_wildcard_dns="*.{{ customer_domain }}"
 
 #
 #Optional

@@ -26,7 +26,7 @@ create_cert() {
     if [[ ! -e ${CA}/cloudapps.router.pem ]]; then
         oadm ca create-server-cert --signer-cert=${CA}/ca.crt \
              --signer-key=${CA}/ca.key --signer-serial=${CA}/ca.serial.txt \
-             --hostnames='{{openshift_wildcard_dns}}' \
+             --hostnames="*.{{ osm_default_subdomain | default(customer_domain) }}" \
              --cert=${CA}/cloudapps.crt --key=${CA}/cloudapps.key
         cat ${CA}/cloudapps.crt ${CA}/cloudapps.key ${CA}/ca.crt > ${CA}/cloudapps.router.pem
     fi
