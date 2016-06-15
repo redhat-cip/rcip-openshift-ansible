@@ -1,0 +1,86 @@
+# This deletes *ALL* Monitoring, Granph, Logs from client and server
+---
+
+- hosts: OSEv3:children
+  become: yes
+  tasks:
+  - name: Detecting Operating System
+    shell: ls /run/ostree-booted
+    ignore_errors: yes
+    failed_when: false
+    register: ostree_output
+
+  # Since we're not calling openshift_facts we'll do this for now
+  - set_fact:
+      is_atomic: "{{ ostree_output.rc == 0 }}"
+  - set_fact:
+      is_containerized: "{{ is_atomic or containerized | default(false) | bool }}"
+
+- hosts: all
+  become: yes
+  tasks:
+  - name: Stop services
+    service: name={{ item }} state=stopped
+    with_items:
+    - logstash
+    - collectd
+    - sensu-client
+    failed_when: false
+
+  - name: Remove packages
+    action: "{{ ansible_pkg_mgr }} name={{ item }} state=absent"
+    when: not is_atomic | bool
+    with_items:
+    - collectd
+    - sensu
+    - logstash
+
+  - shell: systemctl reset-failed
+    changed_when: False
+
+  - shell: systemctl daemon-reload
+    changed_when: False
+
+  - name: Remove remaining files
+    file: path={{ item }} state=absent
+    with_items:
+    - /var/log/logstash
+    - /etc/sensu
+    - /etc/collectd.d
+    - /opt/rcip-openshift-scripts
+
+- hosts: monitoring
+  become: yes
+  tasks:
+  - name: Stop services
+    service: name={{ item }} state=stopped
+    with_items:
+    - sensu-server
+    - sensu-api
+    - uchiwa
+    - rabbitmq-server
+    - redis
+    - elasticsearch
+    - httpd
+    failed_when: false
+
+  - name: Remove packages
+    action: "{{ ansible_pkg_mgr }} name={{ item }} state=absent"
+    with_items:
+    - httpd
+    - uchiwa
+    - rabbitmq-server
+    - redis
+    - sensu
+    - elasticsearch
+
+  - shell: systemctl reset-failed
+    changed_when: False
+
+  - shell: systemctl daemon-reload
+    changed_when: False
+
+  - name: Remove remaining files
+    file: path={{ item }} state=absent
+    with_items:
+    - /var/lib/elasticsearch
