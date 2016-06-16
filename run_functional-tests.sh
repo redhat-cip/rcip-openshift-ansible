@@ -42,12 +42,6 @@ df -H
 echo "==== free -m ===="
 free -m
 
-
-#TEMPORARY: do not run this test on rcip-openshift-ansible-openstack-functional-tests job
-if [ ! -z "${OS_AUTH_URL}" ]; then
-  exit 0
-fi
-
 echo "==== libvirt ===="
 sudo yum install -y libvirt virt-install qemu-kvm libguestfs-tools libvirt-daemon-kvm net-tools libxml2
 sudo modprobe kvm
