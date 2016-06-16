@@ -28,7 +28,7 @@ from os.path import isfile
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-VERSION = '1.3'
+VERSION = '1.4'
 
 
 def print_error_and_exit(msg):
@@ -79,8 +79,9 @@ class Rcip_openshift_fact(object):
     def gathers_datas(self):
 
         # Get all namespaces
-        namespaces = self.get_namespaces()
-        formated_namespaces = self.format_namespaces(namespaces=namespaces)
+        #namespaces = self.get_namespaces()
+        #formated_namespaces = self.format_namespaces(namespaces=namespaces)
+        formated_namespaces = ['default', 'openshift-infra', 'management-infra']
 
         ansible_fact = {}
         for namespace in formated_namespaces:
