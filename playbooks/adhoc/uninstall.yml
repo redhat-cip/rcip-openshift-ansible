@@ -48,6 +48,9 @@
     - /etc/sensu
     - /etc/collectd.d
     - /opt/rcip-openshift-scripts
+    - /var/run/sensu
+    - /var/log/sensu
+
 
 - hosts: monitoring
   become: yes
