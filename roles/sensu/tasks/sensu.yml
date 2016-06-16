@@ -19,27 +19,27 @@
 - name: Ensure iptables started
   service: name=iptables state=started enabled=yes
 
-- name: install fedora epel-release-7-6 for rabbitmq
+- name: Install fedora epel-release-7-6 for rabbitmq
   yum: name=http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-6.noarch.rpm state=present
 
 - name: install rabbitmq-server
   yum: name=rabbitmq-server state=installed
 
-- name: ensure service rabbitmq-server started
+- name: Ensure service rabbitmq-server started
   service:
        name: rabbitmq-server
        state: started
        enabled: yes
 
-- name: install redis
+- name: Install redis
   yum: name=redis state=installed
 
-- name: Rabbimq sensu vhost
+- name: RabbitMQ sensu vhost
   rabbitmq_vhost:
     name: "{{ rabbitmq_sensu_vhost }}"
     state: present
 
-- name: Rabbimq sensu user
+- name: RabbitMQ sensu user
   rabbitmq_user:
     user: "{{ rabbitmq_sensu_user }}"
     password: "{{ rabbitmq_sensu_password }}"
@@ -49,13 +49,13 @@
     write_priv: .*
     state: present
 
-- name: ensure service redis started
+- name: Ensure service redis started
   service:
        name: redis
        state: started
        enabled: yes
 
-- name: install sensu
+- name: Install sensu
   yum: name=sensu state=installed
 
 - name: write Sensu /etc/sensu/config.json
@@ -64,13 +64,13 @@
     - restart sensu-server
     - restart sensu-api
 
-- name: ensure service sensu-server started
+- name: Ensure service sensu-server started
   service:
        name: sensu-server
        state: started
        enabled: yes
 
-- name: ensure service sensu-api started
+- name: Ensure service sensu-api started
   service:
        name: sensu-api
        state: started
