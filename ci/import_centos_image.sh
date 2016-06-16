@@ -22,6 +22,7 @@ sudo virt-customize -a /tmp/${_image} \
      --run-command 'mkdir -p /root/.ssh' \
      --run-command 'chmod 700 /root/.ssh' \
      --upload ~/.ssh/id_rsa.pub:/root/.ssh/authorized_keys \
+     --upload ci/repomirror.repo:/etc/yum.repos.d/00_repomirror.repo \
      --run-command 'chmod 600 /root/.ssh/*' \
      --run-command 'chown root:root /root/.ssh/*' \
      --run-command 'echo "MTU=1400" >> /etc/sysconfig/network-scripts/ifcfg-eth0' \

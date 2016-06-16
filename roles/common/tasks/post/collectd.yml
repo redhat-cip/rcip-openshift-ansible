@@ -1,7 +1,7 @@
 #TODO : add epel repo
 #TODO : yum --enablerepo=epel  install collectd -y
-- name: install fedora epel-release-7-6 repo for collectd
-  yum: name=http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-6.noarch.rpm state=present
+- name: install fedora epel-release-7-7 repo for collectd
+  yum: name=http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-7.noarch.rpm state=present
 
 - name: install collectd
   yum: name=collectd state=installed

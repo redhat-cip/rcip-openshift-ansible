@@ -1,0 +1,25 @@
+[sfbase]
+name=CentOS-7 - Base
+baseurl=http://46.231.132.68:8080/v1/AUTH_b50e80d3969f441a8b7b1fe831003e0a/repomirror/base/
+gpgcheck=0
+enabled=1
+[sfupdates]
+name=CentOS-7 - Updates
+baseurl=http://46.231.132.68:8080/v1/AUTH_b50e80d3969f441a8b7b1fe831003e0a/repomirror/updates/
+gpgcheck=0
+enabled=1
+[sfextras]
+name=CentOS-7 - Extras
+baseurl=http://46.231.132.68:8080/v1/AUTH_b50e80d3969f441a8b7b1fe831003e0a/repomirror/extras/
+gpgcheck=0
+enabled=1
+[sfepel]
+name=Extra Packages for Enterprise Linux 7
+baseurl=http://46.231.132.68:8080/v1/AUTH_b50e80d3969f441a8b7b1fe831003e0a/repomirror/epel/
+gpgcheck=0
+enabled=0
+[sfjenkins]
+name=Jenkins packages
+baseurl=http://46.231.132.68:8080/v1/AUTH_b50e80d3969f441a8b7b1fe831003e0a/repomirror/jenkins/
+gpgcheck=0
+enabled=0
