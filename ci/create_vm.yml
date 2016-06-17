@@ -102,6 +102,16 @@
 - name: prepare servers
   hosts: all
   tasks:
+    - name: install NetworkManager
+      yum:
+        name: NetworkManager
+
+    - name: enable and start NetworkManager
+      service:
+        name: NetworkManager
+        enabled: yes
+        state: started
+
     - name: don't use dns in sshd
       lineinfile:
         dest: /etc/ssh/sshd_config

@@ -41,7 +41,7 @@ deployment_type=origin
 ansible_become=true
 ansible_ssh_user=root
 
-openshift_use_dnsmasq=False
+openshift_use_dnsmasq=True
 
 [all:vars]
 #CI
