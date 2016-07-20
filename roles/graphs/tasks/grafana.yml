@@ -5,15 +5,21 @@
     state: installed
   notify:
     - daemon-reload
-- ini_file: dest=/etc/grafana/grafana.ini
+
+- name: add auth.anonymous to grafana.ini
+  ini_file: dest=/etc/grafana/grafana.ini
             section=auth.anonymous
             option=enabled
             value=true
-- ini_file: dest=/etc/grafana/grafana.ini
+
+- name: add auth.basic to grafana.ini
+  ini_file: dest=/etc/grafana/grafana.ini
             section=auth.basic
             option=enabled
             value=false
-- service:
+
+- name: start and enable grafana-server
+  service:
     name: grafana-server
     state: started
     enabled: yes

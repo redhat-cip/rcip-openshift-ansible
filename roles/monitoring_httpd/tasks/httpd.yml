@@ -5,7 +5,8 @@
 - name: install mod_ssl
   yum: name=mod_ssl state=installed
 
-- file: dest=/etc/httpd/conf.d/ssl.conf state=absent
+- name: delete /etc/httpd/conf.d/ssl.conf
+  file: dest=/etc/httpd/conf.d/ssl.conf state=absent
 
 - name: install mod_wsgi
   yum: name=mod_wsgi state=installed
@@ -25,7 +26,8 @@
   notify:
         - httpd security rules
 
-- meta: flush_handlers
+- name: flush handlers
+  meta: flush_handlers
 
 - name: Set httpd_can_network_connect to true for log access
   seboolean:

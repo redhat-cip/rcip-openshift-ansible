@@ -1,5 +1,6 @@
 ---
-- stat: path=/etc/cloud/cloud.cfg
+- name: check if cloud.cfg is present
+  stat: path=/etc/cloud/cloud.cfg
   register: etc_cloud_cloud_cfg
 
 - name: Persist hostname in cloud

@@ -30,8 +30,8 @@
   when: "subscription_pool_id is defined and not '{{ subscription_pool_id }}' in pools.stdout"
 
 - name: Disable all the repository
-  shell: subscription-manager repos --disable='*'
+  command: subscription-manager repos --disable='*'
 
 - name: enable repo rhel-7 and ose
-  shell: "subscription-manager repos --enable='rhel-7-server-rpms' --enable='rhel-7-server-extras-rpms' --enable='rhel-7-server-ose-{{ common_ose_repo_version }}-rpms' --enable='rhel-7-server-optional-rpms'"
+  command: "subscription-manager repos --enable='rhel-7-server-rpms' --enable='rhel-7-server-extras-rpms' --enable='rhel-7-server-ose-{{ common_ose_repo_version }}-rpms' --enable='rhel-7-server-optional-rpms'"
   when: not ansible_local.system.is_atomic | bool

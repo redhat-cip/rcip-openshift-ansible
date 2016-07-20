@@ -16,7 +16,7 @@
      dest: /etc/hosts
      state: present
      line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}      {{ hostvars[item]['ansible_fqdn'] }} {{ hostvars[item]['ansible_hostname'] }}"
-  with_items: groups['all']
+  with_items: '{{groups["all"]}}'
 
 - name: Add vip cluster
   lineinfile:

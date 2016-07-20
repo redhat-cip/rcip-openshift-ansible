@@ -155,7 +155,7 @@
     - localhost
   when: mysql_host in ['localhost', '127.0.0.1']
 
-# TODO: run setup only once
+# TODO: run setup only once   should fix ANSIBLE0012 warning
 - name: Setup graphite db
   command: /usr/bin/python manage.py syncdb --noinput
   args:

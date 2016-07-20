@@ -15,7 +15,8 @@
   notify:
         - allow ntp query
 
-- template: src=chrony-server.conf.j2 dest=/etc/chrony.conf owner=root group=root mode=0644
+- name: chrony.conf template and restart chronyd
+  template: src=chrony-server.conf.j2 dest=/etc/chrony.conf owner=root group=root mode=0644
   notify: "restart chronyd"
 
 - name: ensure start chronyd

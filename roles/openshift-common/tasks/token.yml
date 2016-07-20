@@ -1,11 +1,12 @@
 ---
-
-- set_fact:
+- name: set fact user/group for sensu for RHEL
+  set_fact:
     sensu_owner: sensu
     sensu_group: sensu
   when: not ansible_local.system.is_atomic | bool
 
-- set_fact:
+- name: set fact user/group for sensu for atomic
+  set_fact:
     sensu_owner: root
     sensu_group: adm
   when: ansible_local.system.is_atomic | bool
