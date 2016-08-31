@@ -20,7 +20,7 @@
   service: name=iptables state=started enabled=yes
 
 - name: Install fedora epel-release-7-7 for rabbitmq
-  yum: name=http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-7.noarch.rpm state=present
+  yum: name=https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm state=present
 
 - name: install rabbitmq-server
   yum: name=rabbitmq-server state=installed
