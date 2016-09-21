@@ -4,6 +4,7 @@
   with_items:
     - docker
     - docker-python
+  when: not ansible_local.system.is_atomic | bool
 
 - name: docker options
   lineinfile:
