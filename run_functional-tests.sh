@@ -67,12 +67,21 @@ sudo yum install -y openssl openssl-devel gcc libffi libffi-devel python-lxml
 which pip || sudo easy_install pip
 sudo pip install --upgrade pip
 # need ansible v2
-sudo pip install ansible --upgrade "paramiko<2"
+# NOTE: 2.1.1 is used here, because there is an issue with 2.1.2
+# can't run command in playbooks with relative paths.
+# TODO: update when issue is fixed.
+sudo pip install ansible==2.1.1 --upgrade "paramiko<2"
 
 set -e
 . ci/import_centos_image.sh
 
 sudo sync
+
+echo "==== requirements ===="
+export PATH="$PATH:/usr/sbin:/sbin"
+for i in arp virsh xmllint; do
+    which $i
+done
 
 ansible-playbook -f 1 -i ci/hosts_centos_origin ci/create_vm.yml
 
@@ -83,7 +92,7 @@ cp ci/ansible.cfg ansible.cfg
 set +e
 # openshift-ansible
 for i in $(seq ${_retry}); do
-	ansible-playbook -i ci/hosts_centos_origin pre.yml
+  ansible-playbook -i ci/hosts_centos_origin pre.yml
   RET=$?
   [ $RET = 0 ] && break;
 done
