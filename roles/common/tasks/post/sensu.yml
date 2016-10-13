@@ -1,7 +1,7 @@
 ---
 - name: Add repos /etc/yum.repos.d/sensu.repo
   template:
-       src: "../../templates/etc/yum.repos.d/repo.template.j2"
+       src: "etc/yum.repos.d/repo.template.j2"
        dest: "/etc/yum.repos.d/sensu.repo"
        owner: root
        group: root

@@ -15,7 +15,7 @@
 
 - name: copy /etc/sensu/plugins/check_disk
   copy:
-    src: ../../files/etc/sensu/plugins/check_disk
+    src: etc/sensu/plugins/check_disk
     dest: /etc/sensu/plugins/check_disk
 
 - name: chmod /etc/sensu/plugins/check_disk
@@ -24,7 +24,7 @@
 #git clone https://github.com/newrelic/check_docker.git
 - name: copy /etc/sensu/plugins/check_docker
   copy:
-    src: ../../files/etc/sensu/plugins/check_docker
+    src: etc/sensu/plugins/check_docker
     dest: /etc/sensu/plugins/check_docker
 - name: chmod /etc/sensu/plugins/check_docker
   file: path=/etc/sensu/plugins/check_docker state=file mode=0755
@@ -37,7 +37,7 @@
 
 - name: sensu-client config
   template:
-       src: "../../templates/etc/sensu/conf.d/client.json.j2"
+       src: "etc/sensu/conf.d/client.json.j2"
        dest: "/etc/sensu/conf.d/client.json"
        owner: root
        group: root
@@ -48,7 +48,7 @@
 
 - name: sensu config.json
   template:
-       src: "../../templates/etc/sensu/config.json.j2"
+       src: "etc/sensu/config.json.j2"
        dest: "/etc/sensu/config.json"
        owner: root
        group: root

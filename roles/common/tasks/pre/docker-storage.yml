@@ -9,7 +9,7 @@
 
 - name: push cleanup-lvm.sh
   template:
-    src: ../../templates/root/bin/cleanup-lvm.sh.j2
+    src: root/bin/cleanup-lvm.sh.j2
     dest: /root/bin/cleanup-lvm.sh
     owner: root
     group: root

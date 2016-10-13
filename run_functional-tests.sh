@@ -9,7 +9,7 @@ _loglines=10000
 # number of time to retry ansible-playbook run before failing
 _retry=3
 # version (tag) of the openshift/openshift-ansible repository
-_openshift_ansible_version=3.0.90-1
+_openshift_ansible_version=3.3.35-1
 
 # trap function to collect log if needed
 _on_exit() {
@@ -102,11 +102,7 @@ echo "pre.yml: ${i} tries"
 
 set -e
 
-# need ansible v1.9 for official playbook, see:
-# https://github.com/openshift/openshift-ansible/issues/1339
-sudo pip install "ansible<2" "paramiko<2"
 sudo yum install -y pyOpenSSL
-
 
 # official openshift ansible playbook
 git clone https://github.com/openshift/openshift-ansible.git

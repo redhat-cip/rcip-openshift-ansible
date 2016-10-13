@@ -2,7 +2,7 @@
 
 - name: copy fact rcip_openshift.fact
   copy:
-    src: ../../files/etc/ansible/facts.d/rcip_openshift.fact
+    src: etc/ansible/facts.d/rcip_openshift.fact
     dest: /etc/ansible/facts.d/rcip_openshift.fact
     mode: 0755
   tags: service_ips
