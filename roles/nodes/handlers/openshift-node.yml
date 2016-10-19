@@ -1,5 +1,16 @@
 ---
 - name: "restart openshift-node"
+  debug:
+  notify: wait for API
+
+- name: wait for API
+  wait_for:
+    host: "{{ openshift.master.cluster_hostname }}"
+    state: started
+    port: "{{ openshift.master.api_port }}"
+  notify: restart openshift-node service
+
+- name: "restart openshift-node service"
   service:
     name: "{{ nodes_deamon_name }}"
     state: restarted
