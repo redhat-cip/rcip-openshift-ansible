@@ -9,7 +9,7 @@ _loglines=10000
 # number of time to retry ansible-playbook run before failing
 _retry=3
 # version (tag) of the openshift/openshift-ansible repository
-_openshift_ansible_version=3.3.35-1
+_openshift_ansible_version=3.3.32-1
 
 # trap function to collect log if needed
 _on_exit() {
