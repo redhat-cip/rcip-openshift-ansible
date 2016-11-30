@@ -66,3 +66,12 @@ Run post.yaml rcip-openshift-ansible
 ```bash
 ansible-playbook post.yml
 ```
+
+# check mode
+Once your cluster is installed, you should be able to run rcip-openshift-ansible playbooks in check mode (DRY mode) to see potential changes before applying again:
+
+```bash
+ansible-playbook --check post.yml
+```
+
+Note: check mode for first run is not supported.

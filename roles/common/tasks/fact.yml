@@ -5,6 +5,7 @@
   failed_when: false
   changed_when: False
   register: ostree_output
+  always_run: yes
 
 - name: ensure facts.d dir is present
   file:
@@ -13,11 +14,14 @@
   with_items:
     - /etc/ansible
     - /etc/ansible/facts.d
+  always_run: yes
 
 - name: set fact ansible_local.system.is_atomic
   copy:
     dest: /etc/ansible/facts.d/system.fact
     content: "{ \"is_atomic\": {{ ostree_output.rc == 0 }}}"
+  always_run: yes
 
 - name: re-read facts after adding custom fact
   setup: filter=ansible_local
+  always_run: yes

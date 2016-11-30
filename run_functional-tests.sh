@@ -101,6 +101,7 @@ echo "pre.yml: ${i} tries"
 [ $RET = 0 ] || exit $RET
 
 set -e
+ansible-playbook -i ci/hosts_centos_origin --check pre.yml
 
 sudo yum install -y pyOpenSSL
 
@@ -131,5 +132,6 @@ echo "post.yml: ${j} tries"
 [ $RET = 0 ] || exit $RET
 
 set -e
+ansible-playbook -i ci/hosts_centos_origin --check post.yml
 
 ansible-playbook -i ci/hosts_centos_origin ci/tests.yml
